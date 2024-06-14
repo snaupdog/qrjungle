@@ -63,7 +63,6 @@ class _OtpPageState extends State<OtpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Hello"),
             PinCodeTextField(
               length: 5,
               appContext: context,
