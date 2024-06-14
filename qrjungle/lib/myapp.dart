@@ -134,7 +134,7 @@ class _LoginCardState extends State<LoginCard> {
                 );
                 // Define the action to take when the "Skip" button is pressed.
               },
-              child: const Text('Otp_page'),
+              child: const Text('damn i ate that shit'),
             ),
           ),
         ),

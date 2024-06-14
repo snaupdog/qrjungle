@@ -16,6 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _loadQrData() async {
     String data = await Apiss().listAllQrs();
     print("datadone");
+    print(data);
     setState(() {
       qrData = data;
     });

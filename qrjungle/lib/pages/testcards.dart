@@ -93,7 +93,7 @@ class QrcodeCards extends StatelessWidget {
           child: Hero(
             tag: item,
             child: Container(
-              color: Colors.green,
+              color: Colors.transparent,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(
                     15.0), // Rounded corners for the image
@@ -122,35 +122,31 @@ class PopupCard extends StatelessWidget {
       tag: item,
       child: Container(
         color: Colors.transparent,
-        child: SizedBox(
-          width: 500,
-          height: 400,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 5,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15.0), // Rounded corners for the image
-                  child: CachedNetworkImage(
-                    imageUrl: item.imageUrl,
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    fit: BoxFit.cover, // Ensures the image covers the card
-                  ),
+        width: 350,
+        height: 400,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 5,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    15.0), // Rounded corners for the image
+                child: CachedNetworkImage(
+                  imageUrl: item.imageUrl,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Text(
-                  "Cost : - ${item.price}\$\$",
-                  style: const TextStyle(color: Colors.white, fontSize: 45.0),
-                ),
-              )
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                "Cost : - ${item.price}\$\$",
+                style: const TextStyle(color: Colors.white, fontSize: 45.0),
+              ),
+            )
+          ],
         ),
       ),
     );

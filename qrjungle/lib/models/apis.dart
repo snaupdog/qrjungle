@@ -14,9 +14,9 @@ class Apiss {
   }'''));
 
       var response = await operation.response;
+      print(response);
 
       var body = jsonDecode(response.data);
-      print(response);
       print("body: $body");
     } catch (e) {
       print("list qrs erro$e");
