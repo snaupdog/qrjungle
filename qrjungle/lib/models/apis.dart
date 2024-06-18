@@ -5,24 +5,41 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class Apiss {
-  listAllQrs() async {
-    try {
-      var operation = Amplify.API.query(
-          request: GraphQLRequest(
-              document: '''query ListAllQrs(\$nextToken: String) {
-    listAllQrs(nextToken: \$nextToken)
-  }'''));
+  Future<String> getPresignedUrl(String key) async {
+    final Map<String, String> data = {"command": "getPresignedURL", "key": key};
+    final jsonData = json.encode(data);
+    final response = await post(
+      Uri.parse(
+          'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/get_presigned_url'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonData,
+    );
 
-      var response = await operation.response;
-      print(response);
-
-      var body = jsonDecode(response.data);
-      print("body: $body");
-    } catch (e) {
-      print("list qrs erro$e");
-
-      return "Error";
+    if (response.statusCode == 200) {
+      final dataa = json.decode(response.body);
+      return dataa['url'];
+    } else {
+      throw Exception('Failed to fetch URL for key $key');
     }
+  }
+
+  getAllqrs(String nextToken) async {
+    final Map<String, String> data = {"command": "listAllQrs", "nextToken": ""};
+    final jsonData = json.encode(data);
+    List<String> urlKeys = [];
+    final response = await post(
+      Uri.parse(
+          'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_all_qrcodes'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonData,
+    );
+    final dataa = json.decode(response.body);
+    final x = dataa['data'];
+    print(x.length);
+    for (var i = 0; i < x.length; i++) {
+      urlKeys.add(x[i]['qr_code_image_url_key']);
+    }
+    print(urlKeys);
   }
 
   signup(String signupemailcontroller) async {

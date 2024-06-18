@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'models/apis.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,65 +11,181 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String qrData = "Press the button to load QR data";
-
-  getqr() async {
-    final Map<String, String> data = {
-      // "command": "listCategories",
-      // "next_token": ""
-
-      "command": "getPresignedURL",
-      "key": "ZRQH.png"
-    };
-    final jsonData = json.encode(data);
-    final response = await post(
-      // Uri.parse('http://localhost:8080/data'),
-      // Uri.parse(
-      //     'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_categories'),
-      Uri.parse(
-          'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/get_presigned_url'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonData,
-    );
-
-    print(response.statusCode);
-    print(response.body);
-    final dataa = json.decode(response.body);
-    print(dataa['url']);
-
-    // if (response.body == "201") {
-    //   print('sigup  created successfully!');
-    // } else {
-    //   print('Failed to create sigup.');
-    // }
+  @override
+  void initState() {
+    super.initState();
+    fetchUrls();
   }
 
+  String qrData = "Press the button to load QR data";
+  List<String> keys = [
+    "pJRx.png",
+    "ga3e.png",
+    "ApGl.png",
+    "2KzT.png",
+    "2qap.png",
+    "xxNM.png",
+    "UAz8.png",
+    "pJbs.png",
+    "SuNB.png",
+    "imXo.png",
+    "HPnW.png",
+    "3gS7.png",
+    "xmN2.png",
+    "CmfG.png",
+    "YKVr.png",
+    "QpQ8.png",
+    "afJG.png",
+    "iYRb.png",
+    "g444.png",
+    "6dYD.png",
+    "UfNb.png",
+    "ghEt.png",
+    "6po3.png",
+    "AN2I.png",
+    "azRX.png",
+    "pNcj.png",
+    "ZRQH.png",
+    "Wjuv.png",
+    "JM9r.png",
+    "wikG.png",
+    "iDUZ.png",
+    "9UxM.png",
+    "Trme.png",
+    "V8Bj.png",
+    "lhYE.png",
+    "r3fW.png",
+    "W5Ks.png",
+    "4eQV.png",
+    "bY5B.png",
+    "LdBv.png",
+    "3zDa.png",
+    "DOPZ.png",
+    "K1M8.png",
+    "2Omp.png",
+    "xoyP.png",
+    "7JEu.png",
+    "AIfi.png",
+    "Md4r.png"
+  ];
+  List<String> urls = [];
+  bool isLoading = true;
+
+  Future<void> fetchUrls() async {
+    try {
+      final fetchedUrls = await Future.wait(
+          keys.map((key) => Apiss().getPresignedUrl(key)).toList());
+      print(fetchedUrls);
+      setState(() {
+        urls = fetchedUrls;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("QR Data"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              qrData,
-              textAlign: TextAlign.center,
+        backgroundColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 24.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              size: 30,
+              Icons.home,
+              color: Color(0xff969a2f),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // String nextToken =
-                //     "your-next-token-value"; // Replace with actual token value
-                getqr();
-              },
-              child: const Text("Load QR Data"),
+          ),
+        ),
+      ),
+      backgroundColor: Colors.black,
+      body: const SingleChildScrollView(
+        // Wrap in SingleChildScrollView for scrolling capability
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10.0,
+            ),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                "BLAH BLHA BLAH",
+                style: TextStyle(color: Color(0xff969a2f), fontSize: 30.0),
+              ),
+            ),
+            Divider(
+              color: Colors.white,
+            ),
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: QrcodeCards(),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class QrcodeCards extends StatelessWidget {
+  const QrcodeCards({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap:
+          true, // Ensure GridView is scrollable within SingleChildScrollView
+      physics: const NeverScrollableScrollPhysics(), //
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount:
+            3, // Number of columns (you can change this to 1 if you want larger cards)
+        crossAxisSpacing: 10.0, // Horizontal spacing between items
+        mainAxisSpacing: 10.0,
+      ),
+      itemCount: qrdata.length,
+      itemBuilder: (context, index) {
+        final item = qrdata[index];
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              HeroDialogRoute(
+                builder: (context) => Center(
+                  child: PopupCard(item: item),
+                ),
+              ),
+            );
+          },
+          child: Hero(
+            tag: item,
+            child: Container(
+              color: Colors.transparent,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    15.0), // Rounded corners for the image
+                child: CachedNetworkImage(
+                  imageUrl: item.imageUrl,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
