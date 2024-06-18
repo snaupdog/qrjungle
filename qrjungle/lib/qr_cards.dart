@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'models/apis.dart';
 import 'pages/testcards.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class qrCards extends StatefulWidget {
+  const qrCards({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _qrCardsState createState() => _qrCardsState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _qrCardsState extends State<qrCards> {
   @override
   void initState() {
     super.initState();
+
     fetchUrls();
   }
 

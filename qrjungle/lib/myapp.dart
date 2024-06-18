@@ -1,13 +1,9 @@
 // ignore_for_file: avoid_print
 // import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
-import 'pages/otp.dart';
-import 'pages/Homepage.dart';
-import 'pages/testlogin.dart';
-import 'testesfd.dart';
+import 'qr_cards.dart';
 // import 'package:http/http.dart';
 
 class MyApp extends StatelessWidget {
@@ -16,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.black87,
       body: LoginCard(),
     );
   }
@@ -57,29 +54,12 @@ class _LoginCardState extends State<LoginCard> {
     }
   }
 
-  double sigmaX = 5;
-  double sigmaY = 5;
-
-  final String imageUrl =
-      'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2565&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; // Replace with your image URL
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
         // Background image from the internet
-        Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
-        ),
-        // Blur effect
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
-          child: Container(
-            color: Colors.black.withOpacity(0), // Adjust the opacity if needed
-          ),
-        ),
         Positioned(
           top: 20,
           right: 20,
@@ -89,7 +69,7 @@ class _LoginCardState extends State<LoginCard> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                  MaterialPageRoute(builder: (context) => const qrCards()),
                 );
                 // Define the action to take when the "Skip" button is pressed.
               },
@@ -98,63 +78,6 @@ class _LoginCardState extends State<LoginCard> {
           ),
         ),
 
-        Positioned(
-          bottom: 130,
-          left: 20,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Testlogin()),
-                );
-                // Define the action to take when the "Skip" button is pressed.
-              },
-              child: const Text(
-                'Test_login',
-                style: TextStyle(color: Color(0xFF969a2f)),
-              ),
-            ),
-          ),
-        ),
-
-        Positioned(
-          bottom: 70,
-          left: 20,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  // MaterialPageRoute(builder: (context) => const OtpPage()),
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-                // Define the action to take when the "Skip" button is pressed.
-              },
-              child: const Text('schizo aware'),
-            ),
-          ),
-        ),
-
-        // Positioned(
-        //   bottom: 20,
-        //   left: 20,
-        //   child: Container(
-        //     margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-        //     child: ElevatedButton(
-        //       onPressed: () {
-        //         Navigator.push(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => const Test()),
-        //         );
-        //         // Define the action to take when the "Skip" button is pressed.
-        //       },
-        //       child: const Text('Qr code'),
-        //     ),
-        //   ),
-        // ),
         Positioned(
           bottom: 20,
           right: 20,
