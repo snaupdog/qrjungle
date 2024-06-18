@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'models/apis.dart';
+import 'pages/testcards.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -89,103 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 24.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              size: 30,
-              Icons.home,
-              color: Color(0xff969a2f),
-            ),
-          ),
-        ),
+      body: Test(
+        urls: urls,
       ),
-      backgroundColor: Colors.black,
-      body: const SingleChildScrollView(
-        // Wrap in SingleChildScrollView for scrolling capability
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10.0,
-            ),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                "BLAH BLHA BLAH",
-                style: TextStyle(color: Color(0xff969a2f), fontSize: 30.0),
-              ),
-            ),
-            Divider(
-              color: Colors.white,
-            ),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: QrcodeCards(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class QrcodeCards extends StatelessWidget {
-  const QrcodeCards({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap:
-          true, // Ensure GridView is scrollable within SingleChildScrollView
-      physics: const NeverScrollableScrollPhysics(), //
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount:
-            3, // Number of columns (you can change this to 1 if you want larger cards)
-        crossAxisSpacing: 10.0, // Horizontal spacing between items
-        mainAxisSpacing: 10.0,
-      ),
-      itemCount: qrdata.length,
-      itemBuilder: (context, index) {
-        final item = qrdata[index];
-
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              HeroDialogRoute(
-                builder: (context) => Center(
-                  child: PopupCard(item: item),
-                ),
-              ),
-            );
-          },
-          child: Hero(
-            tag: item,
-            child: Container(
-              color: Colors.transparent,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Rounded corners for the image
-                child: CachedNetworkImage(
-                  imageUrl: item.imageUrl,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }

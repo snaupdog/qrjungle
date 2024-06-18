@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
 import 'pages/otp.dart';
 import 'pages/Homepage.dart';
-import 'pages/testcards.dart';
 import 'pages/testlogin.dart';
 import 'testesfd.dart';
 // import 'package:http/http.dart';
@@ -134,28 +133,28 @@ class _LoginCardState extends State<LoginCard> {
                 );
                 // Define the action to take when the "Skip" button is pressed.
               },
-              child: const Text('damn i ate that shit'),
+              child: const Text('schizo aware'),
             ),
           ),
         ),
 
-        Positioned(
-          bottom: 20,
-          left: 20,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Test()),
-                );
-                // Define the action to take when the "Skip" button is pressed.
-              },
-              child: const Text('Qr code'),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   bottom: 20,
+        //   left: 20,
+        //   child: Container(
+        //     margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
+        //     child: ElevatedButton(
+        //       onPressed: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(builder: (context) => const Test()),
+        //         );
+        //         // Define the action to take when the "Skip" button is pressed.
+        //       },
+        //       child: const Text('Qr code'),
+        //     ),
+        //   ),
+        // ),
         Positioned(
           bottom: 20,
           right: 20,

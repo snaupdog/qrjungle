@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'data.dart';
 import 'hero_dialog.dart';
 
 class Test extends StatefulWidget {
-  const Test({super.key});
+  final List<String> urls;
+  const Test({super.key, required this.urls});
 
   @override
   State<Test> createState() => _TestState();
@@ -31,26 +31,25 @@ class _TestState extends State<Test> {
         ),
       ),
       backgroundColor: Colors.black,
-      body: const SingleChildScrollView(
-        // Wrap in SingleChildScrollView for scrolling capability
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
                 "BLAH BLHA BLAH",
                 style: TextStyle(color: Color(0xff969a2f), fontSize: 30.0),
               ),
             ),
-            Divider(
+            const Divider(
               color: Colors.white,
             ),
             Padding(
-              padding: EdgeInsets.all(15.0),
-              child: QrcodeCards(),
+              padding: const EdgeInsets.all(15.0),
+              child: QrcodeCards(urls: widget.urls),
             ),
           ],
         ),
@@ -60,25 +59,22 @@ class _TestState extends State<Test> {
 }
 
 class QrcodeCards extends StatelessWidget {
-  const QrcodeCards({
-    super.key,
-  });
+  final List<String> urls;
+  const QrcodeCards({super.key, required this.urls});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      shrinkWrap:
-          true, // Ensure GridView is scrollable within SingleChildScrollView
-      physics: const NeverScrollableScrollPhysics(), //
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount:
-            3, // Number of columns (you can change this to 1 if you want larger cards)
-        crossAxisSpacing: 10.0, // Horizontal spacing between items
+        crossAxisCount: 2,
+        crossAxisSpacing: 10.0,
         mainAxisSpacing: 10.0,
       ),
-      itemCount: qrdata.length,
+      itemCount: urls.length,
       itemBuilder: (context, index) {
-        final item = qrdata[index];
+        final item = urls[index];
 
         return GestureDetector(
           onTap: () {
@@ -95,10 +91,9 @@ class QrcodeCards extends StatelessWidget {
             child: Container(
               color: Colors.transparent,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Rounded corners for the image
+                borderRadius: BorderRadius.circular(15.0),
                 child: CachedNetworkImage(
-                  imageUrl: item.imageUrl,
+                  imageUrl: item,
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -113,7 +108,7 @@ class QrcodeCards extends StatelessWidget {
 }
 
 class PopupCard extends StatelessWidget {
-  final Bruv item;
+  final String item;
   const PopupCard({super.key, required this.item});
 
   @override
@@ -129,23 +124,22 @@ class PopupCard extends StatelessWidget {
             Expanded(
               flex: 5,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    15.0), // Rounded corners for the image
+                borderRadius: BorderRadius.circular(15.0),
                 child: CachedNetworkImage(
-                  imageUrl: item.imageUrl,
+                  imageUrl: item,
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
-            Expanded(
+            const Expanded(
               flex: 1,
               child: Text(
-                "Cost : - ${item.price}\$\$",
-                style: const TextStyle(color: Colors.white, fontSize: 45.0),
+                "Cost : -100\$\$",
+                style: TextStyle(color: Colors.white, fontSize: 45.0),
               ),
-            )
+            ),
           ],
         ),
       ),
