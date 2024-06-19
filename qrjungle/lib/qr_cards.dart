@@ -28,7 +28,7 @@ class _qrCardsState extends State<qrCards> {
       List<String> keys = await Apiss().getAllqrs(token);
       final fetchedUrls = await Future.wait(
           keys.map((key) => Apiss().getPresignedUrl(key)).toList());
-      print(fetchedUrls);
+      // print(fetchedUrls);
       setState(() {
         urls = fetchedUrls;
         isLoading = false;
