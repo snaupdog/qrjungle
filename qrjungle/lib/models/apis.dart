@@ -23,8 +23,11 @@ class Apiss {
     }
   }
 
-  getAllqrs(String nextToken) async {
-    final Map<String, String> data = {"command": "listAllQrs", "nextToken": ""};
+  Future<List<String>> getAllqrs(String nextToken) async {
+    final Map<String, String> data = {
+      "command": "listAllQrs",
+      "nextToken": nextToken
+    };
     final jsonData = json.encode(data);
     List<String> urlKeys = [];
     final response = await post(
@@ -34,12 +37,12 @@ class Apiss {
       body: jsonData,
     );
     final dataa = json.decode(response.body);
+    print(dataa['nextToken']);
     final x = dataa['data'];
-    print(x.length);
     for (var i = 0; i < x.length; i++) {
       urlKeys.add(x[i]['qr_code_image_url_key']);
     }
-    print(urlKeys);
+    return urlKeys;
   }
 
   signup(String signupemailcontroller) async {

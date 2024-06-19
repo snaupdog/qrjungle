@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qrjungle/pages/popup_card.dart';
 import 'hero_dialog.dart';
 
 class Test extends StatefulWidget {
@@ -103,46 +104,6 @@ class QrcodeCards extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class PopupCard extends StatelessWidget {
-  final String item;
-  const PopupCard({super.key, required this.item});
-
-  @override
-  Widget build(BuildContext context) {
-    return Hero(
-      tag: item,
-      child: Container(
-        color: Colors.transparent,
-        width: 350,
-        height: 400,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 5,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: CachedNetworkImage(
-                  imageUrl: item,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              ),
-            ),
-            const Expanded(
-              flex: 1,
-              child: Text(
-                "Cost : -100\$\$",
-                style: TextStyle(color: Colors.white, fontSize: 45.0),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

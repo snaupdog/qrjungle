@@ -3,6 +3,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
+import 'package:qrjungle/tesing.dart';
 import 'qr_cards.dart';
 // import 'package:http/http.dart';
 
@@ -60,6 +61,25 @@ class _LoginCardState extends State<LoginCard> {
       fit: StackFit.expand,
       children: <Widget>[
         // Background image from the internet
+
+        Positioned(
+          top: 20,
+          left: 20,
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Teasoigm()),
+                );
+                // Define the action to take when the "Skip" button is pressed.
+              },
+              child: const Text('Skip'),
+            ),
+          ),
+        ),
+
         Positioned(
           top: 20,
           right: 20,
