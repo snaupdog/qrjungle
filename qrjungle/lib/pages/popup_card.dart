@@ -19,8 +19,8 @@ class PopupCard extends StatelessWidget {
     if (image == null) throw Exception('Image cannot be decoded');
 
     final Map<int, int> colorCount = {};
-    for (var y = 0; y < image.height; y = y + 200) {
-      for (var x = 0; x < image.width; x = x + 200) {
+    for (var y = 0; y < 50; y = y + 1) {
+      for (var x = 0; x < image.width; x = x + 1) {
         final pixel = image.getPixel(x, y);
         final color = ((pixel.a.toInt() & 0xFF) << 24) |
             ((pixel.r.toInt() & 0xFF) << 16) |
@@ -43,20 +43,20 @@ class PopupCard extends StatelessWidget {
         future: getMostProminentColor(item),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading image'));
+            return const Center(child: Text('Error loading image'));
           } else if (snapshot.hasData) {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  stops: const [0.0, 0.7, 1.0],
+                  stops: const [0.0, 0.2, 0.7, 1.0],
                   colors: [
-                    // Colors.black.withOpacity(0.7),
-                    Colors.black87,
-                    snapshot.data!.withOpacity(0.3),
+                    Colors.black,
+                    Colors.black,
+                    snapshot.data!.withOpacity(0.9),
                     snapshot.data!,
                   ],
                 ),
@@ -65,34 +65,35 @@ class PopupCard extends StatelessWidget {
               height: 600,
               child: Column(
                 children: [
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: CachedNetworkImage(
-                          imageUrl: item,
-                          placeholder: (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
+                  const SizedBox(
+                    height: 60.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          15.0), // Adjust the radius as needed
+                      child: CachedNetworkImage(
+                        imageUrl: item,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
                   ),
-                  const Expanded(
-                    flex: 1,
-                    child: Text(
-                      "Cost : -100\$",
-                      style: TextStyle(color: Colors.white, fontSize: 45.0),
-                    ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  const Text(
+                    "Cost : -100\$",
+                    style: TextStyle(color: Colors.white, fontSize: 45.0),
                   ),
                 ],
               ),
             );
           } else {
-            return Center(child: Text('No color found'));
+            return const Center(child: Text('No color found'));
           }
         },
       ),

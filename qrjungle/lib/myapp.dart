@@ -3,7 +3,8 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
-import 'package:qrjungle/tesing.dart';
+import 'package:qrjungle/gradient_test.dart';
+import 'package:qrjungle/testingstuffy.dart';
 import 'qr_cards.dart';
 // import 'package:http/http.dart';
 
@@ -60,6 +61,24 @@ class _LoginCardState extends State<LoginCard> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
+        Positioned(
+          bottom: 20,
+          left: 20,
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Testingstuffy()),
+                );
+                // Define the action to take when the "Skip" button is pressed.
+              },
+              child: const Text('testes stuftg'),
+            ),
+          ),
+        ),
         // Background image from the internet
 
         Positioned(
@@ -71,11 +90,11 @@ class _LoginCardState extends State<LoginCard> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Teasoigm()),
+                  MaterialPageRoute(builder: (context) => const GradientTest()),
                 );
                 // Define the action to take when the "Skip" button is pressed.
               },
-              child: const Text('Skip'),
+              child: const Text('gradient test code'),
             ),
           ),
         ),
