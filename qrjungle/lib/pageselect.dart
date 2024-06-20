@@ -76,7 +76,7 @@ class _PageSelectState extends State<PageSelect> {
                   child: AnimatedBottomNavigationBar(                    
                     backgroundColor: Colors.transparent,
                     activeColor: accentcolor,
-                    inactiveColor: Color.fromARGB(190, 255, 255, 255),
+                    inactiveColor: alternatecolor,
                     iconSize: 30,
                     splashSpeedInMilliseconds: 350,
                     icons: iconList,
