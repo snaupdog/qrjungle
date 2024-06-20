@@ -3,7 +3,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
-import 'package:qrjungle/pages/qrcards/qr_card.dart';
+import 'package:qrjungle/pageselect.dart';
 // import 'package:http/http.dart';
 
 class MyApp extends StatelessWidget {
@@ -69,7 +69,7 @@ class _LoginCardState extends State<LoginCard> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const qrCards()),
+                  MaterialPageRoute(builder: (context) => const PageSelect()),
                 );
               },
               child: const Text('Displaysqrcards'),
