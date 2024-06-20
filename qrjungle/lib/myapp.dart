@@ -3,9 +3,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
-import 'package:qrjungle/gradient_test.dart';
-import 'package:qrjungle/testingstuffy.dart';
-import 'qr_cards.dart';
+import 'package:qrjungle/pages/qrcards/qr_card.dart';
 // import 'package:http/http.dart';
 
 class MyApp extends StatelessWidget {
@@ -62,44 +60,6 @@ class _LoginCardState extends State<LoginCard> {
       fit: StackFit.expand,
       children: <Widget>[
         Positioned(
-          bottom: 20,
-          left: 20,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const Testingstuffy()),
-                );
-                // Define the action to take when the "Skip" button is pressed.
-              },
-              child: const Text('testes stuftg'),
-            ),
-          ),
-        ),
-        // Background image from the internet
-
-        Positioned(
-          top: 20,
-          left: 20,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GradientTest()),
-                );
-                // Define the action to take when the "Skip" button is pressed.
-              },
-              child: const Text('gradient test code'),
-            ),
-          ),
-        ),
-
-        Positioned(
           top: 20,
           right: 20,
           child: Container(
@@ -112,7 +72,7 @@ class _LoginCardState extends State<LoginCard> {
                 );
                 // Define the action to take when the "Skip" button is pressed.
               },
-              child: const Text('Skip'),
+              child: const Text('Displaysqrcards'),
             ),
           ),
         ),
