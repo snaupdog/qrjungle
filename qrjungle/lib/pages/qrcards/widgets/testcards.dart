@@ -23,16 +23,6 @@ class _TestState extends State<Test> {
             const SizedBox(
               height: 50.0,
             ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                "BLAH BLHA BLAH",
-                style: TextStyle(color: Color(0xff969a2f), fontSize: 30.0),
-              ),
-            ),
-            const Divider(
-              color: Colors.white,
-            ),
             QrcodeCards(urls: widget.urls, qrobjects: widget.qrobjects),
           ],
         ),
