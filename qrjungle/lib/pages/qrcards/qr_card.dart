@@ -1,9 +1,8 @@
-
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'models/apis.dart';
-import 'pages/qrcards/testcards.dart';
+import 'package:qrjungle/pages/qrcards/widgets/testcards.dart';
+import '../../models/apis.dart';
 
 class qrCards extends StatefulWidget {
   const qrCards({super.key});
