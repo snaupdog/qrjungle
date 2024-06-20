@@ -16,7 +16,6 @@ class _TestState extends State<Test> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff121212),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, non_constant_identifier_names
+// ignore_for_file: avoid_print, non_constant_identifier_names, unused_local_variable
 
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'dart:convert';
@@ -20,7 +20,9 @@ class QrInfo {
 }
 
 class Apiss {
-  Future getCategories() async {
+
+  Future getCategories() async {  
+    print("asdfasasdfasdff");
     final Map<String, String> data = {"command": "listActiveCategories"};
     final jsonData = json.encode(data);
     final response = await post(
@@ -28,7 +30,8 @@ class Apiss {
           'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/list_available_categories'),
       headers: {"Content-Type": "application/json"},
       body: jsonData,
-    );
+    );     
+    print(response.body);
   }
 
   Future getqrfromCategories(String categoryName) async {

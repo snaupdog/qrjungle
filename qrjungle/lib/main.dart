@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/themeselector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'myapp.dart';
 import 'pages/oboard/onboard.dart';
 import 'themes.dart';
-
-import 'myapp.dart';
 
 ThemeSelect themeselector = ThemeSelect();
 
@@ -100,7 +99,7 @@ class _ConfigState extends State<Config> {
         splash: Image.asset('assets/$splashimage'),
         splashIconSize: 200,
         backgroundColor: splashbg,
-        nextScreen: (widget.onboarded) ? PageView() : Onboard(),
+        nextScreen: (widget.onboarded) ? MyApp() : Onboard(),
         animationDuration: const Duration(milliseconds: 400),
       ),
     );
