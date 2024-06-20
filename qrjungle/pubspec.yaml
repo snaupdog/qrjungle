@@ -42,12 +42,15 @@ dependencies:
   amplify_auth_cognito: 
   amplify_flutter: ^1.6.1
   amplify_api: ^1.6.2
-
+  
   intl_phone_field: ^3.2.0
   email_validator: ^2.1.17
   http: ^1.2.1
   image: ^4.2.0
   flutter_colorpicker: ^1.1.0
+  animated_bottom_navigation_bar: ^1.3.3
+  delayed_widget: ^1.1.2
+  animated_splash_screen: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +69,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/my_image.png
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -77,15 +80,19 @@ flutter:
 
 
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+  - family: Freeman
+    fonts:
+      - asset: fonts/Freeman-Regular.ttf
+  - family: Oswald
+    fonts: 
+      - asset: fonts/Oswald-Regular.ttf
+  - family: OpenSans
+    fonts: 
+      - asset: fonts/OpenSans-Regular.ttf
+  - family: NunitoSans_10pt
+    fonts: 
+      - asset: fonts/NunitoSans_10pt-Regular.ttf
+  - family: NunitoSans_7pt
+    fonts: 
+      - asset: fonts/NunitoSans_7pt-Regular.ttf 
