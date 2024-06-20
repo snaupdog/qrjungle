@@ -12,23 +12,23 @@ class qrCards extends StatefulWidget {
 }
 
 class _qrCardsState extends State<qrCards> {
+  List<QrInfo> qrobjects = []; // Declare qrobjects here
+  String qrData = "Press the button to load QR data";
+  List<String> urls = [];
+  String token = '';
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
     fetchUrls();
   }
 
-  String qrData = "Press the button to load QR data";
-  List<String> urls = [];
-  String token = '';
-  bool isLoading = true;
-
   Future<void> fetchUrls() async {
     try {
-      List<String> keys = await Apiss().getAllqrs(token);
+      qrobjects = await Apiss().getAllqrs(token);
       final fetchedUrls = await Future.wait(
-          keys.map((key) => Apiss().getPresignedUrl(key)).toList());
-      // print(fetchedUrls);
+          qrobjects.map((key) => Apiss().getPresignedUrl(key.UrlKey)).toList());
       setState(() {
         urls = fetchedUrls;
         isLoading = false;
@@ -44,9 +44,12 @@ class _qrCardsState extends State<qrCards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Test(
-        urls: urls,
-      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Test(
+              urls: urls,
+              qrobjects: qrobjects,
+            ),
     );
   }
 }

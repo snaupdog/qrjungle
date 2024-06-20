@@ -1,10 +1,50 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, non_constant_identifier_names
 
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
+class QrInfo {
+  String category;
+  String qr_code_id;
+  String UrlKey;
+  String? price;
+  String? image; // Image URL which can be null initially
+
+  QrInfo({
+    required this.category,
+    required this.qr_code_id,
+    required this.UrlKey,
+    this.price,
+  });
+}
+
 class Apiss {
+  Future getCategories() async {
+    final Map<String, String> data = {"command": "listActiveCategories"};
+    final jsonData = json.encode(data);
+    final response = await post(
+      Uri.parse(
+          'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/list_available_categories'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonData,
+    );
+  }
+
+  Future getqrfromCategories(String categoryName) async {
+    final Map<String, String> data = {
+      "command": "listQrByCategory",
+      "qr_code_category_name": categoryName,
+    };
+    final jsonData = json.encode(data);
+    final response = await post(
+      Uri.parse(
+          'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_qr_by_category'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonData,
+    );
+  }
+
   Future<String> getPresignedUrl(String key) async {
     final Map<String, String> data = {"command": "getPresignedURL", "key": key};
     final jsonData = json.encode(data);
@@ -23,13 +63,13 @@ class Apiss {
     }
   }
 
-  Future<List<String>> getAllqrs(String nextToken) async {
+  Future<List<QrInfo>> getAllqrs(String nextToken) async {
     final Map<String, String> data = {
       "command": "listAllQrs",
       "nextToken": nextToken
     };
+    List<QrInfo> allqrinfo = [];
     final jsonData = json.encode(data);
-    List<String> urlKeys = [];
     final response = await post(
       Uri.parse(
           'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_all_qrcodes'),
@@ -39,10 +79,23 @@ class Apiss {
     final dataa = json.decode(response.body);
     print(dataa['nextToken']);
     final x = dataa['data'];
+    // print(x);
+
     for (var i = 0; i < x.length; i++) {
-      urlKeys.add(x[i]['qr_code_image_url_key']);
+      // Fixxy -  this code was scuffed hardcoded a fix
+      final hi = x[i];
+      if (hi['qr_code_status'] == 'APPROVED') {
+        allqrinfo.add(
+          QrInfo(
+            UrlKey: hi['qr_code_image_url_key'],
+            category: hi['qr_code_category'],
+            qr_code_id: hi['qr_code_id'],
+            price: hi['price'],
+          ),
+        );
+      }
     }
-    return urlKeys;
+    return allqrinfo;
   }
 
   signup(String signupemailcontroller) async {
@@ -59,9 +112,6 @@ class Apiss {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-
-    print(response.statusCode);
-    // print(response.body);
 
     if (response.body == "201") {
       print('sigup  created successfully!');
