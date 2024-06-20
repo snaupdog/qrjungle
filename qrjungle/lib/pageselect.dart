@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/pages/explore.dart';
 import 'package:qrjungle/pages/profile.dart';
 import 'package:qrjungle/pages/qrcards/qr_card.dart';
-import 'package:qrjungle/pages/wishlist.dart';
 import 'package:qrjungle/themes.dart';
+
+import 'pages/bottomnavbar/wishlist.dart';
 
 class PageSelect extends StatefulWidget {
   const PageSelect({super.key});
