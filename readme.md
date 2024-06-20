@@ -12,6 +12,9 @@
 ### Sliver AppBar
 
 ### Categories / Home
+- Retrieve category title QR as random QR from same category
+- Sliver AppBar on category expansion along with Title icon photo
+
 
 ### Wishlist
 - Integrated with GraphQL API
