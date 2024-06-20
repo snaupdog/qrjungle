@@ -1,10 +1,4 @@
-yo
 
-[] fix the api call 
-        * use factory 
-        * put title and catagory too
-[] call the api for catagories
-        * figure out the categories stuff
 [] qrcard navigation page
         * buy
         * set_link
@@ -12,7 +6,9 @@ yo
         * share button
         * report button
 [] sliver appbar 
+[] catagories / home
+[] wishlist 
+    *graphql api
 [] popup login page
     * implement shared preferences
 [] profile page
-[] bottom navbar
