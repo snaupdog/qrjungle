@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, dead_code_catch_following_catch
-
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -8,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/themeselector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'pages/oboard/onboard.dart';
 import 'themes.dart';
-import 'package:qrjungle/pages/onboard/onboard.dart';
-
 
 import 'myapp.dart';
 
@@ -23,7 +20,7 @@ void main() async {
   final onboarded = pref.getBool('onboarded') ?? false;
 
   runApp(Config(onboarded: onboarded));
-} 
+}
 
 class Config extends StatefulWidget {
   final bool onboarded;
@@ -61,27 +58,26 @@ class _ConfigState extends State<Config> {
     }
   }
 
-    @override
+  @override
   void dispose() {
     themeselector.removeListener(themeListener);
     super.dispose();
   }
 
-  themeListener(){
-    if(mounted){
+  themeListener() {
+    if (mounted) {
       setState(() {});
     }
   }
 
-  bool onboarded=false;
+  bool onboarded = false;
 
-    getValues()async{
-    
+  getValues() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     bool onb = pref.getBool('onboarded') ?? false;
     setState(() {
-      onboarded=onb;
+      onboarded = onb;
     });
   }
 
@@ -90,8 +86,7 @@ class _ConfigState extends State<Config> {
     late bool whatisbrightness;
     if (themeselector.thememode == ThemeMode.light) {
       whatisbrightness = true;
-    }
-    else{
+    } else {
       whatisbrightness = false;
     }
     String splashimage = whatisbrightness ? 'logo_invert.png' : 'logo.png';
@@ -107,7 +102,7 @@ class _ConfigState extends State<Config> {
         backgroundColor: splashbg,
         //nextScreen: (widget.onboarded) ? MyApp() : Onboard(),
         nextScreen: Onboard(),
-        animationDuration: Duration(milliseconds: 400),
+        animationDuration: const Duration(milliseconds: 400),
       ),
     );
   }

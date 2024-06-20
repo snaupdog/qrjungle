@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'buttons.dart';
-import 'onb1.dart';
+import 'widgets/buttons.dart';
+import 'widgets/onb1.dart';
 
 class Onboard extends StatefulWidget {
   @override
