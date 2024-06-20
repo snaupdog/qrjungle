@@ -56,6 +56,7 @@ class _LoginCardState extends State<LoginCard> {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme _texttheme = Theme.of(context).textTheme;
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -70,7 +71,6 @@ class _LoginCardState extends State<LoginCard> {
                   context,
                   MaterialPageRoute(builder: (context) => const qrCards()),
                 );
-                // Define the action to take when the "Skip" button is pressed.
               },
               child: const Text('Displaysqrcards'),
             ),
@@ -117,8 +117,8 @@ class _LoginCardState extends State<LoginCard> {
                 children: <Widget>[
                   const SizedBox(height: 10),
                   TextField(
-                    decoration: const InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelStyle: _texttheme.bodyMedium,
                       labelText: 'Enter a vaild email',
                     ),
                     controller: emailController,
@@ -132,15 +132,15 @@ class _LoginCardState extends State<LoginCard> {
                     child: const Text('Login'),
                   ),
                   if (!isvalid)
-                    const Text(
+                    Text(
                       "wrong username or password",
+                      style: _texttheme.bodyMedium,
                     ),
                 ],
               ),
             ),
           ),
         ),
-
         // Other widgets can be added here
       ],
     );
