@@ -2,6 +2,9 @@
 
 ## Features
 
+
+### Integrate Skeletonizer (package) loaders for all card widgets
+
 ### QRCard Navigation Page
 - **Buy**
 - **Set Link**
