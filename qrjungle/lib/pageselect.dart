@@ -1,9 +1,8 @@
-import 'dart:ui';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:qrjungle/pages/bottomnavbar/explore.dart';
 import 'package:qrjungle/pages/qrcards/qr_card.dart';
 import 'package:qrjungle/themes.dart';
-
 import 'pages/bottomnavbar/profile.dart';
 import 'pages/bottomnavbar/wishlist.dart';
 
@@ -37,16 +36,9 @@ class _PageSelectState extends State<PageSelect> {
 
   @override
   Widget build(BuildContext context) {
-    //TextTheme _textTheme = Theme.of(context).textTheme;
     Brightness _brightness = Theme.of(context).brightness;
-    //Color colorcolor = _brightness == Brightness.dark ? Colors.black : Colors.white;
+    Color colorcolor = _brightness == Brightness.dark ? const Color.fromARGB(255, 10, 10, 10).withOpacity(0.95) : primarycolor.withOpacity(0.95);
     Color alternatecolor = _brightness == Brightness.dark ? Colors.white : Colors.black;
-
-    final iconList = <IconData> [
-      Icons.qr_code,
-      Icons.favorite_rounded,
-      Icons.person,
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -54,37 +46,33 @@ class _PageSelectState extends State<PageSelect> {
       ),
       body: Stack(
         children: [
-          PageView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            onPageChanged: onPageChanged,
-            children: [
-              qrCards(), //Widget Layout for Explore Page        
-              WishlistPage(), //Widget Layout for Wishlist Page   
-              ProfilePage(), //Widget Layout for Profile Page
-            ],
+          SafeArea(
+            child: PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              onPageChanged: onPageChanged,
+              children: [
+                ExplorePage(), // Widget Layout for Explore Page        
+                WishlistPage(), // Widget Layout for Wishlist Page   
+                ProfilePage(), // Widget Layout for Profile Page
+              ],
+            ),
           ),
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  color: Color.fromARGB(225, 42, 42, 42).withOpacity(0.00001),
-                  child: AnimatedBottomNavigationBar(                    
-                    backgroundColor: Colors.transparent,
-                    activeColor: accentcolor,
-                    inactiveColor: alternatecolor,
-                    iconSize: 30,
-                    splashSpeedInMilliseconds: 350,
-                    icons: iconList,
-                    activeIndex: _currentIndex,
-                    onTap: onItemTapped,                  
-                  ),
-                ),
-              ),
+            child: BlurBottomView(
+              onIndexChange: onItemTapped,
+              selectedItemColor: accentcolor,
+              unselectedItemColor: alternatecolor,
+              backgroundColor: colorcolor,
+              currentIndex: _currentIndex,
+              bottomNavigationBarItems: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Explore'),
+                BottomNavigationBarItem(icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
+                BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+              ],
             ),
           ),
         ],

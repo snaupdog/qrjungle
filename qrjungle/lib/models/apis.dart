@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names, unused_local_variable
 
+import 'dart:developer';
+
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -20,6 +22,24 @@ class QrInfo {
 }
 
 class Apiss {
+
+  listQrCategories(var next) async {
+  final url = Uri.parse('https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_categories');
+
+  final response = await post(
+    url,
+    headers : {'Content-Type' : 'application/json'},
+    body: json.encode({
+      'command' : 'listCategories',
+      if(next!="")
+      'nextToken' : next,
+    })
+  );
+
+  var body = json.decode(response.body);
+  log("ListAllQrs: $body");
+  return body;
+}
 
   Future getCategories() async {  
     print("asdfasasdfasdff");
@@ -117,9 +137,9 @@ class Apiss {
     );
 
     if (response.body == "201") {
-      print('sigup  created successfully!');
+      print('signed up successfully!');
     } else {
-      print('Failed to create sigup.');
+      print('Failed to create sign up.');
     }
   }
 

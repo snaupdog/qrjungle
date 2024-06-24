@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../models/apis.dart';
 import 'widgets/testcards.dart';
-
+bool isLoading = true;
 class qrCards extends StatefulWidget {
   const qrCards({super.key});
 
@@ -16,7 +16,7 @@ class _qrCardsState extends State<qrCards> {
   String qrData = "Press the button to load QR data";
   List<String> urls = [];
   String token = '';
-  bool isLoading = true;
+  
 
   @override
   void initState() {
@@ -44,9 +44,10 @@ class _qrCardsState extends State<qrCards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Test(
+      body: 
+      //isLoading
+         // ? Center(child: CircularProgressIndicator())
+           QRCard(
               urls: urls,
               qrobjects: qrobjects,
             ),

@@ -2,17 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
+import 'package:qrjungle/pages/qrcards/qr_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class Test extends StatefulWidget {
+class QRCard extends StatefulWidget {
   final List<String> urls;
   final List<QrInfo> qrobjects;
-  const Test({super.key, required this.urls, required this.qrobjects});
+  const QRCard({super.key, required this.urls, required this.qrobjects});
 
   @override
-  State<Test> createState() => _TestState();
+  State<QRCard> createState() => _QRCardState();
 }
 
-class _TestState extends State<Test> {
+class _QRCardState extends State<QRCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,19 +51,20 @@ class QrcodeCards extends StatelessWidget {
             mainAxisSpacing: 10.0,
             childAspectRatio: 2 / 3),
         itemCount: urls.length,
-        itemBuilder: (context, index) {
+        itemBuilder: (context, index) {            
           final item = urls[index];
           final suckonthi = qrobjects[index];
           return ImageTitleCategoryCard(
             imageUrl: item,
-            qr_code_id: suckonthi.qr_code_id, // Replace with your actual title
-            category: suckonthi.category, // Replace with your actual category
-            price: suckonthi.price, // Replace with your actual category
+            qr_code_id: suckonthi.qr_code_id,
+            category: suckonthi.category, 
+            price: suckonthi.price,
           );
         },
       ),
     );
   }
+  
 }
 
 class ImageTitleCategoryCard extends StatelessWidget {
@@ -80,6 +83,9 @@ class ImageTitleCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Brightness _brightness = Theme.of(context).brightness;
+    TextTheme _textTheme = Theme.of(context).textTheme;
+    Color colorcolor = _brightness == Brightness.dark ? Color(0xff1B1B1B) : Color.fromARGB(255, 247, 249, 254);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -92,7 +98,9 @@ class ImageTitleCategoryCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Card(
-            color: const Color(0xff1B1B1B),
+            shadowColor: Colors.white,
+            
+            color: colorcolor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),
@@ -118,20 +126,18 @@ class ImageTitleCategoryCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      qr_code_id,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
+                      child: Text(
+                        qr_code_id,
+                        style: _textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      category,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      child: Text(
+                        category,
+                        style: _textTheme.bodySmall
                       ),
                     ),
                   ],

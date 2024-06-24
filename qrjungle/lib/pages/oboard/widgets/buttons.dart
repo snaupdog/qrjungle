@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrjungle/myapp.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'onb2.dart';
@@ -74,7 +74,7 @@ class _ButtonsState extends State<Buttons> {
 
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => MyApp()),
+                MaterialPageRoute(builder: (context) => PageSelect()),
                 (Route<dynamic> route) => false,
               );
             },

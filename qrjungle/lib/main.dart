@@ -4,9 +4,10 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/amplifyconfig.dart';
+import 'package:qrjungle/pages/bottomnavbar/explore.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themeselector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'myapp.dart';
 import 'pages/oboard/onboard.dart';
 import 'themes.dart';
 
@@ -99,7 +100,7 @@ class _ConfigState extends State<Config> {
         splash: Image.asset('assets/$splashimage'),
         splashIconSize: 200,
         backgroundColor: splashbg,
-        nextScreen: (widget.onboarded) ? MyApp() : Onboard(),
+        nextScreen: (widget.onboarded) ? PageSelect() : Onboard(),
         animationDuration: const Duration(milliseconds: 400),
       ),
     );
