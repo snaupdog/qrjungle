@@ -179,37 +179,4 @@ class Apiss {
       safePrint('Error signing in: ${e.message}');
     }
   }
-
-
-  getcurrentuserdetails()async{
-    
-    try {
-      var operation = Amplify.API.query(
-          request: GraphQLRequest(
-              document:
-                  '''query GetCurrentUserDetails {
-    getCurrentUserDetails
-  }''',
-  // variables: {
-  //             'input': {
-  //               'customer_status': "ACTIVE",
-                
-  //             }
-  //           }
-));
-
-      var response = await operation.response;
-      print("GetCurrentUserDetails error:${response.errors}");
-      print("GetCurrentUserDetails data :${response.data}");
-      var body = jsonDecode(response.data);
-      print("get GetCurrentUserDetails body: $body ");
-    
-      
-    } catch (e) {
-      print("GetCurrentUserDetails error :$e");
-      return "Error";
-    }
-
-  }
-
 }

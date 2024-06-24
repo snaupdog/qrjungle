@@ -9,6 +9,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
   void initState() {
     super.initState();
     fetchUrls();
@@ -22,17 +23,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    getuserdetailsmethod();
-    super.initState();
-  }
-  getuserdetailsmethod ()async {
-    await Apiss().getcurrentuserdetails();
-
-
-  }
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
