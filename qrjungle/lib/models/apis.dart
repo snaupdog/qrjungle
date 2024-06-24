@@ -32,7 +32,6 @@ class Apiss {
     print("ListCustomers error:${response.errors}");
     print("ListCustomers data :${response.data}");
     var body = jsonDecode(response.data);
-    print(body);
     //   print("get ListCustomers body: $body ");
     //   if (jsonDecode(body['listCustomers'])['status'] == "SUCCESS") {
     //     return jsonDecode(body['listCustomers'])['data'];
@@ -70,21 +69,7 @@ class Apiss {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    print(response.body);
-  }
-
-  Future getqrfromCategories(String categoryName) async {
-    final Map<String, String> data = {
-      "command": "listQrByCategory",
-      "qr_code_category_name": categoryName,
-    };
-    final jsonData = json.encode(data);
-    final response = await post(
-      Uri.parse(
-          'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_qr_by_category'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonData,
-    );
+    // print(response.body);
   }
 
   Future<String> getPresignedUrl(String key) async {
@@ -105,6 +90,41 @@ class Apiss {
     }
   }
 
+  Future<List<QrInfo>> getqrfromCategories(String categoryName) async {
+    final Map<String, String> data = {
+      "command": "listQrByCategory",
+      "qr_code_category_name": categoryName,
+    };
+    List<QrInfo> allqrinfo = [];
+    final jsonData = json.encode(data);
+    final response = await post(
+      Uri.parse(
+          'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_qr_by_category'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonData,
+    );
+    final dataa = json.decode(response.body);
+
+    print(dataa['nextToken']);
+    final x = dataa['data'];
+
+    for (var i = 0; i < x.length; i++) {
+      // Fixxy -  this code was scuffed hardcoded a fix
+      final hi = x[i];
+      if (hi['qr_code_status'] == 'APPROVED') {
+        allqrinfo.add(
+          QrInfo(
+            UrlKey: hi['qr_code_image_url_key'],
+            category: hi['qr_code_category'],
+            qr_code_id: hi['qr_code_id'],
+            price: hi['price'],
+          ),
+        );
+      }
+    }
+    return allqrinfo;
+  }
+
   Future<List<QrInfo>> getAllqrs(String nextToken) async {
     final Map<String, String> data = {
       "command": "listAllQrs",
@@ -121,7 +141,6 @@ class Apiss {
     final dataa = json.decode(response.body);
     print(dataa['nextToken']);
     final x = dataa['data'];
-    // print(x);
 
     for (var i = 0; i < x.length; i++) {
       // Fixxy -  this code was scuffed hardcoded a fix

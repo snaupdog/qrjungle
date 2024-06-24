@@ -1,8 +1,6 @@
 //Opens a new page with information about the QR code that has been tapped.
 
-
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apis.dart';
 import 'package:qrjungle/pages/moreqr/widgets/popup_card.dart';
 
 class MoreQr extends StatefulWidget {
@@ -17,18 +15,6 @@ class _MoreQrState extends State<MoreQr> {
   @override
   void initState() {
     super.initState();
-    fetchUrls();
-  }
-
-  Future<void> fetchUrls() async {
-    print("Asdfdasf11");
-    try {
-      print("Asdfasdf22");
-      Apiss().getCategories();
-      Apiss().getqrfromCategories("Food");
-    } catch (e) {
-      print('Error: $e');
-    }
   }
 
   @override
@@ -39,7 +25,10 @@ class _MoreQrState extends State<MoreQr> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Center(child: PopupCard(item: widget.imageUrl)),  //Builds the page using PopUpCard widget in popup_card.dart file
+          Center(
+              child: PopupCard(
+                  item: widget
+                      .imageUrl)), //Builds the page using PopUpCard widget in popup_card.dart file
         ],
       ),
     );

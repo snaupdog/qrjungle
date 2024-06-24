@@ -6,7 +6,10 @@ import '../../models/apis.dart';
 import '../moreqr/moreqr.dart';
 
 class QrCards extends StatefulWidget {
-  const QrCards({super.key});
+  final bool catagories;
+  final String categoryName;
+  const QrCards(
+      {super.key, required this.catagories, required this.categoryName});
 
   @override
   QrCardsState createState() => QrCardsState();
@@ -20,10 +23,27 @@ class QrCardsState extends State<QrCards> {
   @override
   void initState() {
     super.initState();
-    fetchUrls();
+    if (!widget.catagories) {
+      fetchAllQrs();
+    } else {
+      fetchCategorieQrs(widget.categoryName);
+    }
   }
 
-  Future<void> fetchUrls() async {
+  Future<void> fetchCategorieQrs(String categoryname) async {
+    try {
+      qrobjects = await Apiss().getqrfromCategories(categoryname);
+      final fetchedUrls = await Future.wait(
+          qrobjects.map((key) => Apiss().getPresignedUrl(key.UrlKey)).toList());
+      setState(() {
+        urls = fetchedUrls;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> fetchAllQrs() async {
     try {
       qrobjects = await Apiss().getAllqrs(token);
       final fetchedUrls = await Future.wait(
@@ -98,13 +118,13 @@ class QrCardsState extends State<QrCards> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
                             child: Text(item.qr_code_id,
-                                style: textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w600)),
+                                style: textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w600)),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                            child: Text(item.category,
-                                style: textTheme.bodySmall),
+                            child:
+                                Text(item.category, style: textTheme.bodySmall),
                           ),
                         ],
                       ),

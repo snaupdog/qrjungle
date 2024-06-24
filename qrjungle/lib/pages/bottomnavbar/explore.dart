@@ -74,73 +74,81 @@ class _ExplorePageState extends State<ExplorePage> {
     print(categoriesCount);
     return Scaffold(
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
           //height: MediaQuery.sizeOf(context).height,
           margin: const EdgeInsets.fromLTRB(15, 30, 15, 0),
           child: Column(
-           mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Categories',
                   style: _textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Container(
                 //height: MediaQuery.sizeOf(context).height*0.75,
                 child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemCount: categoryname.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=>CategoryPage(catname : categoryname[index]))
-                        );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(8),
-                      height: MediaQuery.sizeOf(context).height * 0.2,
-                      width: MediaQuery.sizeOf(context).width * 0.43,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Color(0xff1B1B1B)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                              height: MediaQuery.sizeOf(context).height*0.12,
-                              child: ClipRRect(
-                                child: Image.asset('assets/qrsample.png',
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              )),
-                                           
-                            Padding(
-                              padding: const EdgeInsets.all(12.5),
-                              child: Text((categoryname[index].toString().replaceFirst(categoryname[index][0], categoryname[index][0].toUpperCase())),  
-                                  style: _textTheme.bodySmall
-                                      ?.copyWith(fontWeight: FontWeight.w600)),
-                            ),
-                         
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ),            
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemCount: categoryname.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CategoryPage(
+                                      catname: categoryname[index])));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(8),
+                          height: MediaQuery.sizeOf(context).height * 0.2,
+                          width: MediaQuery.sizeOf(context).width * 0.43,
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Color(0xff1B1B1B)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.12,
+                                  child: ClipRRect(
+                                    child: Image.asset('assets/qrsample.png',
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.cover),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.all(12.5),
+                                child: Text(
+                                    (categoryname[index]
+                                        .toString()
+                                        .replaceFirst(
+                                            categoryname[index][0],
+                                            categoryname[index][0]
+                                                .toUpperCase())),
+                                    style: _textTheme.bodySmall?.copyWith(
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ),
               Text('All QR Codes',
                   style: _textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              SizedBox(height: 15),
-           const QrCards(),
+              const SizedBox(height: 15),
+              const QrCards(catagories: false, categoryName: "all"),
             ],
           ),
         ),
