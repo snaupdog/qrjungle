@@ -1,49 +1,9 @@
-// ignore_for_file: avoid_print, non_constant_identifier_names, unused_local_variable
-
 import 'dart:developer';
-
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'qr_info.dart';
 
-class QrInfo {
-  String category;
-  String qr_code_id;
-  String UrlKey;
-  String? price;
-  String? image; // Image URL which can be null initially
-
-  QrInfo({
-    required this.category,
-    required this.qr_code_id,
-    required this.UrlKey,
-    this.price,
-  });
-}
-
-class Apiss {
-  listCustomers() async {
-    var operation = Amplify.API.query(
-        request: GraphQLRequest(document: '''query GetCurrentUserDetails {
-    getCurrentUserDetails
-  }'''));
-
-    var response = await operation.response;
-    print("ListCustomers error:${response.errors}");
-    print("ListCustomers data :${response.data}");
-    var body = jsonDecode(response.data);
-    //   print("get ListCustomers body: $body ");
-    //   if (jsonDecode(body['listCustomers'])['status'] == "SUCCESS") {
-    //     return jsonDecode(body['listCustomers'])['data'];
-    //   } else {
-    //     return "Error";
-    //   }
-    // } catch (e) {
-    //   print("listcustomers error :$e");
-    //   return "Error";
-    // }
-  }
-
+class ApissRest {
   listQrCategories(var next) async {
     final url = Uri.parse(
         'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_categories');
@@ -157,45 +117,5 @@ class Apiss {
       }
     }
     return allqrinfo;
-  }
-
-  signup(String signupemailcontroller) async {
-    final Map<String, String> data = {
-      "user_name": signupemailcontroller,
-      "user_email_id": signupemailcontroller,
-      "command": "userSignUp",
-    };
-    final jsonData = json.encode(data);
-    final response = await post(
-      // Uri.parse('http://localhost:8080/data'),
-      Uri.parse(
-          'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/user_signup'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonData,
-    );
-
-    if (response.body == "201") {
-      print('signed up successfully!');
-    } else {
-      print('Failed to create sign up.');
-    }
-  }
-
-  confirmSignIn(code) async {
-    try {
-      final result = await Amplify.Auth.confirmSignIn(confirmationValue: code);
-      print('user_signed_in ' '${result.isSignedIn}');
-      if (result.isSignedIn == false) {
-        print('not signed in');
-        //showError
-
-        // showDialogError(context, 'Please enter the correct OTP');
-      } else {
-        print('success');
-        return "Success";
-      }
-    } on AuthException catch (e) {
-      safePrint('Error signing in: ${e.message}');
-    }
   }
 }

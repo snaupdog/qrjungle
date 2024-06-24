@@ -2,7 +2,9 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../../models/apis.dart';
+import 'package:qrjungle/models/apis_rest.dart';
+
+import '../../models/qr_info.dart';
 import '../moreqr/moreqr.dart';
 
 class QrCards extends StatefulWidget {
@@ -32,9 +34,10 @@ class QrCardsState extends State<QrCards> {
 
   Future<void> fetchCategorieQrs(String categoryname) async {
     try {
-      qrobjects = await Apiss().getqrfromCategories(categoryname);
-      final fetchedUrls = await Future.wait(
-          qrobjects.map((key) => Apiss().getPresignedUrl(key.UrlKey)).toList());
+      qrobjects = await ApissRest().getqrfromCategories(categoryname);
+      final fetchedUrls = await Future.wait(qrobjects
+          .map((key) => ApissRest().getPresignedUrl(key.UrlKey))
+          .toList());
       setState(() {
         urls = fetchedUrls;
       });
@@ -45,9 +48,10 @@ class QrCardsState extends State<QrCards> {
 
   Future<void> fetchAllQrs() async {
     try {
-      qrobjects = await Apiss().getAllqrs(token);
-      final fetchedUrls = await Future.wait(
-          qrobjects.map((key) => Apiss().getPresignedUrl(key.UrlKey)).toList());
+      qrobjects = await ApissRest().getAllqrs(token);
+      final fetchedUrls = await Future.wait(qrobjects
+          .map((key) => ApissRest().getPresignedUrl(key.UrlKey))
+          .toList());
       setState(() {
         urls = fetchedUrls;
       });

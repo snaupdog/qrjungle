@@ -2,7 +2,7 @@
 // import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apis.dart';
+import 'package:qrjungle/models/apis_signup.dart';
 import 'package:qrjungle/pageselect.dart';
 // import 'package:http/http.dart';
 
@@ -44,7 +44,7 @@ class _LoginCardState extends State<LoginCard> {
     } on AuthException catch (e) {
       print("message: ${e.message} err in signInCustomFlow");
       if (e.message.contains('NOT_AUTHORIZED')) {
-        await Apiss().signup(emailController.text);
+        await ApissSignup().signup(emailController.text);
         print("signging up");
         //call api to do sign up here
         //add print
@@ -97,7 +97,7 @@ class _LoginCardState extends State<LoginCard> {
             margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
             child: ElevatedButton(
               onPressed: () {
-                Apiss().confirmSignIn(otpcontroller.text);
+                ApissSignup().confirmSignIn(otpcontroller.text);
                 // Define the action to take when the "Skip" button is pressed.
               },
               child: const Text('otpconfirmer'),

@@ -1,6 +1,6 @@
 //import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apis.dart';
+import 'package:qrjungle/models/apis_rest.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
 //import 'package:qrjungle/pages/moreqr/moreqr.dart';
 
@@ -29,7 +29,7 @@ class _ExplorePageState extends State<ExplorePage> {
   categories() async {
     try {
       print("This is the categories api being called!\n");
-      var res = await Apiss().listQrCategories(token);
+      var res = await ApissRest().listQrCategories(token);
       var items = res['data']['items'];
       setState(() {
         print(items);
@@ -44,7 +44,6 @@ class _ExplorePageState extends State<ExplorePage> {
         isLoading = false;
       });
     }
-    print('All categoriesss: $categoryname');
   }
 
   // QRbyCategory() async {
@@ -69,7 +68,7 @@ class _ExplorePageState extends State<ExplorePage> {
     // Color colorcolor = brightness == Brightness.dark
     //     ? const Color(0xff1B1B1B)
     //     : const Color.fromARGB(255, 247, 249, 254);
-    TextTheme _textTheme = Theme.of(context).textTheme;
+    TextTheme textTheme = Theme.of(context).textTheme;
     int categoriesCount = categoryname.length;
     print(categoriesCount);
     return Scaffold(
@@ -83,7 +82,7 @@ class _ExplorePageState extends State<ExplorePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Categories',
-                  style: _textTheme.bodyMedium
+                  style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
               const SizedBox(height: 15),
               Container(
@@ -115,16 +114,16 @@ class _ExplorePageState extends State<ExplorePage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
+                              SizedBox(
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.12,
                                   child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
                                     child: Image.asset('assets/qrsample.png',
                                         width: double.infinity,
                                         height: double.infinity,
                                         fit: BoxFit.cover),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(20)),
                                   )),
                               Padding(
                                 padding: const EdgeInsets.all(12.5),
@@ -135,7 +134,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                             categoryname[index][0],
                                             categoryname[index][0]
                                                 .toUpperCase())),
-                                    style: _textTheme.bodySmall?.copyWith(
+                                    style: textTheme.bodySmall?.copyWith(
                                         fontWeight: FontWeight.w600)),
                               ),
                             ],
@@ -145,7 +144,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     }),
               ),
               Text('All QR Codes',
-                  style: _textTheme.bodyMedium
+                  style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
               const SizedBox(height: 15),
               const QrCards(catagories: false, categoryName: "all"),
