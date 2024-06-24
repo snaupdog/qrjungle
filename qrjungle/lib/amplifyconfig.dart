@@ -5,9 +5,9 @@ const amplifyconfig = '''
     "api": {
         "plugins": {
             "awsAPIPlugin": {
-                "callcentral_business": {
+                "qrjungle_users": {
                     "endpointType": "GraphQL",
-                    "endpoint": "https://ywa3rasv5jcipbvyh5lntxwbvy.appsync-api.ap-south-1.amazonaws.com/graphql",
+                    "endpoint": "https://xdk7wbuc2fe2liojagvlatplbq.appsync-api.ap-south-1.amazonaws.com/graphql",
                     "region": "ap-south-1",
                     "authorizationType": "AMAZON_COGNITO_USER_POOLS"
                 }

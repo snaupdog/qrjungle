@@ -125,7 +125,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                            
                             Padding(
                               padding: const EdgeInsets.all(12.5),
-                              child: Text((categoryname[index].toString().replaceFirst(categoryname[index][0], categoryname[index][0].toUpperCase())),
+                              child: Text((categoryname[index].toString().replaceFirst(categoryname[index][0], categoryname[index][0].toUpperCase())),  
                                   style: _textTheme.bodySmall
                                       ?.copyWith(fontWeight: FontWeight.w600)),
                             ),
