@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import '../../models/apis.dart';
 import '../moreqr/moreqr.dart';
 
-bool isLoading = true;
-
 class QrCards extends StatefulWidget {
   const QrCards({super.key});
 
