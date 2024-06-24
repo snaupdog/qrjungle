@@ -20,6 +20,10 @@ class _ExplorePageState extends State<ExplorePage> {
   void initState() {
     super.initState();
     categories();
+<<<<<<< HEAD
+=======
+    //QRbyCategory();
+>>>>>>> e5121e3 (na;sfa)
   }
 
   categories() async {
@@ -40,8 +44,29 @@ class _ExplorePageState extends State<ExplorePage> {
         isLoading = false;
       });
     }
+<<<<<<< HEAD
     print('All categories: $categoryname');
   }
+=======
+    print('All categoriesss: $categoryname');
+  }
+
+  //   QRbyCategory() async {
+  //   try {
+  //     print("This is the QRByCategory api being called!\n");
+  //     for (int i=0;i>categoryname.length;i++){
+  //       var res = await Apiss().getqrfromCategories(categoryname[i]);
+  //       print('RESSSSSSSSSSSSSSSSSSSSSS: $res');}
+  //   } catch (e) {
+  //     print('Error!');
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+    
+  //   //print('All categories: $categoryname');
+  // }
+>>>>>>> e5121e3 (na;sfa)
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +78,7 @@ class _ExplorePageState extends State<ExplorePage> {
         margin: const EdgeInsets.fromLTRB(15, 30, 15, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+<<<<<<< HEAD
           children: [
             Text('Categories',
                 style: _textTheme.bodyMedium
@@ -94,6 +120,9 @@ class _ExplorePageState extends State<ExplorePage> {
               ),
             ),
             const SizedBox(height: 25),
+=======
+          children: [             
+>>>>>>> e5121e3 (na;sfa)
             Text('All QR Codes',
                 style: _textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
@@ -111,3 +140,7 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e5121e3 (na;sfa)
