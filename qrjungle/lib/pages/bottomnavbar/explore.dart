@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis.dart';
 
+import '../qrcards/qr_card.dart';
+
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
 
@@ -48,12 +50,14 @@ class _ExplorePageState extends State<ExplorePage> {
     print(categoriesCount);
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.fromLTRB(15, 30, 15, 0),
+        margin: const EdgeInsets.fromLTRB(15, 30, 15, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Categories', style: _textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
-            SizedBox(height:10),
+            Text('Categories',
+                style: _textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 10),
             SizedBox(
               height: 60,
               child: ListView.builder(
@@ -70,15 +74,17 @@ class _ExplorePageState extends State<ExplorePage> {
                       // );
                     },
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
-                      decoration: BoxDecoration(                        
+                      margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                      padding: const EdgeInsets.fromLTRB(9, 5, 9, 5),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
-                        color: Color.fromARGB(255, 39, 39, 39),
+                        color: const Color.fromARGB(255, 39, 39, 39),
                       ),
                       child: Center(
                         child: Text(
-                          (categoryname[index].toString().replaceFirst(categoryname[index][0], categoryname[index][0].toUpperCase())),
+                          (categoryname[index].toString().replaceFirst(
+                              categoryname[index][0],
+                              categoryname[index][0].toUpperCase())),
                           style: _textTheme.bodySmall?.copyWith(fontSize: 15),
                         ),
                       ),
@@ -87,23 +93,17 @@ class _ExplorePageState extends State<ExplorePage> {
                 },
               ),
             ),
-            SizedBox(height: 25),
-            Text('All QR Codes', style: _textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 25),
+            Text('All QR Codes',
+                style: _textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w600)),
             //GridView.builder(
-              //shrinkWrap: true,
-              //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              //itemBuilder: (context, index) {
-                //return 
-                Container(
-                  margin: EdgeInsets.all(10),              
-                  height: MediaQuery.sizeOf(context).height*0.25,
-                  width: MediaQuery.sizeOf(context).width*0.33,
-                  decoration: BoxDecoration( 
-                    color: Color.fromARGB(255, 52, 52, 52),
-                    boxShadow: [BoxShadow(color: Color.fromARGB(20, 255, 255, 255), offset: Offset.zero, blurRadius: 10)],
-                  ),
-                ),
-             // },              
+            //shrinkWrap: true,
+            //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            //itemBuilder: (context, index) {
+            //return
+            const QrCards(),
+            // },
             //),
           ],
         ),
