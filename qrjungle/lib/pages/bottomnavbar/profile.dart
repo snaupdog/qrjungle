@@ -9,6 +9,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  void initState() {
+    super.initState();
+    fetchUrls();
+  }
+
+  Future<void> fetchUrls() async {
+    try {
+      await Apiss().listCustomers();
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -22,8 +35,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text('Profile Page Here!'),
-    );
+    return const Placeholder();
   }
 }

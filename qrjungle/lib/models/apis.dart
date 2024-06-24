@@ -22,27 +22,46 @@ class QrInfo {
 }
 
 class Apiss {
+  listCustomers() async {
+    var operation = Amplify.API.query(
+        request: GraphQLRequest(document: '''query GetCurrentUserDetails {
+    getCurrentUserDetails
+  }'''));
+
+    var response = await operation.response;
+    print("ListCustomers error:${response.errors}");
+    print("ListCustomers data :${response.data}");
+    var body = jsonDecode(response.data);
+    print(body);
+    //   print("get ListCustomers body: $body ");
+    //   if (jsonDecode(body['listCustomers'])['status'] == "SUCCESS") {
+    //     return jsonDecode(body['listCustomers'])['data'];
+    //   } else {
+    //     return "Error";
+    //   }
+    // } catch (e) {
+    //   print("listcustomers error :$e");
+    //   return "Error";
+    // }
+  }
 
   listQrCategories(var next) async {
-  final url = Uri.parse('https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_categories');
+    final url = Uri.parse(
+        'https://hciu6m7wcj.execute-api.ap-south-1.amazonaws.com/prod/list_categories');
 
-  final response = await post(
-    url,
-    headers : {'Content-Type' : 'application/json'},
-    body: json.encode({
-      'command' : 'listCategories',
-      if(next!="")
-      'nextToken' : next,
-    })
-  );
+    final response = await post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'command': 'listCategories',
+          if (next != "") 'nextToken': next,
+        }));
 
-  var body = json.decode(response.body);
-  log("ListAllQrs: $body");
-  return body;
-}
+    var body = json.decode(response.body);
+    log("ListAllQrs: $body");
+    return body;
+  }
 
-  Future getCategories() async {  
-    print("asdfasasdfasdff");
+  Future getCategories() async {
     final Map<String, String> data = {"command": "listActiveCategories"};
     final jsonData = json.encode(data);
     final response = await post(
@@ -50,7 +69,7 @@ class Apiss {
           'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/list_available_categories'),
       headers: {"Content-Type": "application/json"},
       body: jsonData,
-    );     
+    );
     print(response.body);
   }
 

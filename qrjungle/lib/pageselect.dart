@@ -1,7 +1,6 @@
 import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
-import 'package:qrjungle/pages/qrcards/qr_card.dart';
 import 'package:qrjungle/themes.dart';
 import 'pages/bottomnavbar/profile.dart';
 import 'pages/bottomnavbar/wishlist.dart';
@@ -14,9 +13,8 @@ class PageSelect extends StatefulWidget {
 }
 
 class _PageSelectState extends State<PageSelect> {
-
   int _currentIndex = 0;
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   void dispose() {
@@ -36,24 +34,27 @@ class _PageSelectState extends State<PageSelect> {
 
   @override
   Widget build(BuildContext context) {
-    Brightness _brightness = Theme.of(context).brightness;
-    Color colorcolor = _brightness == Brightness.dark ? const Color.fromARGB(255, 10, 10, 10).withOpacity(0.95) : primarycolor.withOpacity(0.95);
-    Color alternatecolor = _brightness == Brightness.dark ? Colors.white : Colors.black;
+    Brightness brightness = Theme.of(context).brightness;
+    Color colorcolor = brightness == Brightness.dark
+        ? const Color.fromARGB(255, 10, 10, 10).withOpacity(0.95)
+        : primarycolor.withOpacity(0.95);
+    Color alternatecolor =
+        brightness == Brightness.dark ? Colors.white : Colors.black;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('qrjungle'),
+        title: const Text('qrjungle'),
       ),
       body: Stack(
         children: [
           SafeArea(
             child: PageView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               onPageChanged: onPageChanged,
-              children: [
-                ExplorePage(), // Widget Layout for Explore Page        
-                WishlistPage(), // Widget Layout for Wishlist Page   
+              children: const [
+                ExplorePage(), // Widget Layout for Explore Page
+                WishlistPage(), // Widget Layout for Wishlist Page
                 ProfilePage(), // Widget Layout for Profile Page
               ],
             ),
@@ -68,10 +69,13 @@ class _PageSelectState extends State<PageSelect> {
               unselectedItemColor: alternatecolor,
               backgroundColor: colorcolor,
               currentIndex: _currentIndex,
-              bottomNavigationBarItems: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Explore'),
-                BottomNavigationBarItem(icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
-                BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+              bottomNavigationBarItems: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code), label: 'Explore'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: 'Profile'),
               ],
             ),
           ),
