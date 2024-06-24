@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrjungle/models/apis.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -8,10 +9,21 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  void initState() {
+    super.initState();
+    fetchUrls();
+  }
+
+  Future<void> fetchUrls() async {
+    try {
+      await Apiss().listCustomers();
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text('Profile Page Here!'),
-    );
+    return const Placeholder();
   }
 }

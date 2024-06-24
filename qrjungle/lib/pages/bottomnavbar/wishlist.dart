@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrjungle/myapp.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
@@ -10,8 +11,6 @@ class WishlistPage extends StatefulWidget {
 class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text('Wishlist Page HERE!'),
-    );
+    return MyApp();
   }
 }
