@@ -20,6 +20,7 @@ class _ExplorePageState extends State<ExplorePage> {
   void initState() {
     super.initState();
     categories();
+    //QRbyCategory();
   }
 
   categories() async {
@@ -40,8 +41,24 @@ class _ExplorePageState extends State<ExplorePage> {
         isLoading = false;
       });
     }
-    print('All categories: $categoryname');
+    print('All categoriesss: $categoryname');
   }
+
+    // QRbyCategory() async {
+    // try {
+    //   print("This is the QRByCategory api being called!\n");
+    //   for (int i=0;i>categoryname.length;i++){
+    //     var res = await Apiss().getqrfromCategories(categoryname[i]);
+    //     print('RESSSSSSSSSSSSSSSSSSSSSS: $res');}
+    // } catch (e) {
+    //   print('Error!');
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // }
+    
+    //print('All categories: $categoryname');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,60 +71,59 @@ class _ExplorePageState extends State<ExplorePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Categories',
-                style: _textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 60,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: categoriesCount,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => CategoryDetailPage(categoryName: categoryname[index]),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      padding: const EdgeInsets.fromLTRB(9, 5, 9, 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: const Color.fromARGB(255, 39, 39, 39),
-                      ),
-                      child: Center(
-                        child: Text(
-                          (categoryname[index].toString().replaceFirst(
-                              categoryname[index][0],
-                              categoryname[index][0].toUpperCase())),
-                          style: _textTheme.bodySmall?.copyWith(fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 25),
             Text('All QR Codes',
                 style: _textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
-            //GridView.builder(
-            //shrinkWrap: true,
-            //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            //itemBuilder: (context, index) {
-            //return
+            SizedBox(height: 20),
             const QrCards(),
-            // },
-            //),
           ],
         ),
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+// CATEGORIES SIDE SCROLL BAR
+
+ // Text('Categories', style: _textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+            // SizedBox(height:10),
+            // SizedBox(
+            //   height: 60,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: categoriesCount,
+            //     itemBuilder: (context, index) {
+            //       return InkWell(
+            //         onTap: () {
+            //           // Navigator.push(
+            //           //   context,
+            //           //   MaterialPageRoute(
+            //           //     builder: (context) => CategoryDetailPage(categoryName: categoryname[index]),
+            //           //   ),
+            //           // );
+            //         },
+            //         child: Container(
+            //           margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+            //           padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
+            //           decoration: BoxDecoration(                        
+            //             borderRadius: BorderRadius.circular(25),
+            //             color: Color.fromARGB(255, 39, 39, 39),
+            //           ),
+            //           child: Center(
+            //             child: Text(
+            //               (categoryname[index].toString().replaceFirst(categoryname[index][0], categoryname[index][0].toUpperCase())),
+            //               style: _textTheme.bodySmall?.copyWith(fontSize: 15),
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
