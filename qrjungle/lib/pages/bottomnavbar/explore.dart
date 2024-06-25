@@ -28,7 +28,6 @@ class _ExplorePageState extends State<ExplorePage> {
 
   categories() async {
     try {
-      print("This is the categories api being called!\n");
       var res = await ApissRest().listQrCategories(token);
       var hi = await ApissRest().getCategories();
 
@@ -71,8 +70,6 @@ class _ExplorePageState extends State<ExplorePage> {
     //     ? const Color(0xff1B1B1B)
     //     : const Color.fromARGB(255, 247, 249, 254);
     TextTheme textTheme = Theme.of(context).textTheme;
-    int categoriesCount = categoryname.length;
-    print(categoriesCount);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -86,7 +83,6 @@ class _ExplorePageState extends State<ExplorePage> {
               Text('Categories',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 15),
               Container(
                 //height: MediaQuery.sizeOf(context).height*0.75,
                 child: GridView.builder(
@@ -128,7 +124,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                         fit: BoxFit.cover),
                                   )),
                               Padding(
-                                padding: const EdgeInsets.all(12.5),
+                                padding: const EdgeInsets.all(5.5),
                                 child: Text(
                                     (categoryname[index]
                                         .toString()
@@ -148,7 +144,6 @@ class _ExplorePageState extends State<ExplorePage> {
               Text('All QR Codes',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 15),
               const QrCards(catagories: false, categoryName: "all"),
             ],
           ),
