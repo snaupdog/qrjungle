@@ -6,7 +6,6 @@
 ### Integrate Skeletonizer (package) loaders for all card widgets
 
 ### QRCard Navigation Page
-- **Buy**
 - **Set Link**
 - **Info**
 - **Share Button**
@@ -15,8 +14,7 @@
 ### Sliver AppBar
 
 ### Categories / Home
-- Retrieve category title QR as random QR from same category
-- Sliver AppBar on category expansion along with Title icon photo
+- Sliver AppBar on category expansion
 
 
 ### Wishlist
