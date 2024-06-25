@@ -1,14 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apis_graph.dart';
 import 'package:qrjungle/models/apis_signup.dart';
-import 'package:qrjungle/themes.dart';
+import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:qrjungle/pages/otpcheck.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -32,8 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Future signInCustomFlow(String username) async {
-    print(' email is:  ${username}');
+  Future<String> signInCustomFlow(String username) async {
+    print('email is: $username');
     await Amplify.Auth.signOut();
     // ignore: unused_local_variable
     final num = "${emailController.text}";
@@ -45,30 +40,13 @@ class _ProfilePageState extends State<ProfilePage> {
       print("error");
       print("message: ${e.message}");
       if (e.message.contains('No password was provided')) {
-        //add print
         await ApissSignup().signup(emailController.text);
       }
       return e.message;
     }
   }
 
-  confirmSignIn(code, context) async {
-    try {
-      final result = await Amplify.Auth.confirmSignIn(confirmationValue: code);
-      print('ressssss ' '${result.isSignedIn}');
-      if (result.isSignedIn == false) {
-        print('not signed in');
-        //showError
-
-        // showDialogError(context, 'Please enter the correct OTP');
-      } else {
-        print('success');
-        return "Success";
-      }
-    } on AuthException catch (e) {
-      safePrint('Error signing in: ${e.message}');
-    }
-  }
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -159,137 +137,26 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  TextEditingController emailController = TextEditingController();
-
   void LogInModalSheet(BuildContext context) {
-    TextTheme _texttheme = Theme.of(context).textTheme;
     showModalBottomSheet(
-        showDragHandle: true,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Container(
-              margin: EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    children: [
-                      Form(
-                        key: formkey,
-                        child: TextFormField(
-                          controller: emailController,
-                          style: _texttheme.bodySmall,
-                          decoration: InputDecoration(
-                            hintText: 'Enter Email ID',
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        width: MediaQuery.sizeOf(context).width,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            if (EmailValidator.validate(emailController.text) ==
-                                true) {
-                              String result =
-                                  await signInCustomFlow(emailController.text);
-                              if (result == 'Success') {
-                                print('Signed in Successfully, Enter OTP');
-                                OTPModalSheet(context);
-                              } else {
-                                await ApissSignup().signup(emailController.text);
-                                String result2 = await signInCustomFlow(emailController.text);
-                                if (result2 == 'Success') {
-                                  print('Signed in Successfully, Enter OTP');
-                                  OTPModalSheet(context);
-                                } else {
-                                  print(
-                                      'Something went wrong, please try again!');
-                                }
-                              }
-                            } else {
-                              print('Invalid Email ID Entered!');
-                            }
-                          },
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(110, 16, 110, 16),
-                            child: Text('Submit',
-                                style: _texttheme.bodySmall
-                                    ?.copyWith(color: Colors.black)),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            backgroundColor: accentcolor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return LoginModalSheet(
+          emailController: emailController,
+          signInCustomFlow: signInCustomFlow,
+          onSuccess: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OTPVerify(email: emailController.text),
               ),
-            ),
-          );
-        });
-  }
-
-  OTPModalSheet(BuildContext context) {
-    
-    showModalBottomSheet(
-        showDragHandle: true,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Container(
-              margin: EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Enter OTP Sent To Registered Email ID'),
-                  SizedBox(height: 40),
-                  PinCodeTextField(
-                    keyboardType: TextInputType.number,
-                    autoFocus: true,
-                    enablePinAutofill: true,
-                    appContext: context,
-                    length: 6,
-                    onChanged: (value) {
-                      print(value);
-                    },
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      inactiveColor: Color.fromARGB(206, 155, 255, 158),
-                      activeColor: Color(0xFFD7A937),
-                      selectedColor: Color(0xFFD7A937),
-                    ),
-                    onCompleted: (value)  async {
-                      print('VALUE! : $value');
-                      String otpsuccess = await confirmSignIn(value, context);
-                      if (otpsuccess == 'success'){
-                        showToastWidget(Text('OTP Verification Successful!'),context:context);
-                      }
-                    },
-                  )
-                ],
-              ),
-            ),
-          );
-        });
+            );
+          },
+        );
+      },
+    );
   }
 }
+
