@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/oboard/onboard.dart';
 import 'themes.dart';
 
+final formkey = GlobalKey<FormState>();
 ThemeSelect themeselector = ThemeSelect();
 
 void main() async {

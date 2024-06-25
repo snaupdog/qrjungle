@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'dart:convert';
