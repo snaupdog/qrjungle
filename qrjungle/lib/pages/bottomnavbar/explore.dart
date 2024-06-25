@@ -109,7 +109,7 @@ class _ExplorePageState extends State<ExplorePage> {
                           width: MediaQuery.sizeOf(context).width * 0.43,
                           decoration: const BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                                  BorderRadius.all(Radius.circular(13)),
                               color: Color(0xff1B1B1B)),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -119,7 +119,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                       MediaQuery.sizeOf(context).height * 0.12,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(20)),
+                                        Radius.circular(13)),
                                     child: Image.asset('assets/qrsample.png',
                                         width: double.infinity,
                                         height: double.infinity,
