@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 // ignore_for_file: non_constant_identifier_names
-=======
 // ignore_for_file: unused_local_variable
->>>>>>> 73ba955d2d8e1a03a0dd3395666f9615c0178d8d
-
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'dart:convert';

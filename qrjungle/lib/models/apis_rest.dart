@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, non_constant_identifier_names
 
 import 'dart:developer';
 import 'dart:convert';
@@ -18,8 +18,24 @@ class ApissRest {
         }));
 
     var body = json.decode(response.body);
-    log("ListAllQrs: $body");
+    print(body);
+    print("^^^^^^^^^^^^^^^^^^^^^^listqrcatagories");
     return body;
+  }
+
+  Future getQrFromId(String qr_code_id) async {
+    final Map<String, String> data = {
+      "command": "getQRCodeDetails",
+      "qr_code_id": qr_code_id,
+    };
+    final jsonData = json.encode(data);
+    final response = await post(
+      Uri.parse(
+          'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/get_qr_code_details'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonData,
+    );
+    // print(response.body);
   }
 
   Future getCategories() async {
@@ -31,7 +47,7 @@ class ApissRest {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    // print(response.body);
+    print(response.body);
   }
 
   Future<String> getPresignedUrl(String key) async {
