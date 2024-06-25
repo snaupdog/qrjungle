@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
 class PopupCard extends StatelessWidget {
-  final String item;
-  const PopupCard({super.key, required this.item});
+  final String imageUrl;
+  const PopupCard({super.key, required this.imageUrl});
 
   Future<Color> getMostProminentColor(String imageUrl) async {
     final response = await http.get(Uri.parse(imageUrl));
@@ -40,7 +40,7 @@ class PopupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Color>(
-      future: getMostProminentColor(item),
+      future: getMostProminentColor(imageUrl),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -75,7 +75,7 @@ class PopupCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(
                         15.0), // Adjust the radius as needed
                     child: CachedNetworkImage(
-                      imageUrl: item,
+                      imageUrl: imageUrl,
                       placeholder: (context, url) =>
                           const Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) =>
@@ -85,10 +85,6 @@ class PopupCard extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 20.0,
-                ),
-                const Text(
-                  "Cost : -100\$",
-                  style: TextStyle(color: Colors.white, fontSize: 45.0),
                 ),
               ],
             ),

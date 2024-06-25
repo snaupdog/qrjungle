@@ -86,7 +86,8 @@ class QrCardsState extends State<QrCards> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MoreQr(imageUrl: imageUrl)),
+                    builder: (context) =>
+                        MoreQr(imageUrl: imageUrl, qrinfo: item)),
               );
             },
             child: Container(
