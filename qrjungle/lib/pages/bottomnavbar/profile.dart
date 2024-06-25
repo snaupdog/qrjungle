@@ -21,7 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> fetchUrls() async {
     try {
+      await ApissGraph().listFavourites();
       await ApissGraph().listCustomers();
+      // await ApissGraph().addFavourites(["pJRx", "ga3e"]);
     } catch (e) {
       print('Error: $e');
     }

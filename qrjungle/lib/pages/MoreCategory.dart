@@ -23,13 +23,13 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Category Page'),
+        title: const Text('Category Page'),
       ),
       body: Column(
         children: [
           Text(
             'Expanded page after tapping: $catname',
-            style: TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 24),
           ),
           QrCards(catagories: true, categoryName: catname),
         ],

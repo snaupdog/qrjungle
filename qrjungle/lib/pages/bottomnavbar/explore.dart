@@ -30,9 +30,11 @@ class _ExplorePageState extends State<ExplorePage> {
     try {
       print("This is the categories api being called!\n");
       var res = await ApissRest().listQrCategories(token);
+      var hi = await ApissRest().getCategories();
+
       var items = res['data']['items'];
       setState(() {
-        print(items);
+        // print(items);
         categoryname = items
             .map<String>((item) => item['category_name'] as String)
             .toList();
