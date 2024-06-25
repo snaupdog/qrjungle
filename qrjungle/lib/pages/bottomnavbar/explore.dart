@@ -28,17 +28,18 @@ class _ExplorePageState extends State<ExplorePage> {
 
   categories() async {
     try {
-      print("This is the categories api being called!\n");
-      var res = await ApissRest().listQrCategories(token);
+      print("This is the categories api being called!\n");    
       var hi = await ApissRest().getCategories();
 
-      var items = res['data']['items'];
+      var items = hi;
+      print('THIS IS ITEMS !! ! ! ! ! !  $items');
       setState(() {
         // print(items);
         categoryname = items
             .map<String>((item) => item['category_name'] as String)
             .toList();
         isLoading = false;
+        print(categoryname);
       });
     } catch (e) {
       print('Error!');
@@ -48,28 +49,8 @@ class _ExplorePageState extends State<ExplorePage> {
     }
   }
 
-  // QRbyCategory() async {
-  // try {
-  //   print("This is the QRByCategory api being called!\n");
-  //   for (int i=0;i>categoryname.length;i++){
-  //     var res = await Apiss().getqrfromCategories(categoryname[i]);
-  //     print('RESSSSSSSSSSSSSSSSSSSSSS: $res');}
-  // } catch (e) {
-  //   print('Error!');
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-
-  //print('All categories: $categoryname');
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // Brightness brightness = Theme.of(context).brightness;
-    // Color colorcolor = brightness == Brightness.dark
-    //     ? const Color(0xff1B1B1B)
-    //     : const Color.fromARGB(255, 247, 249, 254);
     TextTheme textTheme = Theme.of(context).textTheme;
     int categoriesCount = categoryname.length;
     print(categoriesCount);
@@ -77,7 +58,6 @@ class _ExplorePageState extends State<ExplorePage> {
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
-          //height: MediaQuery.sizeOf(context).height,
           margin: const EdgeInsets.fromLTRB(15, 30, 15, 0),
           child: Column(
             mainAxisSize: MainAxisSize.min,

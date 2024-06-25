@@ -47,7 +47,10 @@ class ApissRest {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    print(response.body);
+    log(response.body);
+    var body = json.decode(response.body);
+    print("^^^^^^^^^^^^^^^^^^^^^^getcategories");
+    return body;
   }
 
   Future<String> getPresignedUrl(String key) async {

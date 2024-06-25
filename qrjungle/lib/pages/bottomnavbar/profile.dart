@@ -70,15 +70,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () {
                     LogInModalSheet(context);
                   },
-                  label: const Text(
-                    'Log In',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 20,
+                  label: Padding(
+                    padding: const EdgeInsets.fromLTRB(0,8,8,8),
+                    child: const Text(
+                      'Log In',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 22,
+                      ),
                     ),
                   ),
-                  icon: const Icon(Icons.exit_to_app_outlined,
-                      color: Color.fromARGB(255, 255, 255, 255)),
+                  icon: Padding(
+                    padding: const EdgeInsets.fromLTRB(8,8,0,8),
+                    child: const Icon(Icons.exit_to_app_outlined,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
                         const Color.fromARGB(255, 32, 32, 32)),
@@ -93,7 +99,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 10),
-              Container(),
+              Container(
+                height: MediaQuery.sizeOf(context).height*0.3,
+                width: MediaQuery.sizeOf(context).width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 20),
               Center(
                 child: TextButton.icon(
                   onPressed: () {},
