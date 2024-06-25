@@ -18,8 +18,6 @@ class ApissRest {
         }));
 
     var body = json.decode(response.body);
-    print(body);
-    print("^^^^^^^^^^^^^^^^^^^^^^listqrcatagories");
     return body;
   }
 
@@ -35,7 +33,6 @@ class ApissRest {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    // print(response.body);
   }
 
   Future getCategories() async {
@@ -47,9 +44,7 @@ class ApissRest {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    log(response.body);
     var body = json.decode(response.body);
-    print("^^^^^^^^^^^^^^^^^^^^^^getcategories");
     return body;
   }
 
@@ -86,7 +81,7 @@ class ApissRest {
     );
     final dataa = json.decode(response.body);
 
-    print(dataa['nextToken']);
+    // print(dataa['nextToken']);
     final x = dataa['data'];
 
     for (var i = 0; i < x.length; i++) {
@@ -120,7 +115,7 @@ class ApissRest {
       body: jsonData,
     );
     final dataa = json.decode(response.body);
-    print(dataa['nextToken']);
+    // print(dataa['nextToken']);
     final x = dataa['data'];
 
     for (var i = 0; i < x.length; i++) {

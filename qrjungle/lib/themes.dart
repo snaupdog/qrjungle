@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 Color primarycolor = Color(0xFFF0F3FF);
 Color secondarycolor = Color.fromARGB(255, 18, 18, 18);
-Color accentcolor = Colors.amber;
 
+Color accentcolor = Colors.amber;
 
 ThemeData lightTheme = ThemeData(
   primaryColor: primarycolor,
@@ -11,7 +11,8 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   appBarTheme: AppBarTheme(
     backgroundColor: Color.fromARGB(255, 237, 244, 255),
-    titleTextStyle: TextStyle(color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 35),
+    titleTextStyle: TextStyle(
+        color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 35),
   ),
   scaffoldBackgroundColor: primarycolor,
   floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -25,17 +26,17 @@ ThemeData lightTheme = ThemeData(
   ),
 );
 
-
 ThemeData darkTheme = ThemeData(
   primaryColor: primarycolor,
   fontFamily: 'NunitoSans_7pt',
   brightness: Brightness.dark,
   appBarTheme: AppBarTheme(
     backgroundColor: secondarycolor,
-    titleTextStyle: TextStyle(color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 35),
+    titleTextStyle: TextStyle(
+        color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 35),
   ),
   scaffoldBackgroundColor: secondarycolor,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: accentcolor,
   ),
   textTheme: TextTheme(
