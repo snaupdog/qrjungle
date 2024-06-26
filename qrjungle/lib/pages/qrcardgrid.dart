@@ -21,20 +21,20 @@ class _QrcardgridState extends State<Qrcardgrid> {
     fetchmyqrs();
   }
 
+  TextEditingController emailController = TextEditingController();
+  var qrlisty = [];
+
   void LogInModalSheet(BuildContext context) {
     showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return LoginModalSheet(
-        );
+        return LoginModalSheet();
       },
     );
   }
 
-  TextEditingController emailController = TextEditingController();
-  var qrlisty = [];
   Future<String> signInCustomFlow(String username) async {
     print('email is: $username');
     await Amplify.Auth.signOut();
@@ -62,14 +62,12 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().getAllqrs("");
         setState(() {
           qrlisty = Apiss.myallqrslist;
-          print(qrlisty[0]);
         });
         break;
       case 'categories':
         await Apiss().getqrfromCategories(widget.categoryName);
         setState(() {
           qrlisty = Apiss.mycatlist;
-          print(qrlisty[0]);
         });
         break;
 
@@ -77,7 +75,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
-          print(qrlisty[0]);
         });
         break;
 
@@ -85,7 +82,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
-          print(qrlisty[0]);
         });
         break;
       default:

@@ -149,12 +149,13 @@ class Apiss {
     var hello = body['getCurrentUserDetails'];
     var body2 = jsonDecode(hello);
     var help = body2['data']['items'];
+
     return help;
   }
 
-  addFavourites(List<String> favourites) async {
+  addFavourites(List<String> favourited) async {
     var encodedFavourites =
-        jsonEncode(favourites); // Encode the favourites list as JSON
+        jsonEncode(favourited); // Encode the favourites list as JSON
     var operation = Amplify.API.mutate(
       request: GraphQLRequest(
         document: '''
@@ -193,8 +194,6 @@ class Apiss {
 
   purchaseQr(String qr_code_id, String price, String? utr_no,
       String redirect_url) async {
-    // var amount = jsonEncode(damount); // Encode the favourites list as JSON
-    // var currency = jsonEncode(dcurrency); // Encode the favourites list as JSON
     var operation = Amplify.API.mutate(
       request: GraphQLRequest(
         document: '''
