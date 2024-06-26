@@ -94,8 +94,8 @@ class _PurchaseState extends State<Purchase> {
 
       'key': 'rzp_test_fn7n6bC23PIxXQ',
       'amount': amount,
-      'name': 'Anyquire Credits',
-      'description': 'Credits',
+      'name': 'Qr jungle',
+      'description': 'Purchaseing qr code',
 
       'order_id': orderID,
       'retry': {'enabled': true, 'max_count': 1},

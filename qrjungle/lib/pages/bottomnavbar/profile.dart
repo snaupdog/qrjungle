@@ -1,9 +1,9 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apis_graph.dart';
-import 'package:qrjungle/models/apis_signup.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:qrjungle/pages/otpcheck.dart';
+import 'package:qrjungle/pages/qrcardgrid.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -21,8 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> fetchUrls() async {
     try {
-      await ApissGraph().listFavourites();
-      await ApissGraph().listCustomers();
+      // await ApissGraph().listUserDetails();
+//
       // await ApissGraph().addFavourites(["pJRx", "ga3e"]);
     } catch (e) {
       print('Error: $e');
@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
       print("error");
       print("message: ${e.message}");
       if (e.message.contains('No password was provided')) {
-        await ApissSignup().signup(emailController.text);
+        await Apiss().signup(emailController.text);
       }
       return e.message;
     }
@@ -57,95 +57,92 @@ class _ProfilePageState extends State<ProfilePage> {
         margin: const EdgeInsets.all(12),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(child: Image.asset('assets/logo.png', height: 200)),
-              const Divider(
-                height: 45,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () {
-                    LogInModalSheet(context);
-                  },
-                  label: Padding(
-                    padding: const EdgeInsets.fromLTRB(0,8,8,8),
-                    child: const Text(
-                      'Log In',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 22,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(child: Image.asset('assets/logo.png', height: 200)),
+                const Divider(
+                  height: 45,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                Center(
+                  child: TextButton.icon(
+                    onPressed: () {
+                      LogInModalSheet(context);
+                    },
+                    label: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                      child: const Text(
+                        'Log In',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 22,
+                        ),
                       ),
                     ),
+                    icon: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                      child: const Icon(Icons.exit_to_app_outlined,
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromARGB(255, 32, 32, 32)),
+                    ),
                   ),
-                  icon: Padding(
-                    padding: const EdgeInsets.fromLTRB(8,8,0,8),
-                    child: const Icon(Icons.exit_to_app_outlined,
+                ),
+                const Text(
+                  'My QRs:',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const SingleChildScrollView(
+                    child: Qrcardgrid(type: "myqrs", categoryName: "")),
+                SizedBox(height: 20),
+                Center(
+                  child: TextButton.icon(
+                    onPressed: () {},
+                    label: const Text(
+                      'Privacy Policy',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                      ),
+                    ),
+                    icon: const Icon(Icons.info_outline,
                         color: Color.fromARGB(255, 255, 255, 255)),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(
-                        const Color.fromARGB(255, 32, 32, 32)),
-                  ),
-                ),
-              ),
-              const Text(
-                'My QRs:',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                height: MediaQuery.sizeOf(context).height*0.3,
-                width: MediaQuery.sizeOf(context).width,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 20),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () {},
-                  label: const Text(
-                    'Privacy Policy',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 20,
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromARGB(255, 32, 32, 32)),
                     ),
                   ),
-                  icon: const Icon(Icons.info_outline,
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(
-                        const Color.fromARGB(255, 32, 32, 32)),
-                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () {},
-                  label: const Text(
-                    'Terms and Conditions',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 20,
+                const SizedBox(height: 10),
+                Center(
+                  child: TextButton.icon(
+                    onPressed: () {},
+                    label: const Text(
+                      'Terms and Conditions',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                      ),
+                    ),
+                    icon: const Icon(Icons.info_outline,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromARGB(255, 32, 32, 32)),
                     ),
                   ),
-                  icon: const Icon(Icons.info_outline,
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(
-                        const Color.fromARGB(255, 32, 32, 32)),
-                  ),
                 ),
-              ),
-              const SizedBox(height: 25),
-            ],
+                const SizedBox(height: 25),
+              ],
+            ),
           ),
         ),
       ),
@@ -174,4 +171,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-

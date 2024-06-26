@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrjungle/pages/qrcardgrid.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
@@ -10,6 +11,7 @@ class WishlistPage extends StatefulWidget {
 class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('HI'),);
+    return const SingleChildScrollView(
+        child: Qrcardgrid(type: "wishlist", categoryName: ""));
   }
 }

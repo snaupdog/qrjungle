@@ -1,10 +1,9 @@
 //import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apis_rest.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
+import 'package:qrjungle/pages/qrcardgrid.dart';
 //import 'package:qrjungle/pages/moreqr/moreqr.dart';
-
-import '../qrcards/qr_card.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -28,17 +27,15 @@ class _ExplorePageState extends State<ExplorePage> {
 
   categories() async {
     try {
-      var hi = await ApissRest().getCategories();
+      var hi = await Apiss().getCategories();
 
       var items = hi;
-      print('THIS IS ITEMS !! ! ! ! ! !  $items');
       setState(() {
         // print(items);
         categoryname = items
             .map<String>((item) => item['category_name'] as String)
             .toList();
         isLoading = false;
-        print(categoryname);
       });
     } catch (e) {
       print('Error!');
@@ -124,7 +121,7 @@ class _ExplorePageState extends State<ExplorePage> {
               Text('All QR Codes',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              const QrCards(catagories: false, categoryName: "all"),
+              const Qrcardgrid(type: "all", categoryName: "")
             ],
           ),
         ),

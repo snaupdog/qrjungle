@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrjungle/pages/qrcards/qr_card.dart';
+import 'package:qrjungle/pages/qrcardgrid.dart';
 
 class CategoryPage extends StatefulWidget {
   final String catname;
@@ -31,7 +31,8 @@ class _CategoryPageState extends State<CategoryPage> {
             'Expanded page after tapping: $catname',
             style: const TextStyle(fontSize: 24),
           ),
-          QrCards(catagories: true, categoryName: catname),
+          SingleChildScrollView(
+              child: Qrcardgrid(type: "category", categoryName: catname))
         ],
       ),
     );
