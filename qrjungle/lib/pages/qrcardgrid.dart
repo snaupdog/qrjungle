@@ -1,8 +1,12 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
+import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:qrjungle/pages/otpcheck.dart';
 
 class Qrcardgrid extends StatefulWidget {
   final String type;
@@ -20,7 +24,26 @@ class _QrcardgridState extends State<Qrcardgrid> {
     fetchmyqrs();
   }
 
+  TextEditingController emailController = TextEditingController();
   var qrlisty = [];
+  Future<String> signInCustomFlow(String username) async {
+    print('email is: $username');
+    await Amplify.Auth.signOut();
+    // ignore: unused_local_variable
+    final num = emailController.text;
+    try {
+      final result = await Amplify.Auth.signIn(username: username);
+      print('Result@@@@@@@@@@@!!!!!!: $result');
+      return 'Success';
+    } on AuthException catch (e) {
+      print("error");
+      print("message: ${e.message}");
+      if (e.message.contains('No password was provided')) {
+        await Apiss().signup(emailController.text);
+      }
+      return e.message;
+    }
+  }
 
   Future<void> fetchmyqrs() async {
     // await Apiss().clearlist()
@@ -29,12 +52,14 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().getAllqrs("");
         setState(() {
           qrlisty = Apiss.myallqrslist;
+          print(qrlisty[0]);
         });
         break;
       case 'categories':
         await Apiss().getqrfromCategories(widget.categoryName);
         setState(() {
           qrlisty = Apiss.mycatlist;
+          print(qrlisty[0]);
         });
         break;
 
@@ -42,6 +67,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
+          print(qrlisty[0]);
         });
         break;
 
@@ -49,6 +75,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
+          print(qrlisty[0]);
         });
         break;
       default:
@@ -85,13 +112,17 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   if (snapshot.hasData) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MoreQr(
-                                  imageUrl: snapshot.data.toString(),
-                                  item: item)),
-                        );
+                        if (!loggedinmain) {
+                          LogInModalSheet(context);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MoreQr(
+                                    imageUrl: snapshot.data.toString(),
+                                    item: item)),
+                          );
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -145,6 +176,35 @@ class _QrcardgridState extends State<Qrcardgrid> {
           },
         ),
       ),
+    );
+  }
+
+  void LogInModalSheet(BuildContext context) {
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return LoginModalSheet(
+          emailController: emailController,
+          signInCustomFlow: signInCustomFlow,
+          onSuccess: () {
+            Fluttertoast.showToast(
+                msg: "Logged In!",
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 2,
+                backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                textColor: Colors.white,
+                fontSize: 18.0);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OTPVerify(email: emailController.text),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
