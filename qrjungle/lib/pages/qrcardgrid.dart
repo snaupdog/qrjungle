@@ -14,32 +14,38 @@ class Qrcardgrid extends StatefulWidget {
 class _QrcardgridState extends State<Qrcardgrid> {
   @override
   void initState() {
-    fetchmyqrs();
     super.initState();
+    fetchmyqrs();
   }
 
   var qrlisty = [];
 
-  fetchmyqrs() async {
+  Future<void> fetchmyqrs() async {
     // await Apiss().clearlist()
     switch (widget.type) {
       case 'all':
         await Apiss().getAllqrs("");
-        print(Apiss.allqrslist);
-        setState(() {
-          qrlisty = Apiss.allqrslist;
-        });
+        print(Apiss.myallqrslist[0]);
+        // setState(() {
+        //   qrlisty = Apiss.allqrslist;
+        // });
         break;
       case 'categories':
         await Apiss().getqrfromCategories(widget.categoryName);
+        print(Apiss.mycatlist[0]);
         break;
 
       case 'wishlist':
         await Apiss().listFavourites();
+
+        print("listing wishlist");
+        print(Apiss.myfavslist[0]);
         break;
 
       case 'myqrs':
         await Apiss().listmyqrs();
+        print("LIsting all qrs object");
+        print(Apiss.myqrslist[0]);
         break;
       default:
         print("Defailt");
@@ -63,10 +69,10 @@ class _QrcardgridState extends State<Qrcardgrid> {
             crossAxisSpacing: 7.0,
             mainAxisSpacing: 10.0,
             childAspectRatio: 2 / 3),
-        itemCount: qrlisty.length,
+        itemCount: Apiss.myallqrslist.length,
         itemBuilder: (context, index) {
-          final imageurl = qrlisty[index]['qr_code_image_url_key'];
-          final item = qrlisty[index];
+          final imageurl = Apiss.myallqrslist[index]['qr_code_image_url_key'];
+          final item = Apiss.myallqrslist[index];
 
           return FutureBuilder(
               future: getimage(imageurl),

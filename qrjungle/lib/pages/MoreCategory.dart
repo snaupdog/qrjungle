@@ -32,7 +32,7 @@ class _CategoryPageState extends State<CategoryPage> {
             style: const TextStyle(fontSize: 24),
           ),
           SingleChildScrollView(
-              child: Qrcardgrid(type: "category", categoryName: catname))
+              child: Qrcardgrid(type: "categories'", categoryName: catname))
         ],
       ),
     );

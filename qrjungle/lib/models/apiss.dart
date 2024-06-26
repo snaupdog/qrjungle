@@ -5,12 +5,14 @@ import 'package:http/http.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 class Apiss {
-  static List qrinfolist = [];
-  static List allqrslist = [];
+  static List mycatlist = [];
+  static List myallqrslist = [];
+  static List myfavslist = [];
+  static List myqrslist = [];
 
-  Future clearlist() async {
-    qrinfolist = [];
-  }
+  // Future clearlist() async {
+  //   qrinfolist = [];
+  // }
 
   Future getQrFromId(String qr_code_id) async {
     final Map<String, String> data = {
@@ -72,7 +74,7 @@ class Apiss {
     );
     final body = json.decode(response.body);
     var qrlist = body['data'];
-    qrinfolist = qrlist;
+    mycatlist = qrlist;
 
     // print(dataa['nextToken']);
   }
@@ -93,7 +95,43 @@ class Apiss {
     // print(dataa['nextToken']);
     final body = json.decode(response.body);
     var qrlist = body['data'];
-    allqrslist = qrlist;
+    // allqrslist = qrlist;
+    myallqrslist = qrlist;
+  }
+
+  listmyqrs() async {
+    print("calling list my qrs");
+    var operation = Amplify.API.query(
+      request: GraphQLRequest(
+        document: '''query ListMyQrs {
+    listMyQrs
+  }
+''',
+      ),
+    );
+    var response = await operation.response;
+    var body = jsonDecode(response.data);
+    var hello = body['listMyQrs'];
+    var body2 = jsonDecode(hello);
+    myqrslist = body2.toList();
+  }
+
+  listFavourites() async {
+    print("calling lsit my  favourites");
+    var operation = Amplify.API.query(
+      request: GraphQLRequest(
+        document: '''query ListMyFavourites {
+    listMyFavourites
+  }''',
+      ),
+    );
+
+    var response = await operation.response;
+
+    var body = jsonDecode(response.data);
+    var hello = body['listMyFavourites'];
+    var body2 = jsonDecode(hello);
+    myfavslist = body2['data'].toList();
   }
 
   listUserDetails() async {
@@ -114,41 +152,6 @@ class Apiss {
     //   print("listcustomers error :$e");
     //   return "Error";
     // }
-  }
-
-  listmyqrs() async {
-    print("calling list my qrs");
-    var operation = Amplify.API.query(
-      request: GraphQLRequest(
-        document: '''query ListMyQrs {
-    listMyQrs
-  }
-''',
-      ),
-    );
-    var response = await operation.response;
-    var body = jsonDecode(response.data);
-    var hello = body['listMyQrs'];
-    var body2 = jsonDecode(hello);
-    qrinfolist = body2.toList();
-  }
-
-  listFavourites() async {
-    print("calling lsit my  favourites");
-    var operation = Amplify.API.query(
-      request: GraphQLRequest(
-        document: '''query ListMyFavourites {
-    listMyFavourites
-  }''',
-      ),
-    );
-
-    var response = await operation.response;
-
-    var body = jsonDecode(response.data);
-    var hello = body['listMyFavourites'];
-    var body2 = jsonDecode(hello);
-    qrinfolist = body2['data'].toList();
   }
 
   addFavourites(List<String> favourites) async {
