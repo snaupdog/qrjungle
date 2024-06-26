@@ -1,12 +1,10 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
-import 'package:qrjungle/pages/otpcheck.dart';
 
 class Qrcardgrid extends StatefulWidget {
   final String type;
@@ -31,23 +29,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
       context: context,
       builder: (BuildContext context) {
         return LoginModalSheet(
-          emailController: emailController,
-          signInCustomFlow: signInCustomFlow,
-          onSuccess: () {
-            Fluttertoast.showToast(
-                msg: "Logged In!",
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 2,
-                backgroundColor: Color.fromARGB(134, 0, 0, 0),
-                textColor: Colors.white,
-                fontSize: 18.0);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OTPVerify(email: emailController.text),
-              ),
-            );
-          },
         );
       },
     );
@@ -135,7 +116,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
           itemBuilder: (context, index) {
             final imageurl = qrlisty[index]['qr_code_image_url_key'];
             final item = qrlisty[index];
-
             return FutureBuilder(
                 future: getimage(imageurl),
                 builder: (context, snapshot) {
@@ -200,7 +180,15 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   } else if (snapshot.hasError) {
                     return const Text("Hello");
                   } else {
-                    return const Text("asdf");
+                    return Container(
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      width: MediaQuery.sizeOf(context).width,
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 33, 33, 33)),
+                      child: const Center(
+                        child: Text('insert loader'),
+                      ),
+                    );
                   }
                 });
           },

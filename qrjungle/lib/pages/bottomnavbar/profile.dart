@@ -2,8 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
-import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
-import 'package:qrjungle/pages/otpcheck.dart';
+import 'package:qrjungle/pages/loginpage.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -146,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: (!loggedinmain)
                     ? TextButton.icon(
                         onPressed: () {
-                          LogInModalSheet(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                         },
                         label: const Padding(
                           padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
@@ -184,6 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                       ),
               ),
+              SizedBox(height: 20),
               const Center(
                 child: Text(
                   'My QRs',
@@ -213,35 +213,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-    );
-  }
-
-  void LogInModalSheet(BuildContext context) {
-    showModalBottomSheet(
-      showDragHandle: true,
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        return LoginModalSheet(
-          emailController: emailController,
-          signInCustomFlow: signInCustomFlow,
-          onSuccess: () {
-            Fluttertoast.showToast(
-                msg: "Logged In!",
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 2,
-                backgroundColor: const Color.fromARGB(134, 0, 0, 0),
-                textColor: Colors.white,
-                fontSize: 18.0);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OTPVerify(email: emailController.text),
-              ),
-            );
-          },
-        );
-      },
     );
   }
 }

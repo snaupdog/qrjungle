@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/moreqr/widgets/popup_card.dart';
 
-import 'buy.dart';
-
 class MoreQr extends StatefulWidget {
   final String imageUrl;
   final dynamic item;
