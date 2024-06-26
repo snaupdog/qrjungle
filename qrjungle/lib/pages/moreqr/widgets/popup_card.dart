@@ -11,6 +11,7 @@ class PopupCard extends StatelessWidget {
   const PopupCard({super.key, required this.imageUrl});
 
   Future<Color> getMostProminentColor(String imageUrl) async {
+    print(imageUrl);
     final response = await http.get(Uri.parse(imageUrl));
     if (response.statusCode != 200) {
       throw Exception('Failed to load image');

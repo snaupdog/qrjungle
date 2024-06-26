@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:qrjungle/models/apis_signup.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/themes.dart';
 
 class LoginModalSheet extends StatefulWidget {
@@ -27,7 +27,7 @@ class _LoginModalSheetState extends State<LoginModalSheet> {
   Widget build(BuildContext context) {
     TextTheme _texttheme = Theme.of(context).textTheme;
     return Padding(
-            padding: EdgeInsets.only(
+      padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Container(
@@ -56,36 +56,49 @@ class _LoginModalSheetState extends State<LoginModalSheet> {
               width: MediaQuery.sizeOf(context).width,
               child: ElevatedButton(
                 onPressed: () async {
-                  if (EmailValidator.validate(widget.emailController.text) == true) {
-                    String result = await widget.signInCustomFlow(widget.emailController.text);
+                  if (EmailValidator.validate(widget.emailController.text) ==
+                      true) {
+                    String result = await widget
+                        .signInCustomFlow(widget.emailController.text);
                     if (result == 'Success') {
                       print('Signed in Successfully, Enter OTP');
-                      Navigator.pop(context);  // Close the login modal sheet
+                      Navigator.pop(context); // Close the login modal sheet
                       widget.onSuccess();
                     } else {
-                      await ApissSignup().signup(widget.emailController.text);
-                      String result2 = await widget.signInCustomFlow(widget.emailController.text);
+                      await Apiss().signup(widget.emailController.text);
+                      String result2 = await widget
+                          .signInCustomFlow(widget.emailController.text);
                       if (result2 == 'Success') {
                         print('Signed in Successfully, Enter OTP');
-                        Navigator.pop(context);  // Close the login modal sheet
+                        Navigator.pop(context); // Close the login modal sheet
                         widget.onSuccess();
                       } else {
-                        showToast('Something went wrong, please try again!',
-                  context: context,
-                  animation: StyledToastAnimation.fade,
-                );
+                        Fluttertoast.showToast(
+                            msg: "Something went wrong, please try again!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                       }
                     }
                   } else {
-                    showToast('Invalid Email ID Entered!',
-                  context: context,
-                  animation: StyledToastAnimation.scale,
-                );
+                    Fluttertoast.showToast(
+                        msg: "Invalid Email ID Entered",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                        textColor: Colors.white,
+                        fontSize: 18.0);
                   }
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(110, 16, 110, 16),
-                  child: Text('Submit', style: _texttheme.bodySmall?.copyWith(color: Colors.black)),
+                  child: Text('Submit',
+                      style:
+                          _texttheme.bodySmall?.copyWith(color: Colors.black)),
                 ),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

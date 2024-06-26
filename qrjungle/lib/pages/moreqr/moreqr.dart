@@ -1,17 +1,14 @@
-//Opens a new page with information about the QR code that has been tapped.
-
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/qr_info.dart';
 import 'package:qrjungle/pages/moreqr/widgets/popup_card.dart';
-
-import 'buy.dart';
 
 import 'buy.dart';
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
-  final QrInfo qrinfo;
-  const MoreQr({super.key, required this.imageUrl, required this.qrinfo});
+  final dynamic item;
+
+  const MoreQr({Key? key, required this.imageUrl, required this.item})
+      : super(key: key);
 
   @override
   State<MoreQr> createState() => _MoreQrState();
@@ -26,39 +23,78 @@ class _MoreQrState extends State<MoreQr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
+      extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: Container(),
+        actions: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                margin: const EdgeInsets.fromLTRB(7, 10, 7, 0),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(175, 0, 0, 0)),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, size: 25),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          print("Notifications button pressed");
+                        },
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.sizeOf(context).width * 0.71),
+                    Container(
+                      //margin: EdgeInsets.fromLTRB(8, 8, 8, 28),
+
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(175, 0, 0, 0)),
+                      child: IconButton(
+                        icon: const Icon(Icons.share, size: 25),
+                        onPressed: () {
+                          // Add your onPressed code here!
+                          print("Share button pressed");
+                        },
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.sizeOf(context).width * 0.018),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Center(
             child: PopupCard(imageUrl: widget.imageUrl),
           ), //Builds the page using PopUpCard widget in popup_card.dart file
-          Text(widget.qrinfo.category),
-          Text(widget.qrinfo.qr_code_id),
-          widget.qrinfo.price != null
-              ? Text(widget.qrinfo.price.toString())
-              : const Text("Free"),
-
-          Positioned(
-            top: 20,
-            right: 20,
-            child: Container(
-              margin:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Purchase(
-                            amount: "500",
-                            qr_code_id: widget.qrinfo.qr_code_id)),
-                  );
-                },
-                child: const Text('Purchase this qrrs'),
-              ),
-            ),
+          const SizedBox(height: 16),
+          Text(widget.item['qr_code_id']),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Purchase(
+                    amount: "500",
+                    qr_code_id: widget.item['qr_code_id'],
+                  ),
+                ),
+              );
+            },
+            child: const Text('Purchase this QR'),
           ),
         ],
       ),

@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  blur:
+    dependency: "direct main"
+    description:
+      name: blur
+      sha256: c17450404bceea429100e0838d19bbfaa6ad1f3053e7bac78a0264bbd60cfe01
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   blur_bottom_bar:
     dependency: "direct main"
     description:
@@ -209,6 +217,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  card_swiper:
+    dependency: "direct main"
+    description:
+      name: card_swiper
+      sha256: "21e52a144decbf0054e7cfed8bbe46fc89635e6c86b767eaccfe7d5aeba32528"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   characters:
     dependency: transitive
     description:
@@ -398,19 +414,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
-  flutter_styled_toast:
-    dependency: "direct main"
-    description:
-      name: flutter_styled_toast
-      sha256: e667f13a665820eb0fa8506547e47eacbcddf1948d6d3036cfd3b089bd4b0516
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -422,7 +425,7 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fluttertoast
       sha256: "7eae679e596a44fdf761853a706f74979f8dd3cd92cf4e23cae161fda091b847"
@@ -826,6 +829,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_app_bar_builder:
+    dependency: "direct main"
+    description:
+      name: sliver_app_bar_builder
+      sha256: "6fcf3d2948db8d50978f3921dfc34cf0aa14c791f8bc02bf8a7ea12fcae771b1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   smithy:
     dependency: transitive
     description:
@@ -1035,5 +1046,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.3.0 <4.0.0"
+  dart: ">=3.4.0 <4.0.0"
   flutter: ">=3.19.0"

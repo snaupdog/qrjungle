@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/moreqr.dart';
 
 class Qrcardgrid extends StatefulWidget {
   final String type;
@@ -25,27 +27,29 @@ class _QrcardgridState extends State<Qrcardgrid> {
     switch (widget.type) {
       case 'all':
         await Apiss().getAllqrs("");
-        print(Apiss.myallqrslist[0]);
-        // setState(() {
-        //   qrlisty = Apiss.allqrslist;
-        // });
+        setState(() {
+          qrlisty = Apiss.myallqrslist;
+        });
         break;
       case 'categories':
         await Apiss().getqrfromCategories(widget.categoryName);
-        print(Apiss.mycatlist[0]);
+        setState(() {
+          qrlisty = Apiss.mycatlist;
+        });
         break;
 
       case 'wishlist':
         await Apiss().listFavourites();
-
-        print("listing wishlist");
-        print(Apiss.myfavslist[0]);
+        setState(() {
+          qrlisty = Apiss.myfavslist;
+        });
         break;
 
       case 'myqrs':
         await Apiss().listmyqrs();
-        print("LIsting all qrs object");
-        print(Apiss.myqrslist[0]);
+        setState(() {
+          qrlisty = Apiss.myqrslist;
+        });
         break;
       default:
         print("Defailt");
@@ -59,75 +63,87 @@ class _QrcardgridState extends State<Qrcardgrid> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 7.0,
-            mainAxisSpacing: 10.0,
-            childAspectRatio: 2 / 3),
-        itemCount: Apiss.myallqrslist.length,
-        itemBuilder: (context, index) {
-          final imageurl = Apiss.myallqrslist[index]['qr_code_image_url_key'];
-          final item = Apiss.myallqrslist[index];
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 7.0,
+              mainAxisSpacing: 10.0,
+              childAspectRatio: 2 / 3),
+          itemCount: qrlisty.length,
+          itemBuilder: (context, index) {
+            final imageurl = qrlisty[index]['qr_code_image_url_key'];
+            final item = qrlisty[index];
 
-          return FutureBuilder(
-              future: getimage(imageurl),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Container(
-                    color: Colors.transparent,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15.0),
-                      child: Card(
-                        shadowColor: Colors.white,
-                        shape: RoundedRectangleBorder(
+            return FutureBuilder(
+                future: getimage(imageurl),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MoreQr(
+                                  imageUrl: snapshot.data.toString(),
+                                  item: item)),
+                        );
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        elevation: 5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(15.0),
-                                topRight: Radius.circular(15.0),
-                              ),
-                              child: CachedNetworkImage(
-                                imageUrl: snapshot.data.toString(),
-                                fit: BoxFit.cover,
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
+                          child: Card(
+                            shadowColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                  child: Text(
-                                    "${item['qr_code_id']}",
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15.0),
+                                    topRight: Radius.circular(15.0),
                                   ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: snapshot.data.toString(),
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                      child: Text(
+                                        "${item['qr_code_id']}",
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Text("Hello");
-                } else {
-                  return const Text("asdf");
-                }
-              });
-        },
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Text("Hello");
+                  } else {
+                    return const Text("asdf");
+                  }
+                });
+          },
+        ),
       ),
     );
   }

@@ -11,7 +11,6 @@ class WishlistPage extends StatefulWidget {
 class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-        child: Qrcardgrid(type: "wishlist", categoryName: ""));
+    return Qrcardgrid(type: "wishlist", categoryName: "");
   }
 }

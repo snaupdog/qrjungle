@@ -96,7 +96,10 @@ class Apiss {
     final body = json.decode(response.body);
     var qrlist = body['data'];
     // allqrslist = qrlist;
+    var hi = qrlist[0];
     myallqrslist = qrlist;
+
+    var ra = myallqrslist[0];
   }
 
   listmyqrs() async {
@@ -142,16 +145,11 @@ class Apiss {
 
     var response = await operation.response;
     var body = jsonDecode(response.data);
-    //   print("get ListCustomers body: $body ");
-    //   if (jsonDecode(body['listCustomers'])['status'] == "SUCCESS") {
-    //     return jsonDecode(body['listCustomers'])['data'];
-    //   } else {
-    //     return "Error";
-    //   }
-    // } catch (e) {
-    //   print("listcustomers error :$e");
-    //   return "Error";
-    // }
+
+    var hello = body['getCurrentUserDetails'];
+    var body2 = jsonDecode(hello);
+    var help = body2['data']['items'];
+    return help;
   }
 
   addFavourites(List<String> favourites) async {

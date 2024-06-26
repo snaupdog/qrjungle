@@ -1,7 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apis_graph.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 //
@@ -64,22 +64,15 @@ class _PurchaseState extends State<Purchase> {
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
-    /*
-    * Payment Success Response contains three values:
-    * 1. Order ID
-    * 2. Payment ID
-    * 3. Signature
-    * */
-    ApissGraph().purchaseQr(widget.qr_code_id, widget.amount,
-        response.paymentId, widget.redirect_url);
+    Apiss().purchaseQr(widget.qr_code_id, widget.amount, response.paymentId,
+        widget.redirect_url);
     showAlertDialog(
         context, "Payment Successful", "Payment ID: ${response.paymentId}");
   }
 
   fetchOrderId<String>() async {
     try {
-      final orderId =
-          await ApissGraph().createOrder(widget.amount, widget.currency);
+      final orderId = await Apiss().createOrder(widget.amount, widget.currency);
       return orderId;
     } catch (e) {
       print("Error fetching orderId: $e");
