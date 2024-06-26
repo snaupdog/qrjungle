@@ -74,7 +74,7 @@ class _MoreQrState extends State<MoreQr> {
                         icon: const Icon(Icons.arrow_back, size: 25),
                         onPressed: () {
                           Navigator.pop(context);
-                          print("Back button pressed");
+                          print("Back Button");
                         },
                         color: Colors.white,
                       ),
