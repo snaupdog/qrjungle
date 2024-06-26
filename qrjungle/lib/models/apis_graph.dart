@@ -11,11 +11,14 @@ class ApissGraph {
     getCurrentUserDetails
   }'''));
 
-    var response = await operation.response;
-    print("ListCustomers error:${response.errors}");
-    print("ListCustomers data :${response.data}");
+var response = await operation.response;
     var body = jsonDecode(response.data);
-    print(body);
+
+    var hello = body['getCurrentUserDetails'];
+    var body2 = jsonDecode(hello);
+    var help = body2['data']['items'];
+    return help;
+   
     //   print("get ListCustomers body: $body ");
     //   if (jsonDecode(body['listCustomers'])['status'] == "SUCCESS") {
     //     return jsonDecode(body['listCustomers'])['data'];

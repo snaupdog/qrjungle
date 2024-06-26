@@ -1,9 +1,12 @@
-// ignore_for_file: avoid_print
-
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apis_rest.dart';
-
+import 'package:qrjungle/models/apis_signup.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:qrjungle/pages/otpcheck.dart';
 import '../../models/qr_info.dart';
 import '../moreqr/moreqr.dart';
 
@@ -46,6 +49,25 @@ class QrCardsState extends State<QrCards> {
     }
   }
 
+  Future<String> signInCustomFlow(String username) async {
+    print('email is: $username');
+    await Amplify.Auth.signOut();
+    // ignore: unused_local_variable
+    final num = "${emailController.text}";
+    try {
+      final result = await Amplify.Auth.signIn(username: username);
+      print('Result@@@@@@@@@@@!!!!!!: $result');
+      return 'Success';
+    } on AuthException catch (e) {
+      print("error");
+      print("message: ${e.message}");
+      if (e.message.contains('No password was provided')) {
+        await ApissSignup().signup(emailController.text);
+      }
+      return e.message;
+    }
+  }
+
   Future<void> fetchAllQrs() async {
     try {
       qrobjects = await ApissRest().getAllqrs(token);
@@ -59,6 +81,8 @@ class QrCardsState extends State<QrCards> {
       print('Error: $e');
     }
   }
+
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,19 +107,21 @@ class QrCardsState extends State<QrCards> {
           final item = qrobjects[index];
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MoreQr(imageUrl: imageUrl, qrinfo: item)),
-              );
+              if (!loggedinmain) {
+                LogInModalSheet(context);
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MoreQr(imageUrl: imageUrl, qrinfo: item)),
+                );
+              }
             },
             child: Container(
               color: Colors.transparent,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: Card(
-                  shadowColor: Colors.white,
                   color: colorcolor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -141,6 +167,36 @@ class QrCardsState extends State<QrCards> {
           );
         },
       ),
+    );
+  }
+
+  void LogInModalSheet(BuildContext context) {
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return LoginModalSheet(
+          emailController: emailController,
+          signInCustomFlow: signInCustomFlow,
+          onSuccess: () {
+            Fluttertoast.showToast(
+                          msg: "Logged In!",
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                          textColor: Colors.white,
+                          fontSize: 18.0
+                      );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OTPVerify(email: emailController.text),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

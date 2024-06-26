@@ -1,13 +1,20 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:qrjungle/pageselect.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OTPVerify extends StatelessWidget {
+class OTPVerify extends StatefulWidget {
   final String email;
 
   const OTPVerify({Key? key, required this.email}) : super(key: key);
 
+  @override
+  State<OTPVerify> createState() => _OTPVerifyState();
+}
+
+class _OTPVerifyState extends State<OTPVerify> {
   confirmSignIn(code, context) async {
     try {
       final result = await Amplify.Auth.confirmSignIn(confirmationValue: code);
@@ -26,9 +33,11 @@ class OTPVerify extends StatelessWidget {
     }
   }
 
+
+
+
   @override
-  Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
+  Widget build(BuildContext context) {    
     return Scaffold(
       appBar: AppBar(
         title: Text('OTP Verification'),
@@ -38,7 +47,7 @@ class OTPVerify extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Enter OTP sent to $email'),
+            Text('Enter OTP sent to ${widget.email}'),
             SizedBox(height: 40),
             PinCodeTextField(
               keyboardType: TextInputType.number,
@@ -60,25 +69,33 @@ class OTPVerify extends StatelessWidget {
                 print('This is OTPSTATUS: $otpStatus');
                 if (otpStatus == 'Success') {
                   print('OTP Verification Successful');
-                  showToast(
-                    position: StyledToastPosition.top,
-                    backgroundColor: const Color.fromARGB(255, 45, 45, 45),
-                    'OTP Verification Successful!',
-                    context: context,
-                    animation: StyledToastAnimation.slideFromTop,
-                    textStyle: _textTheme.bodyMedium?.copyWith(color: Colors.green),
-                  );                  
+                  
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                  await pref.setBool('loggedin', true);
+                  
+                  Fluttertoast.showToast(
+                          msg: "OTP Verification Successful!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                          textColor: Colors.white,
+                          fontSize: 18.0
+                      );
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>PageSelect(initialIndex: 2)), (route)=>false);
+                      
+                     
                 } else {
-                  showToast(
-                    position: StyledToastPosition.top,
-                    backgroundColor: Colors.grey[800],
-                    'Incorrect OTP, please try again!',
-                    context: context,
-                    animation: StyledToastAnimation.slideFromTop,
-                    textStyle: _textTheme.bodyMedium?.copyWith(color: Colors.red),
-                  );                  
+                  Fluttertoast.showToast(
+                          msg: "Incorrect OTP Entered, please try again!",
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                          textColor: Colors.white,
+                          fontSize: 18.0
+                      );
                 }
-                Navigator.pop(context);
+               // Navigator.pop(context);
               },
             ),
           ],

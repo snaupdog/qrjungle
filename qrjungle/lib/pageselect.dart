@@ -6,15 +6,23 @@ import 'pages/bottomnavbar/profile.dart';
 import 'pages/bottomnavbar/wishlist.dart';
 
 class PageSelect extends StatefulWidget {
-  const PageSelect({super.key});
+  final int initialIndex;
+  const PageSelect({super.key, this.initialIndex = 0});
 
   @override
   State<PageSelect> createState() => _PageSelectState();
 }
 
 class _PageSelectState extends State<PageSelect> {
-  int _currentIndex = 0;
-  final PageController _pageController = PageController(initialPage: 0);
+  late int _currentIndex;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: _currentIndex);
+  }
 
   @override
   void dispose() {

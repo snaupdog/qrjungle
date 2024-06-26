@@ -33,6 +33,8 @@ class Config extends StatefulWidget {
 class _ConfigState extends State<Config> {
   AmplifyAuthCognito? auth;
 
+  bool loggedinmain = false;
+
   @override
   void initState() {
     _configureAmplify();
@@ -79,6 +81,7 @@ class _ConfigState extends State<Config> {
     setState(() {
       onboarded = onb;
     });
+    
   }
 
   @override

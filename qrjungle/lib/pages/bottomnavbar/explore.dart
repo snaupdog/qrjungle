@@ -28,6 +28,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   categories() async {
     try {
+
       var hi = await ApissRest().getCategories();
 
       var items = hi;
@@ -55,21 +56,22 @@ class _ExplorePageState extends State<ExplorePage> {
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
-          margin: const EdgeInsets.fromLTRB(15, 30, 15, 0),
+          margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               Text('Categories',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              Container(
-                //height: MediaQuery.sizeOf(context).height*0.75,
+              Container(                
                 child: GridView.builder(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 1.08,
                             crossAxisCount: 2),
                     itemCount: categoryname.length,
                     itemBuilder: (context, index) {
@@ -79,22 +81,24 @@ class _ExplorePageState extends State<ExplorePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CategoryPage(
-                                      catname: categoryname[index])));
+                                      catname: categoryname[index], catimageurl: 'assets/qrsample.png',)));
                         },
                         child: Container(
-                          margin: const EdgeInsets.all(8),
+                          margin: EdgeInsets.all(8),
                           height: MediaQuery.sizeOf(context).height * 0.2,
                           width: MediaQuery.sizeOf(context).width * 0.43,
                           decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(13)),
-                              color: Color(0xff1B1B1B)),
+                              color:
+                               Color(0xff1B1B1B),
+                              ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
                                   height:
-                                      MediaQuery.sizeOf(context).height * 0.12,
+                                      MediaQuery.sizeOf(context).height * 0.13,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(13)),

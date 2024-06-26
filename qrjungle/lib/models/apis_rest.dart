@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names
 
-import 'dart:developer';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'qr_info.dart';

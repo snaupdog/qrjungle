@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apis_graph.dart';
@@ -64,12 +64,6 @@ class _PurchaseState extends State<Purchase> {
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
-    /*
-    * Payment Success Response contains three values:
-    * 1. Order ID
-    * 2. Payment ID
-    * 3. Signature
-    * */
     ApissGraph().purchaseQr(widget.qr_code_id, widget.amount,
         response.paymentId, widget.redirect_url);
     showAlertDialog(

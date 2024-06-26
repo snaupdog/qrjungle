@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apis_signup.dart';
 import 'package:qrjungle/themes.dart';
 
@@ -70,17 +70,28 @@ class _LoginModalSheetState extends State<LoginModalSheet> {
                         Navigator.pop(context);  // Close the login modal sheet
                         widget.onSuccess();
                       } else {
-                        showToast('Something went wrong, please try again!',
-                  context: context,
-                  animation: StyledToastAnimation.fade,
-                );
+                        Fluttertoast.showToast(
+                          msg: "Something went wrong, please try again!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
                       }
                     }
                   } else {
-                    showToast('Invalid Email ID Entered!',
-                  context: context,
-                  animation: StyledToastAnimation.scale,
-                );
+                    Fluttertoast.showToast(
+
+                          msg: "Invalid Email ID Entered",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                          textColor: Colors.white,
+                          fontSize: 18.0                          
+                      );
                   }
                 },
                 child: Padding(
