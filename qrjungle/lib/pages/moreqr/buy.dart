@@ -128,11 +128,7 @@ class _PurchaseState extends State<Purchase> {
                   id = fetchOrderId();
                 },
                 child: const Text("get order id")),
-            ElevatedButton(
-                onPressed: () {
-                  Razorpay_Options(widget.amount, id);
-                },
-                child: const Text("Pay now "))
+            ElevatedButton(onPressed: () {}, child: const Text("Pay now "))
           ],
         ),
       ),

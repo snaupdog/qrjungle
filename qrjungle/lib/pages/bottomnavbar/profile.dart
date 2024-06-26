@@ -32,7 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
       // var response = await ApissGraph().listCustomers().response;
       var response = await Apiss().listUserDetails();
       String email = response[0]['user_name'];
-      print("EMAIL!!!!! : $email");
       return email;
     } catch (e) {
       print('Error: $e');
