@@ -33,9 +33,6 @@ class _OTPVerifyState extends State<OTPVerify> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {    
     return Scaffold(
