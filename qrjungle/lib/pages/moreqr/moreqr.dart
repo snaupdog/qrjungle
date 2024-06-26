@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/moreqr/widgets/popup_card.dart';
-
-import 'buy.dart';
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -16,10 +15,40 @@ class MoreQr extends StatefulWidget {
 }
 
 class _MoreQrState extends State<MoreQr> {
+  List<String> favlist = [];
+
   @override
   void initState() {
     super.initState();
+    loadFavourites();
   }
+
+  Future<void> loadFavourites() async {
+    try {
+      var response = await Apiss().listUserDetails();
+      var data = response[0]['favourites'];
+      setState(() {
+        favlist = List<String>.from(data);
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> toggleFavourite() async {
+    await loadFavourites();
+    if (favlist.contains(widget.item['qr_code_id'])) {
+      favlist.remove(widget.item['qr_code_id']);
+      print("removed from wishlist");
+    } else {
+      favlist.add(widget.item['qr_code_id']);
+      print("added to wishlist");
+    }
+    await Apiss().addFavourites(favlist);
+    print("Updated favourites");
+  }
+
+  final TextEditingController urlcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +74,13 @@ class _MoreQrState extends State<MoreQr> {
                         icon: const Icon(Icons.arrow_back, size: 25),
                         onPressed: () {
                           Navigator.pop(context);
-                          print("Notifications button pressed");
+                          print("Back button pressed");
                         },
                         color: Colors.white,
                       ),
                     ),
                     SizedBox(width: MediaQuery.sizeOf(context).width * 0.71),
                     Container(
-                      //margin: EdgeInsets.fromLTRB(8, 8, 8, 28),
-
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color.fromARGB(175, 0, 0, 0)),
@@ -75,21 +102,34 @@ class _MoreQrState extends State<MoreQr> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Center(
             child: PopupCard(imageUrl: widget.imageUrl),
-          ), //Builds the page using PopUpCard widget in popup_card.dart file
-          const SizedBox(height: 16),
+          ),
+          IconButton(
+            icon: const Icon(Icons.pix, size: 25),
+            onPressed: () async {
+              await toggleFavourite();
+            },
+            color: Colors.white,
+          ),
           Text(widget.item['qr_code_id']),
-          const SizedBox(height: 16),
+          TextFormField(
+            controller: urlcontroller,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Enter redirect URL',
+            ),
+          ),
           ElevatedButton(
             onPressed: () {
               Payment(
-                  context: context,
-                  amount: "500",
-                  qrCodeId: widget.item['qr_code_id'],
-                  redirectUrl: "www.google.com");
+                context: context,
+                amount: "500",
+                qrCodeId: widget.item['qr_code_id'],
+                redirectUrl: urlcontroller.text,
+              );
             },
             child: const Text('Purchase this QR'),
           ),
