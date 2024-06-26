@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/moreqr/widgets/popup_card.dart';
 
 import 'buy.dart';
@@ -84,15 +85,11 @@ class _MoreQrState extends State<MoreQr> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Purchase(
-                    amount: "500",
-                    qr_code_id: widget.item['qr_code_id'],
-                  ),
-                ),
-              );
+              Payment(
+                  context: context,
+                  amount: "500",
+                  qrCodeId: widget.item['qr_code_id'],
+                  redirectUrl: "www.google.com");
             },
             child: const Text('Purchase this QR'),
           ),

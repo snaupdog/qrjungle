@@ -33,11 +33,8 @@ class _OTPVerifyState extends State<OTPVerify> {
     }
   }
 
-
-
-
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('OTP Verification'),
@@ -69,33 +66,34 @@ class _OTPVerifyState extends State<OTPVerify> {
                 print('This is OTPSTATUS: $otpStatus');
                 if (otpStatus == 'Success') {
                   print('OTP Verification Successful');
-                  
-                  SharedPreferences pref = await SharedPreferences.getInstance();
+
+                  SharedPreferences pref =
+                      await SharedPreferences.getInstance();
                   await pref.setBool('loggedin', true);
-                  
+
                   Fluttertoast.showToast(
-                          msg: "OTP Verification Successful!",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
-                          textColor: Colors.white,
-                          fontSize: 18.0
-                      );
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>PageSelect(initialIndex: 2)), (route)=>false);
-                      
-                     
+                      msg: "OTP Verification Successful!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                      textColor: Colors.white,
+                      fontSize: 18.0);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PageSelect(initialIndex: 2)),
+                      (route) => false);
                 } else {
                   Fluttertoast.showToast(
-                          msg: "Incorrect OTP Entered, please try again!",
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Color.fromARGB(134, 0, 0, 0),
-                          textColor: Colors.white,
-                          fontSize: 18.0
-                      );
+                      msg: "Incorrect OTP Entered, please try again!",
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                      textColor: Colors.white,
+                      fontSize: 18.0);
                 }
-               // Navigator.pop(context);
+                // Navigator.pop(context);
               },
             ),
           ],

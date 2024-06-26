@@ -24,6 +24,35 @@ class _QrcardgridState extends State<Qrcardgrid> {
     fetchmyqrs();
   }
 
+  void LogInModalSheet(BuildContext context) {
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return LoginModalSheet(
+          emailController: emailController,
+          signInCustomFlow: signInCustomFlow,
+          onSuccess: () {
+            Fluttertoast.showToast(
+                msg: "Logged In!",
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 2,
+                backgroundColor: Color.fromARGB(134, 0, 0, 0),
+                textColor: Colors.white,
+                fontSize: 18.0);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OTPVerify(email: emailController.text),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   TextEditingController emailController = TextEditingController();
   var qrlisty = [];
   Future<String> signInCustomFlow(String username) async {
@@ -46,6 +75,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Future<void> fetchmyqrs() async {
+    print("\n\n\n\n\n\n\n\n");
     // await Apiss().clearlist()
     switch (widget.type) {
       case 'all':
@@ -176,35 +206,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
           },
         ),
       ),
-    );
-  }
-
-  void LogInModalSheet(BuildContext context) {
-    showModalBottomSheet(
-      showDragHandle: true,
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        return LoginModalSheet(
-          emailController: emailController,
-          signInCustomFlow: signInCustomFlow,
-          onSuccess: () {
-            Fluttertoast.showToast(
-                msg: "Logged In!",
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 2,
-                backgroundColor: Color.fromARGB(134, 0, 0, 0),
-                textColor: Colors.white,
-                fontSize: 18.0);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OTPVerify(email: emailController.text),
-              ),
-            );
-          },
-        );
-      },
     );
   }
 }
