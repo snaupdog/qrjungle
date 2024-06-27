@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:729866145956:android:c1aa10691e6a9847109631",
         "android_client_info": {
-          "package_name": "com.example.qrjungle"
+          "package_name": "com.mobil80.qrjungle"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "729866145956-ifacitjjun5d3esgbkoaf5lnktfnu4kc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.qrjungle",
+            "package_name": "com.mobil80.qrjungle",
             "certificate_hash": "cb3db3e279cfa26509c3c4b8aad28d620ddf5a92"
           }
         },
