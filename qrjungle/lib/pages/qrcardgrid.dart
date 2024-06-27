@@ -2,7 +2,6 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
-import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 
@@ -100,7 +99,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 1.0),
-        child: GridView.builder(
+        child: 
+        (qrlisty.isEmpty)?Center(child: Text("empty"),):
+        GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -117,18 +118,14 @@ class _QrcardgridState extends State<Qrcardgrid> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return GestureDetector(
-                      onTap: () {
-                        if (!loggedinmain) {
-                          LogInModalSheet(context);
-                        } else {
+                      onTap: () {                        
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MoreQr(
                                     imageUrl: snapshot.data.toString(),
                                     item: item)),
-                          );
-                        }
+                          );                        
                       },
                       child: Container(
                         color: Colors.transparent,

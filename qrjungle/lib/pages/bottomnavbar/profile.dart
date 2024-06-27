@@ -8,6 +8,7 @@ import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool loggedinmain = false;
+String email ='';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,23 +20,24 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List myqrslist = [];
 
+
   @override
   void initState() {
     getloginstatus();
     super.initState();
-    fetchUrls();
+  getuserDetails();
   }
 
-  Future<String> fetchUrls() async {
-    try {
-      // var response = await ApissGraph().listCustomers().response;
-      var response = await Apiss().listUserDetails();
-      String email = response[0]['user_name'];
-      return email;
-    } catch (e) {
-      print('Error: $e');
-      return 'bruh';
+  getuserDetails() async {
+    if(email==""){
+       var res = await Apiss().listUserDetails();
+    print('Email: ${res[0]['user_name']}');
+    setState(() {
+      email = res[0]['user_name'];
+    });
+
     }
+   
   }
 
   Future<String> signInCustomFlow(String username) async {
@@ -58,6 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   getloginstatus() async {
+    print('******* LOGINSTATUS CALLED *********8');
     SharedPreferences pref = await SharedPreferences.getInstance();
     bool loggedin = pref.getBool('loggedin') ?? false;
     print("loggedin from sp: $loggedin");
@@ -106,6 +109,63 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
               Center(child: Image.asset('assets/logo.png', height: 200)),
               Center(
+                child: (!loggedinmain)
+                    ? TextButton.icon(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())).then((value) {
+                           
+                            getloginstatus();
+                          },);
+                        },
+                        label: const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+                          child: Text(
+                            'Log In',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
+                        icon: const Padding(
+                          padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+                          child: Icon(Icons.exit_to_app_outlined,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                              const Color.fromARGB(255, 32, 32, 32)),
+                        ),
+                      )
+                    : Text(email)
+              ),
+              SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  'My QRs',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              (!loggedinmain)
+                  ? Container(
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      width: MediaQuery.sizeOf(context).width,
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 33, 33, 33)),
+                      child: const Center(
+                        child: Text('Log in to purchase your first QR!'),
+                      ),
+                    )
+                  : Container(
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      width: MediaQuery.sizeOf(context).width,
+                      child: const Qrcardgrid(type: "myqrs", categoryName: "")),
+              const SizedBox(height: 20),
+              Center(
                 child: Row(
                   children: [
                     TextButton.icon(
@@ -137,78 +197,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              const Divider(
-                height: 40,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              Center(
-                child: (!loggedinmain)
-                    ? TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
-                        },
-                        label: const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
-                          child: Text(
-                            'Log In',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 22,
-                            ),
-                          ),
-                        ),
-                        icon: const Padding(
-                          padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                          child: Icon(Icons.exit_to_app_outlined,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(
-                              const Color.fromARGB(255, 32, 32, 32)),
-                        ),
-                      )
-                    : FutureBuilder<String>(
-                        future: fetchUrls(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else if (snapshot.hasData) {
-                            return Text('Email:\n${snapshot.data}');
-                          } else {
-                            return const Text('No email found');
-                          }
-                        },
-                      ),
-              ),
-              SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'My QRs',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              (!loggedinmain)
-                  ? Container(
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      width: MediaQuery.sizeOf(context).width,
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 33, 33, 33)),
-                      child: const Center(
-                        child: Text('Log in to purchase your first QR!'),
-                      ),
-                    )
-                  : Container(
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: const Qrcardgrid(type: "myqrs", categoryName: "")),
-              const SizedBox(height: 20),
             ],
           ),
         ),

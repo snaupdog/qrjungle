@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
 import 'package:qrjungle/pages/moreqr/payment.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -279,12 +281,18 @@ class _MoreQrState extends State<MoreQr> {
                     const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
                 child: InkWell(
                   onTap: () {
-                    Payment(
-                      context: context,
-                      amount: "500",
-                      qrCodeId: widget.item['qr_code_id'],
-                      redirectUrl: urlcontroller.text,
-                    );
+                    if (loggedinmain) {
+                      Payment(
+                        context: context,
+                        amount: "500",
+                        qrCodeId: widget.item['qr_code_id'],
+                        redirectUrl: urlcontroller.text,
+                      );
+                    } else {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) => const LoginModalSheet());
+                    }
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height *
