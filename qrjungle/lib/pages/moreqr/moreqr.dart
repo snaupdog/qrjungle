@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
@@ -26,8 +27,11 @@ class _MoreQrState extends State<MoreQr> {
   @override
   void initState() {
     super.initState();
-    loadFavourites();
+    if (loggedinmain) {
+      loadFavourites();
+    }
     print(widget.item);
+    print("Hello");
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
@@ -145,7 +149,16 @@ class _MoreQrState extends State<MoreQr> {
                 future: getMostProminentColor(widget.imageUrl),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Container(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
+                        child: Container(
+                          width: 600,
+                          height: 300,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return const Center(child: Text('Error loading gradient'));
                   } else if (snapshot.hasData) {
@@ -163,27 +176,20 @@ class _MoreQrState extends State<MoreQr> {
                           ],
                         ),
                       ),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 60.0,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Adjust the radius as needed
+                          child: CachedNetworkImage(
+                            imageUrl: widget.imageUrl,
+                            placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 17.0, vertical: 10.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  15.0), // Adjust the radius as needed
-                              child: CachedNetworkImage(
-                                imageUrl: widget.imageUrl,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     );
                   } else {
@@ -239,7 +245,15 @@ class _MoreQrState extends State<MoreQr> {
                         IconButton(
                           icon: const Icon(Icons.favorite, size: 25),
                           onPressed: () async {
-                            await toggleFavourite();
+                            if (loggedinmain) {
+                              await toggleFavourite();
+                            } else {
+                              print("show modal sheet");
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) =>
+                                      const LoginModalSheet());
+                            }
                           },
                           color: Colors.white,
                         ),
