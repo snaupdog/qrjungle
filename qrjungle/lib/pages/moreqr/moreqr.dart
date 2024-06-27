@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/payment.dart';
+import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:qrjungle/pages/moreqr/widgets/popup_card.dart';
 
 class MoreQr extends StatefulWidget {
@@ -124,12 +126,15 @@ class _MoreQrState extends State<MoreQr> {
           ),
           ElevatedButton(
             onPressed: () {
-              Payment(
+              if (loggedinmain){Payment(
                 context: context,
                 amount: "500",
                 qrCodeId: widget.item['qr_code_id'],
                 redirectUrl: urlcontroller.text,
-              );
+              );}
+              else {
+                showModalBottomSheet(context: context, builder: (context)=>LoginModalSheet());
+              }
             },
             child: const Text('Purchase this QR'),
           ),

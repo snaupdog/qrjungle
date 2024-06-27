@@ -2,6 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OTPVerify extends StatefulWidget {
@@ -29,6 +30,22 @@ class _OTPVerifyState extends State<OTPVerify> {
       safePrint('Error signing in: ${e.message}');
       return "Error";
     }
+  }
+
+  getloginstatus() async {
+    print('******* LOGINSTATUS CALLED *********8');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    bool loggedin = pref.getBool('loggedin') ?? false;
+    print("loggedin from sp: $loggedin");
+    setState(() {
+      loggedinmain = loggedin;
+    });
+  }
+bool loady = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -59,7 +76,13 @@ class _OTPVerifyState extends State<OTPVerify> {
                 selectedColor: const Color(0xFFD7A937),
               ),
               onCompleted: (value) async {
+                setState(() {
+                  loady=true;
+                });
                 var otpStatus = await confirmSignIn(value, context);
+                setState(() {
+                  loady=false;
+                });
                 print('This is OTPSTATUS: $otpStatus');
                 if (otpStatus == 'Success') {
                   print('OTP Verification Successful');
@@ -76,7 +99,10 @@ class _OTPVerifyState extends State<OTPVerify> {
                       textColor: Colors.white,
                       fontSize: 18.0);
 
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                  getloginstatus();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+
                 } else {
                   Fluttertoast.showToast(
                       msg: "Incorrect OTP Entered, please try again!",
@@ -88,6 +114,12 @@ class _OTPVerifyState extends State<OTPVerify> {
                 }
               },
             ),
+            (loady) ? Column(
+              children: [
+                Text('Please wait...'),
+                CircularProgressIndicator(),
+              ],
+            ) : SizedBox()
           ],
         ),
       ),

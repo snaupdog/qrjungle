@@ -99,7 +99,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 1.0),
-        child: GridView.builder(
+        child: 
+        (qrlisty.isEmpty)?Center(child: Text("empty"),):
+        GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

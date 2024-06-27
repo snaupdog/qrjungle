@@ -32,6 +32,13 @@ class _LoginPageState extends State<LoginPage> {
       return e.message;
     }
   }
+  bool loader=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +84,17 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
+
+                        setState(() {
+                          loader=true;
+                        });
+
                         String result = await signInCustomFlow(emailController.text);
+
+                        setState(() {
+                          loader=false;
+                        });
+
                         if (result == 'Success') {
                           print('Signed in Successfully, Enter OTP');                          
                           Navigator.push(
@@ -121,7 +138,9 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(110, 20, 110, 20),
-                      child: Text('Submit',
+                      child:
+                      
+                      (loader)?Center(child: CircularProgressIndicator(color: Colors.white,),): Text('Submit',
                           style:
                               _textTheme.bodySmall?.copyWith(color: const Color.fromARGB(255, 255, 255, 255))),
                     ),
