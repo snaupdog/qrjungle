@@ -134,134 +134,179 @@ class _MoreQrState extends State<MoreQr> {
             ),
           ],
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            FutureBuilder<Color>(
-              future: getMostProminentColor(widget.imageUrl),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return const Center(child: Text('Error loading gradient'));
-                } else if (snapshot.hasData) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        stops: const [0.0, 0.2, 0.7, 1.0],
-                        colors: [
-                          Colors.black,
-                          Colors.black,
-                          snapshot.data!.withOpacity(0.9),
-                          snapshot.data!,
-                        ],
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 60.0,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              FutureBuilder<Color>(
+                future: getMostProminentColor(widget.imageUrl),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text('Error loading gradient'));
+                  } else if (snapshot.hasData) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          stops: const [0.0, 0.2, 0.7, 1.0],
+                          colors: [
+                            Colors.black,
+                            Colors.black,
+                            snapshot.data!.withOpacity(0.9),
+                            snapshot.data!,
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 17.0, vertical: 10.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
-                            child: CachedNetworkImage(
-                              imageUrl: widget.imageUrl,
-                              placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+                      ),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 60.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 17.0, vertical: 10.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  15.0), // Adjust the radius as needed
+                              child: CachedNetworkImage(
+                                imageUrl: widget.imageUrl,
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
                             ),
                           ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const Center(child: Text('No color found'));
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 5.0,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height *
+                      0.1, // Adjust as needed
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      // color: const Color(0xff121212),
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 17.0, vertical: 10.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "#${widget.item['qr_code_id']}",
+                                style: const TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Text(
+                                  widget.item['qr_code_category'],
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.favorite, size: 25),
+                          onPressed: () async {
+                            await toggleFavourite();
+                          },
+                          color: Colors.white,
                         ),
                       ],
                     ),
-                  );
-                } else {
-                  return const Center(child: Text('No color found'));
-                }
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-
-            const Divider(
-              color: Color(0xff121212),
-            ),
-
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
-              child: TextFormField(
-                controller: urlcontroller,
-                decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Enter Redirect URL',
-                  labelStyle: const TextStyle(
-                    fontSize:
-                        12.0, // Set the desired font size for the label text
-                  ),
-                  fillColor: const Color(0xFF1b1b1b),
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 10.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none,
                   ),
                 ),
-                cursorColor: Colors.blue,
               ),
-            ),
-            const SizedBox(height: 20.0),
-
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
-              child: InkWell(
-                onTap: () {
-                  Payment(
-                    context: context,
-                    amount: "500",
-                    qrCodeId: widget.item['qr_code_id'],
-                    redirectUrl: urlcontroller.text,
-                  );
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height *
-                      0.05, // Adjust as needed
-                  decoration: BoxDecoration(
-                    color: const Color(0xff2081e2),
-                    borderRadius: BorderRadius.circular(10.0),
+              const Divider(
+                color: Color(0xff121212),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 17.0, vertical: 10.0),
+                child: TextFormField(
+                  controller: urlcontroller,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    labelText: 'Enter Redirect URL',
+                    labelStyle: const TextStyle(
+                      fontSize:
+                          12.0, // Set the desired font size for the label text
+                    ),
+                    fillColor: const Color(0xFF1b1b1b),
+                    filled: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Purchase QR',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                  cursorColor: Colors.blue,
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
+                child: InkWell(
+                  onTap: () {
+                    Payment(
+                      context: context,
+                      amount: "500",
+                      qrCodeId: widget.item['qr_code_id'],
+                      redirectUrl: urlcontroller.text,
+                    );
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height *
+                        0.05, // Adjust as needed
+                    decoration: BoxDecoration(
+                      color: const Color(0xff2081e2),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Purchase QR',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-
-            // IconButton(
-            //   icon: const Icon(Icons.favorite, size: 25),
-            //   onPressed: () async {
-            //     await toggleFavourite();
-            //   },
-            //   color: Colors.white,
-            // ),
-          ],
+            ],
+          ),
         ),
       ),
     );
