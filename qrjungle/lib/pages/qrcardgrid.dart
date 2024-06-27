@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
+import 'package:qrjungle/pages/moreqr/viewmyqr.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 
 class Qrcardgrid extends StatefulWidget {
@@ -23,6 +24,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
 
   TextEditingController emailController = TextEditingController();
   var qrlisty = [];
+  bool inmyqrs = false;
 
   void LogInModalSheet(BuildContext context) {
     showModalBottomSheet(
@@ -82,6 +84,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
+          inmyqrs = true;
         });
         break;
       default:
@@ -121,13 +124,24 @@ class _QrcardgridState extends State<Qrcardgrid> {
                         if (snapshot.hasData) {
                           return GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MoreQr(
-                                        imageUrl: snapshot.data.toString(),
-                                        item: item)),
-                              );
+                              print(inmyqrs);
+                              inmyqrs
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => VierMyQr(
+                                              imageUrl:
+                                                  snapshot.data.toString(),
+                                              item: item)),
+                                    )
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MoreQr(
+                                              imageUrl:
+                                                  snapshot.data.toString(),
+                                              item: item)),
+                                    );
                             },
                             child: Container(
                               color: Colors.transparent,
