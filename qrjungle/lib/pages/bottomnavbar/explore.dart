@@ -1,10 +1,8 @@
-//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-//import 'package:qrjungle/pages/moreqr/moreqr.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -24,7 +22,6 @@ class _ExplorePageState extends State<ExplorePage> {
   void initState() {
     super.initState();
     categories();
-    //QRbyCategory();
   }
 
   categories() async {
@@ -32,7 +29,6 @@ class _ExplorePageState extends State<ExplorePage> {
       var items = await Apiss().getCategories();
 
       setState(() {
-        // print(items);
         categoryname = items
             .map<String>((item) => item['category_name'] as String)
             .toList();
@@ -59,6 +55,21 @@ class _ExplorePageState extends State<ExplorePage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: AnimatedContainer(
+                  duration: Duration(seconds: 4),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.17,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(23),
+                  ),
+                  child: Image.asset(
+                    'assets/gifgifgif.gif',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(height: 40),
               Text('Categories',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),

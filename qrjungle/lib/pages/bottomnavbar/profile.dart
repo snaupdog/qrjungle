@@ -187,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     .getInstance();
                                             await pref.clear();
                                             Fluttertoast.showToast(
-                                                msg: "Logged Out!",
+                                                msg: "You've been logged out!",
                                                 toastLength: Toast.LENGTH_SHORT,
                                                 gravity: ToastGravity.CENTER,
                                                 timeInSecForIosWeb: 2,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.fromLTRB(110, 20, 110, 20),
                       child:
                       
-                      (loader)?Center(child: CircularProgressIndicator(color: Colors.white,),): Text('Submit',
+                      (loader)?Center(child: SpinKitThreeBounce(color: Colors.white, size: 23),): Text('Submit',
                           style:
                               _textTheme.bodySmall?.copyWith(color: const Color.fromARGB(255, 255, 255, 255))),
                     ),
