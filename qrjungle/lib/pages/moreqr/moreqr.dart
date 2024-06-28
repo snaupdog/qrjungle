@@ -255,6 +255,7 @@ class _MoreQrState extends State<MoreQr> {
                             child: Text(
                               item['qr_code_category'],
                               style: const TextStyle(
+                                color: const Color(0xff2081e2),
                                 fontSize: 16.0,
                               ),
                             ),
@@ -344,17 +345,16 @@ class _MoreQrState extends State<MoreQr> {
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.05,
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: const Color(0xff2081e2),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: const Center(
                   child: Text(
                     'Purchase QR',
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
-                    ),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
               ),
