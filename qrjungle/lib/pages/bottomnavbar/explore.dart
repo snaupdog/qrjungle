@@ -1,9 +1,7 @@
-//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
-//import 'package:qrjungle/pages/moreqr/moreqr.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -22,7 +20,6 @@ class _ExplorePageState extends State<ExplorePage> {
   void initState() {
     super.initState();
     categories();
-    //QRbyCategory();
   }
 
   categories() async {
@@ -31,7 +28,6 @@ class _ExplorePageState extends State<ExplorePage> {
 
       var items = hi;
       setState(() {
-        // print(items);
         categoryname = items
             .map<String>((item) => item['category_name'] as String)
             .toList();
@@ -57,72 +53,96 @@ class _ExplorePageState extends State<ExplorePage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: AnimatedContainer(
+                  duration: Duration(seconds: 4),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.17,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(23),
+                  ),
+                  child: Image.asset(
+                    'assets/gifgifgif.gif',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(height: 40),
               Text('Categories',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
-              Container(
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 1.08, crossAxisCount: 2),
-                    itemCount: categoryname.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CategoryPage(
-                                        catname: categoryname[index],
-                                        catimageurl: 'assets/qrsample.png',
-                                      )));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(8),
-                          height: MediaQuery.sizeOf(context).height * 0.2,
-                          width: MediaQuery.sizeOf(context).width * 0.43,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(13)),
-                            color: Color(0xff1B1B1B),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.13,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(13)),
-                                    child: Image.asset('assets/qrsample.png',
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.cover),
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(5.5),
-                                child: Text(
-                                    (categoryname[index]
-                                        .toString()
-                                        .replaceFirst(
-                                            categoryname[index][0],
-                                            categoryname[index][0]
-                                                .toUpperCase())),
-                                    style: textTheme.bodySmall?.copyWith(
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                            ],
+              SizedBox(height: 20),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 1.08,
+                  crossAxisCount: 2,
+                ),
+                itemCount: categoryname.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CategoryPage(
+                            catname: categoryname[index],
+                            catimageurl: 'assets/qrsample.png',
                           ),
                         ),
                       );
-                    }),
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.43,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(13)),
+                        color: Color(0xff1B1B1B),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.13,
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(13)),
+                              child: Image.asset(
+                                'assets/qrsample.png',
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.5),
+                            child: Text(
+                              categoryname[index]
+                                  .toString()
+                                  .replaceFirst(
+                                    categoryname[index][0],
+                                    categoryname[index][0].toUpperCase(),
+                                  ),
+                              style: textTheme.bodySmall
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-              Text('All QR Codes',
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600)),
-              const Qrcardgrid(type: "all", categoryName: "")
+              Text(
+                'All QR Codes',
+                style: textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 20),
+              const Qrcardgrid(type: 'all', categoryName: ''),
             ],
           ),
         ),

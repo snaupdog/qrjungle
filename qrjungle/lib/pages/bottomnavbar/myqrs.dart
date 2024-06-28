@@ -31,7 +31,7 @@ class _MyQRsPageState extends State<MyQRsPage> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            //crossAxisAlignment: CrossAxisAlignment.end,
             children: [                 
               const Center(
                 child: Text(
@@ -45,13 +45,16 @@ class _MyQRsPageState extends State<MyQRsPage> {
               ),
               const SizedBox(height: 15),
               (!loggedinmain)
-                  ? Container(
-                      height: MediaQuery.sizeOf(context).height * 0.8,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: const Center(
-                        child: Text('Log in to purchase your first QR!'),
-                      ),
-                    )
+                  ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
+                Image.asset('assets/empty.png', height: 200),
+                SizedBox(height: 15),
+                Text('Not Logged In :(', style: TextStyle(fontSize: 40)),
+              ],
+            ) 
                   : Container(
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       width: MediaQuery.sizeOf(context).width,
@@ -63,3 +66,29 @@ class _MyQRsPageState extends State<MyQRsPage> {
     );
   }
 }
+
+
+
+
+// (qrlisty.isEmpty)
+//             ? (!loggedinmain) 
+//             ? Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
+//                 Image.asset('assets/empty.png', height: 200),
+//                 SizedBox(height: 15),
+//                 Text('Not Logged In :(', style: TextStyle(fontSize: 40)),
+//               ],
+//             ) 
+//             : Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
+//                 Image.asset('assets/empty.png', height: 200),
+//                 SizedBox(height: 15),
+//                 Text('Empty :(', style: TextStyle(fontSize: 40)),
+//               ],
+//             )

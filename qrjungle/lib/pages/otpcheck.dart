@@ -1,5 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
@@ -55,10 +56,12 @@ bool loady = false;
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('OTP Verification'),
-            Text('Enter OTP sent to ${widget.email}'),
+            const Text('OTP Verification', style: TextStyle(fontSize: 28)),
+            SizedBox(height: 190),
+            Text('Enter OTP sent to', style: TextStyle(fontSize: 22)),
+            Text(widget.email, style: TextStyle(fontSize: 20, color: Colors.amber)),
             const SizedBox(height: 40),
             PinCodeTextField(
               keyboardType: TextInputType.number,
@@ -71,9 +74,9 @@ bool loady = false;
               },
               pinTheme: PinTheme(
                 shape: PinCodeFieldShape.box,
-                inactiveColor: const Color.fromARGB(206, 155, 255, 158),
-                activeColor: const Color(0xFFD7A937),
-                selectedColor: const Color(0xFFD7A937),
+                inactiveColor: Color.fromARGB(255, 255, 255, 255),
+                activeColor: Color.fromARGB(255, 255, 255, 255),
+                selectedColor: Colors.amber,
               ),
               onCompleted: (value) async {
                 setState(() {
@@ -119,7 +122,7 @@ bool loady = false;
               children: [
                 Text('Verifying'),
                 SizedBox(height: 5,),
-                CircularProgressIndicator(),
+                SpinKitThreeBounce(color: Colors.white, size: 25),
               ],
             ) : SizedBox()
           ],
