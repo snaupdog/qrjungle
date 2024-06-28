@@ -31,7 +31,6 @@ class _MoreQrState extends State<MoreQr> {
     if (loggedinmain) {
       loadFavourites();
     }
-    print(widget.item);
     print("Hello");
   }
 
@@ -89,10 +88,16 @@ class _MoreQrState extends State<MoreQr> {
 
   final TextEditingController urlcontroller = TextEditingController();
   bool liked = false;
+  bool isloading = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          setState(() {
+            isloading = !isloading;
+          });
+        }),
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -142,212 +147,219 @@ class _MoreQrState extends State<MoreQr> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              FutureBuilder<Color>(
-                future: getMostProminentColor(widget.imageUrl),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Skeletonizer(
-                      enabled: true,
-                      child: Skeleton.replace(
-                        width: 600,
-                        height: 500,
-                        child: SizedBox(
-                          width: 600,
-                          height: 500,
-                        ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Center(child: Text('Error loading gradient'));
-                  } else if (snapshot.hasData) {
-                    return Container(
-                      width: 600,
-                      height: 500,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          stops: const [0.0, 0.2, 0.7, 1.0],
-                          colors: [
-                            Colors.black,
-                            Colors.black,
-                            snapshot.data!.withOpacity(0.9),
-                            snapshot.data!,
-                          ],
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Adjust the radius as needed
-                          child: CachedNetworkImage(
-                            imageUrl: widget.imageUrl,
-                            placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return const Center(child: Text('No color found'));
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 5.0,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height *
-                      0.1, // Adjust as needed
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      // color: const Color(0xff121212),
-                      width: 2.0,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 17.0, vertical: 10.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "#${widget.item['qr_code_id']}",
-                                style: const TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                child: Text(
-                                  widget.item['qr_code_category'],
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                              ),
+          child: card(context),
+        ),
+      ),
+    );
+  }
+
+  Skeletonizer card(BuildContext context) {
+    return Skeletonizer(
+      enabled: isloading,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          FutureBuilder(
+            future: getMostProminentColor(widget.imageUrl),
+            builder: (context, snapshot) {
+              if (snapshot.hasData ||
+                  snapshot.connectionState == ConnectionState.waiting) {
+                return Container(
+                  width: 600,
+                  height: 500,
+                  child: Stack(
+                    children: [
+                      // Gradient background
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            stops: const [0.0, 0.2, 0.7, 1.0],
+                            colors: [
+                              Colors.black,
+                              Colors.black,
+                              snapshot.data!.withOpacity(0.9),
+                              snapshot.data!,
                             ],
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(
-                              liked ? Icons.favorite : Icons.favorite_border),
-                          onPressed: () async {
-                            if (loggedinmain) {
-                              setState(() {
-                                liked = !liked;
-                              });
-                              Fluttertoast.showToast(
-                                  msg: "Added to Favourites!",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor:
-                                      const Color.fromARGB(134, 0, 0, 0),
-                                  textColor: Colors.white,
-                                  fontSize: 18.0);
-                              await toggleFavourite();
-                            } else {
-                              print("show modal sheet");
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) =>
-                                      const LoginModalSheet());
-                            }
-                          },
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const Divider(
-                color: Color(0xff121212),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 17.0, vertical: 10.0),
-                child: TextFormField(
-                  controller: urlcontroller,
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    labelText: 'Enter Redirect URL',
-                    labelStyle: const TextStyle(
-                      fontSize:
-                          12.0, // Set the desired font size for the label text
-                    ),
-                    fillColor: const Color(0xFF1b1b1b),
-                    filled: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 10.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  cursorColor: Colors.blue,
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
-                child: InkWell(
-                  onTap: () {
-                    if (loggedinmain) {
-                      Payment(
-                        context: context,
-                        amount: "500",
-                        qrCodeId: widget.item['qr_code_id'],
-                        redirectUrl: urlcontroller.text,
-                      );
-                    } else {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const LoginModalSheet());
-                    }
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height *
-                        0.05, // Adjust as needed
-                    decoration: BoxDecoration(
-                      color: const Color(0xff2081e2),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Purchase QR',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                      ),
+                      // Image
+                      Positioned.fill(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                15.0), // Adjust the radius as needed
+                            child: CachedNetworkImage(
+                              imageUrl: widget.imageUrl,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                );
+              }
+              if (snapshot.hasError) {
+                return const Center(child: Text('Error loading gradient'));
+              } else {
+                return const Center(child: Text('No color found'));
+              }
+            },
+          ),
+          const SizedBox(
+            height: 5.0,
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
+            child: Container(
+              height:
+                  MediaQuery.of(context).size.height * 0.1, // Adjust as needed
+              decoration: BoxDecoration(
+                border: Border.all(
+                  // color: const Color(0xff121212),
+                  width: 2.0,
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 17.0, vertical: 10.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "#${widget.item['qr_code_id'] ?? 'ID not available'}",
+                            style: const TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Text(
+                              widget.item['qr_code_category'] ??
+                                  'Category not available',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon:
+                          Icon(liked ? Icons.favorite : Icons.favorite_border),
+                      onPressed: () async {
+                        if (loggedinmain) {
+                          setState(() {
+                            liked = !liked;
+                          });
+                          Fluttertoast.showToast(
+                              msg: "Added to Favourites!",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor:
+                                  const Color.fromARGB(134, 0, 0, 0),
+                              textColor: Colors.white,
+                              fontSize: 18.0);
+                          await toggleFavourite();
+                        } else {
+                          print("show modal sheet");
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => const LoginModalSheet());
+                        }
+                      },
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const Divider(
+            color: Color(0xff121212),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+            child: TextFormField(
+              controller: urlcontroller,
+              decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                labelText: 'Enter Redirect URL',
+                labelStyle: const TextStyle(
+                  fontSize:
+                      12.0, // Set the desired font size for the label text
+                ),
+                fillColor: const Color(0xFF1b1b1b),
+                filled: true,
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 10.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              cursorColor: Colors.blue,
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
+            child: InkWell(
+              onTap: () {
+                if (loggedinmain) {
+                  Payment(
+                    context: context,
+                    amount: "500",
+                    qrCodeId: widget.item['qr_code_id'] ?? '',
+                    redirectUrl: urlcontroller.text,
+                  );
+                } else {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) => const LoginModalSheet());
+                }
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height *
+                    0.05, // Adjust as needed
+                decoration: BoxDecoration(
+                  color: const Color(0xff2081e2),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Purchase QR',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

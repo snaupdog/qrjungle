@@ -75,13 +75,13 @@ class _ConfigState extends State<Config> {
   bool onboarded = false;
 
   getValues() async {
+    print("init");
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     bool onb = pref.getBool('onboarded') ?? false;
     setState(() {
       onboarded = onb;
     });
-    
   }
 
   @override

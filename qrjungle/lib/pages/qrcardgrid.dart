@@ -37,7 +37,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
   @override
   void initState() {
     fakedata = MyClass().fakedata;
-    print(fakedata[0]['qr_code_id']);
     super.initState();
     fetchmyqrs();
   }
@@ -175,7 +174,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15.0),
                       child: Card(
-                        shadowColor: Colors.white,
+                        // shadowColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
