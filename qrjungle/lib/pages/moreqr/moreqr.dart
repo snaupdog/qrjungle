@@ -344,7 +344,7 @@ class _MoreQrState extends State<MoreQr> {
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.05,
                 decoration: BoxDecoration(
-                  color: const Color(0xff2081e2),
+                  color: Colors.amber,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: const Center(
@@ -353,6 +353,7 @@ class _MoreQrState extends State<MoreQr> {
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black
                     ),
                   ),
                 ),
