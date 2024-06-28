@@ -165,7 +165,7 @@ class _MoreQrState extends State<MoreQr> {
             builder: (context, snapshot) {
               if (snapshot.hasData ||
                   snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
+                return SizedBox(
                   width: 600,
                   height: 500,
                   child: Stack(
@@ -187,22 +187,20 @@ class _MoreQrState extends State<MoreQr> {
                         ),
                       ),
                       // Image
-                      Positioned.fill(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
-                            child: CachedNetworkImage(
-                              imageUrl: widget.imageUrl,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              fit: BoxFit.cover,
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Adjust the radius as needed
+                          child: CachedNetworkImage(
+                            imageUrl: widget.imageUrl,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
                             ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
