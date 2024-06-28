@@ -24,6 +24,16 @@ class MoreQr extends StatefulWidget {
 
 class _MoreQrState extends State<MoreQr> {
   List<String> favlist = [];
+  Map<String, dynamic> fakedata = {
+    "qr_code_status": "fake",
+    "qr_code_created_on": 1714738115822,
+    "qr_code_image_url_key": "2Omp.png",
+    "qr_code_category": "fake",
+    "qr_code_id": "fake",
+    "qr_prompt": "fake",
+    "price": null
+  };
+  Color? mostProminentColor;
 
   @override
   void initState() {
@@ -31,7 +41,7 @@ class _MoreQrState extends State<MoreQr> {
     if (loggedinmain) {
       loadFavourites();
     }
-    print("Hello");
+    fetchMostProminentColor();
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
@@ -59,6 +69,21 @@ class _MoreQrState extends State<MoreQr> {
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
     return Color(mostProminentColor);
+  }
+
+  Future<void> fetchMostProminentColor() async {
+    try {
+      final color = await getMostProminentColor(widget.imageUrl);
+      setState(() {
+        mostProminentColor = color;
+        isloading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isloading = false;
+      });
+      print('Error: $e');
+    }
   }
 
   Future<void> loadFavourites() async {
@@ -147,32 +172,31 @@ class _MoreQrState extends State<MoreQr> {
           ],
         ),
         body: SingleChildScrollView(
-          child: card(context),
+          child: isloading
+              ? card(fakedata, "")
+              : card(widget.item, widget.imageUrl),
         ),
       ),
     );
   }
 
-  Skeletonizer card(BuildContext context) {
+  Skeletonizer card(dynamic item, String imageUrl) {
     return Skeletonizer(
       enabled: isloading,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          FutureBuilder(
-            future: getMostProminentColor(widget.imageUrl),
-            builder: (context, snapshot) {
-              if (snapshot.hasData ||
-                  snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(
-                  width: 600,
-                  height: 500,
-                  child: Stack(
-                    children: [
-                      // Gradient background
-                      Container(
-                        decoration: BoxDecoration(
+          SizedBox(
+            width: 600,
+            height: 500,
+            child: Stack(
+              children: [
+                // Gradient background
+                Container(
+                  decoration: isloading
+                      ? const BoxDecoration(color: Colors.black)
+                      : BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
@@ -180,40 +204,27 @@ class _MoreQrState extends State<MoreQr> {
                             colors: [
                               Colors.black,
                               Colors.black,
-                              snapshot.data!.withOpacity(0.9),
-                              snapshot.data!,
+                              mostProminentColor!.withOpacity(0.9),
+                              mostProminentColor!,
                             ],
                           ),
                         ),
-                      ),
-                      // Image
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Adjust the radius as needed
-                          child: CachedNetworkImage(
-                            imageUrl: widget.imageUrl,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
+                ),
+                // Image
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                );
-              }
-              if (snapshot.hasError) {
-                return const Center(child: Text('Error loading gradient'));
-              } else {
-                return const Center(child: Text('No color found'));
-              }
-            },
+                ),
+              ],
+            ),
           ),
           const SizedBox(
             height: 5.0,
@@ -222,11 +233,9 @@ class _MoreQrState extends State<MoreQr> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
             child: Container(
-              height:
-                  MediaQuery.of(context).size.height * 0.1, // Adjust as needed
+              height: MediaQuery.of(context).size.height * 0.1,
               decoration: BoxDecoration(
                 border: Border.all(
-                  // color: const Color(0xff121212),
                   width: 2.0,
                 ),
                 borderRadius: BorderRadius.circular(10.0),
@@ -241,7 +250,7 @@ class _MoreQrState extends State<MoreQr> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "#${widget.item['qr_code_id'] ?? 'ID not available'}",
+                            "#${item['qr_code_id']}",
                             style: const TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
@@ -250,8 +259,7 @@ class _MoreQrState extends State<MoreQr> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                             child: Text(
-                              widget.item['qr_code_category'] ??
-                                  'Category not available',
+                              item['qr_code_category'],
                               style: const TextStyle(
                                 fontSize: 16.0,
                               ),
@@ -269,20 +277,21 @@ class _MoreQrState extends State<MoreQr> {
                             liked = !liked;
                           });
                           Fluttertoast.showToast(
-                              msg: "Added to Favourites!",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor:
-                                  const Color.fromARGB(134, 0, 0, 0),
-                              textColor: Colors.white,
-                              fontSize: 18.0);
+                            msg: "Added to Favourites!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: const Color.fromARGB(134, 0, 0, 0),
+                            textColor: Colors.white,
+                            fontSize: 18.0,
+                          );
                           await toggleFavourite();
                         } else {
                           print("show modal sheet");
                           showModalBottomSheet(
-                              context: context,
-                              builder: (context) => const LoginModalSheet());
+                            context: context,
+                            builder: (context) => const LoginModalSheet(),
+                          );
                         }
                       },
                       color: Colors.white,
@@ -304,8 +313,7 @@ class _MoreQrState extends State<MoreQr> {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 labelText: 'Enter Redirect URL',
                 labelStyle: const TextStyle(
-                  fontSize:
-                      12.0, // Set the desired font size for the label text
+                  fontSize: 12.0,
                 ),
                 fillColor: const Color(0xFF1b1b1b),
                 filled: true,
@@ -329,18 +337,18 @@ class _MoreQrState extends State<MoreQr> {
                   Payment(
                     context: context,
                     amount: "500",
-                    qrCodeId: widget.item['qr_code_id'] ?? '',
+                    qrCodeId: item['qr_code_id'],
                     redirectUrl: urlcontroller.text,
                   );
                 } else {
                   showModalBottomSheet(
-                      context: context,
-                      builder: (context) => const LoginModalSheet());
+                    context: context,
+                    builder: (context) => const LoginModalSheet(),
+                  );
                 }
               },
               child: Container(
-                height: MediaQuery.of(context).size.height *
-                    0.05, // Adjust as needed
+                height: MediaQuery.of(context).size.height * 0.05,
                 decoration: BoxDecoration(
                   color: const Color(0xff2081e2),
                   borderRadius: BorderRadius.circular(10.0),
