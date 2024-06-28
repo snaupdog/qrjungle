@@ -1,7 +1,6 @@
 //import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
-import 'package:qrjungle/myshitcode/testpage.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -52,12 +51,6 @@ class _ExplorePageState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const SkeletonizerDemoPage()));
-      }),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(

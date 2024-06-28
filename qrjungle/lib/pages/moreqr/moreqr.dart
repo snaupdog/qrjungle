@@ -118,11 +118,6 @@ class _MoreQrState extends State<MoreQr> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          setState(() {
-            isloading = !isloading;
-          });
-        }),
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -144,7 +139,6 @@ class _MoreQrState extends State<MoreQr> {
                           icon: const Icon(Icons.arrow_back, size: 25),
                           onPressed: () {
                             Navigator.pop(context);
-                            print("Back Button");
                           },
                           color: Colors.white,
                         ),
