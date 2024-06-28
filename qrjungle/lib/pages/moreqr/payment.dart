@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Payment {
@@ -42,14 +43,76 @@ class Payment {
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
     showAlertDialog(
       "Payment Failed",
-      "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}",
+      "Description: ${response.message}",
     );
   }
 
-  void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
-    Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
-    showAlertDialog("Payment Successful", "Payment ID: ${response.paymentId}");
-  }
+    //showAlertDialog("Payment Successful", "Payment ID: ${response.paymentId}");
+    void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
+  Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
+  
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        backgroundColor: Colors.black,
+        title: Text(
+          'Payment Successful!',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>PageSelect(initialIndex: 0,)));                
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Change color as needed
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+                child: Text(
+                  'Browse More QRs',
+                  style: TextStyle(fontSize: 16.0, color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>PageSelect(initialIndex: 1,)));                     
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Change color as needed
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+                child: Text(
+                  'View Your QRs',
+                  style: TextStyle(fontSize: 16.0, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+  
 
   fetchOrderId() async {
     print("Fetching order id");

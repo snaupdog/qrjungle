@@ -114,9 +114,11 @@ bool loady = false;
                 }
               },
             ),
+            SizedBox(height: 15),
             (loady) ? Column(
               children: [
-                Text('Please wait...'),
+                Text('Verifying'),
+                SizedBox(height: 5,),
                 CircularProgressIndicator(),
               ],
             ) : SizedBox()

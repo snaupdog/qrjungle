@@ -1,6 +1,7 @@
 import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
+import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/themes.dart';
 import 'pages/bottomnavbar/profile.dart';
 import 'pages/bottomnavbar/wishlist.dart';
@@ -61,9 +62,10 @@ class _PageSelectState extends State<PageSelect> {
               controller: _pageController,
               onPageChanged: onPageChanged,
               children: const [
-                ExplorePage(), // Widget Layout for Explore Page
-                WishlistPage(), // Widget Layout for Wishlist Page
-                ProfilePage(), // Widget Layout for Profile Page
+                ExplorePage(),
+                MyQRsPage(),
+                WishlistPage(),
+                ProfilePage(), 
               ],
             ),
           ),
@@ -77,9 +79,11 @@ class _PageSelectState extends State<PageSelect> {
               unselectedItemColor: alternatecolor,
               backgroundColor: colorcolor,
               currentIndex: _currentIndex,
-              bottomNavigationBarItems: const <BottomNavigationBarItem>[
+              bottomNavigationBarItems: const <BottomNavigationBarItem>[                
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.qr_code), label: 'Explore'),
+                    icon: Icon(Icons.local_mall_outlined), label: 'Explore'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code), label: 'MyQRs'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
                 BottomNavigationBarItem(

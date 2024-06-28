@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
-import 'package:qrjungle/pages/qrcardgrid.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool loggedinmain = false;
-String email ='';
+String email = '';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -20,24 +19,21 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   List myqrslist = [];
 
-
   @override
   void initState() {
     getloginstatus();
     super.initState();
-  getuserDetails();
+    getuserDetails();
   }
 
   getuserDetails() async {
-    if(email==""){
-       var res = await Apiss().listUserDetails();
-    print('Email: ${res[0]['user_name']}');
-    setState(() {
-      email = res[0]['user_name'];
-    });
-
+    if (email == "") {
+      var res = await Apiss().listUserDetails();
+      print('Email: ${res[0]['user_name']}');
+      setState(() {
+        email = res[0]['user_name'];
+      });
     }
-   
   }
 
   Future<String> signInCustomFlow(String username) async {
@@ -75,99 +71,47 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+        margin: const EdgeInsets.fromLTRB(12, 80, 12, 80),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              (!loggedinmain)
-                  ? Container()
-                  : TextButton.icon(
-                      onPressed: () async {
-                        SharedPreferences pref =
-                            await SharedPreferences.getInstance();
-                        await pref.clear();
-                        Fluttertoast.showToast(
-                            msg: "Logged Out!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 2,
-                            backgroundColor: const Color.fromARGB(134, 0, 0, 0),
-                            textColor: Colors.white,
-                            fontSize: 18.0);
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PageSelect(initialIndex: 2)),
-                            (route) => false);
-                      },
-                      label: const Text('Log Out',
-                          style: TextStyle(color: Colors.white)),
-                      icon: const Icon(Icons.logout, color: Colors.white),
-                    ),
               Center(child: Image.asset('assets/logo.png', height: 200)),
+              SizedBox(height: 30),
               Center(
-                child: (!loggedinmain)
-                    ? TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())).then((value) {
-                           
-                            getloginstatus();
-                          },);
-                        },
-                        label: const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
-                          child: Text(
-                            'Log In',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 22,
+                  child: (!loggedinmain)
+                      ? TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage())).then(
+                              (value) {
+                                getloginstatus();
+                              },
+                            );
+                          },
+                          label: const Padding(
+                            padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+                            child: Text(
+                              'Log In',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 2,
+                                fontSize: 22,
+                              ),
                             ),
                           ),
-                        ),
-                        icon: const Padding(
-                          padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                          child: Icon(Icons.exit_to_app_outlined,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(
-                              const Color.fromARGB(255, 32, 32, 32)),
-                        ),
-                      )
-                    : Text(email)
-              ),
-              SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'My QRs',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              (!loggedinmain)
-                  ? Container(
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      width: MediaQuery.sizeOf(context).width,
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 33, 33, 33)),
-                      child: const Center(
-                        child: Text('Log in to purchase your first QR!'),
-                      ),
-                    )
-                  : Container(
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: const Qrcardgrid(type: "myqrs", categoryName: "")),
-              const SizedBox(height: 20),
-              Center(
-                child: Row(
-                  children: [
+                          icon: const Padding(
+                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),                            
+                            child: Icon(Icons.exit_to_app_outlined,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        )
+                      : Text(email, style: TextStyle(fontSize: 19),)),
+                    SizedBox(height:30),
                     TextButton.icon(
                       onPressed: () {},
                       label: const Text(
@@ -194,9 +138,110 @@ class _ProfilePageState extends State<ProfilePage> {
                       icon: const Icon(Icons.info_outline,
                           color: Color.fromARGB(255, 255, 255, 255), size: 20),
                     ),
-                  ],
-                ),
-              ),
+                    (!loggedinmain)
+                  ? Container()
+                  : TextButton.icon(
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 5.0,
+                              backgroundColor: Colors.black,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      'Log Out',
+                                      style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(height: 20.0),
+                                    Text(
+                                      'Are you sure you want to log out?',
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 20.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            Navigator.of(context)
+                                                .pop();                                            
+                                            SharedPreferences pref =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            await pref.clear();
+                                            Fluttertoast.showToast(
+                                                msg: "Logged Out!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
+                                                timeInSecForIosWeb: 2,
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        134, 0, 0, 0),
+                                                textColor: Colors.white,
+                                                fontSize: 18.0);
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const PageSelect(
+                                                            initialIndex: 3)),
+                                                (route) => false);
+                                          },
+                                          child: Text('Yes'),
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                          child: Text('No'),
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Colors.grey,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      label: const Text('Log Out',
+                          style: TextStyle(color: Colors.white)),
+                      icon: const Icon(Icons.logout, color: Colors.white),
+                    ),
             ],
           ),
         ),

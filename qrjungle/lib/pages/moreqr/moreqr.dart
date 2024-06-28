@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
@@ -88,7 +88,7 @@ class _MoreQrState extends State<MoreQr> {
   }
 
   final TextEditingController urlcontroller = TextEditingController();
-
+  bool liked = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -150,12 +150,15 @@ class _MoreQrState extends State<MoreQr> {
                 future: getMostProminentColor(widget.imageUrl),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Skeletonizer(
+                    return const Skeletonizer(
                       enabled: true,
-                      child: Container(
+                      child: Skeleton.replace(
                         width: 600,
                         height: 500,
-                        color: Colors.red,
+                        child: SizedBox(
+                          width: 600,
+                          height: 500,
+                        ),
                       ),
                     );
                   } else if (snapshot.hasError) {
@@ -245,9 +248,22 @@ class _MoreQrState extends State<MoreQr> {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.favorite, size: 25),
+                          icon: Icon(
+                              liked ? Icons.favorite : Icons.favorite_border),
                           onPressed: () async {
                             if (loggedinmain) {
+                              setState(() {
+                                liked = !liked;
+                              });
+                              Fluttertoast.showToast(
+                                  msg: "Added to Favourites!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor:
+                                      const Color.fromARGB(134, 0, 0, 0),
+                                  textColor: Colors.white,
+                                  fontSize: 18.0);
                               await toggleFavourite();
                             } else {
                               print("show modal sheet");
