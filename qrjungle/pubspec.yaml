@@ -76,7 +76,7 @@ dev_dependencies:
 
 flutter_launcher_icons:
   android: "launcher_icon"
-  adaptive_icon_background: "#ffffff"
+  adaptive_icon_background: "#000000"
   adaptive_icon_foreground: "assets/logoo.png"
   ios: true   
   remove_alpha_ios: true
