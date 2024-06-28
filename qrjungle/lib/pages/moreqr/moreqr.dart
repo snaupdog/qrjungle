@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
@@ -9,6 +10,7 @@ import 'dart:typed_data';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -61,6 +63,9 @@ class _MoreQrState extends State<MoreQr> {
     return Color(mostProminentColor);
   }
 
+  
+  
+
   Future<void> loadFavourites() async {
     try {
       var response = await Apiss().listUserDetails();
@@ -87,7 +92,7 @@ class _MoreQrState extends State<MoreQr> {
   }
 
   final TextEditingController urlcontroller = TextEditingController();
-
+  bool liked = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -149,19 +154,22 @@ class _MoreQrState extends State<MoreQr> {
                 future: getMostProminentColor(widget.imageUrl),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
-                        child: Container(
-                          width: 600,
-                          height: 300,
-                          color: Colors.red,
+                    return Skeletonizer(
+                      enabled: !snapshot.hasData,
+                      child: Container(
+                        // height: MediaQuery.sizeOf(context).height*1,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
+                          child: Container(
+                            height: MediaQuery.sizeOf(context).height*0.42,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     );
                   } else if (snapshot.hasError) {
                     return const Center(child: Text('Error loading gradient'));
-                  } else if (snapshot.hasData) {
+                  } else if (snapshot.hasData) {                
                     return Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -243,9 +251,20 @@ class _MoreQrState extends State<MoreQr> {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.favorite, size: 25),
-                          onPressed: () async {
+                          icon: Icon(liked ? Icons.favorite : Icons.favorite_border),
+                          onPressed: () async {                            
                             if (loggedinmain) {
+                              setState(() {
+                              liked = !liked;
+                            });
+                           Fluttertoast.showToast(
+                            msg: "Added to Favourites!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: const Color.fromARGB(134, 0, 0, 0),
+                            textColor: Colors.white,
+                            fontSize: 18.0);
                               await toggleFavourite();
                             } else {
                               print("show modal sheet");
