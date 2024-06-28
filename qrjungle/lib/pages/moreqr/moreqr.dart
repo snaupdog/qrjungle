@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -149,20 +150,20 @@ class _MoreQrState extends State<MoreQr> {
                 future: getMostProminentColor(widget.imageUrl),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 10.0),
-                        child: Container(
-                          width: 600,
-                          height: 300,
-                          color: Colors.red,
-                        ),
+                    return Skeletonizer(
+                      enabled: true,
+                      child: Container(
+                        width: 600,
+                        height: 500,
+                        color: Colors.red,
                       ),
                     );
                   } else if (snapshot.hasError) {
                     return const Center(child: Text('Error loading gradient'));
                   } else if (snapshot.hasData) {
                     return Container(
+                      width: 600,
+                      height: 500,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
@@ -188,6 +189,7 @@ class _MoreQrState extends State<MoreQr> {
                                 child: CircularProgressIndicator()),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
