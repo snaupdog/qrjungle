@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
+import 'package:qrjungle/pages/moreqr/viewmyqr.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 
 class Qrcardgrid extends StatefulWidget {
@@ -23,6 +24,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
 
   TextEditingController emailController = TextEditingController();
   var qrlisty = [];
+  bool inmyqrs = false;
 
   void LogInModalSheet(BuildContext context) {
     showModalBottomSheet(
@@ -82,6 +84,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         await Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
+          inmyqrs = true;
         });
         break;
       default:
@@ -99,93 +102,108 @@ class _QrcardgridState extends State<Qrcardgrid> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 1.0),
-        child: 
-        (qrlisty.isEmpty)?Center(child: Text("empty"),):
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 7.0,
-              mainAxisSpacing: 10.0,
-              childAspectRatio: 2 / 3),
-          itemCount: qrlisty.length,
-          itemBuilder: (context, index) {
-            final imageurl = qrlisty[index]['qr_code_image_url_key'];
-            final item = qrlisty[index];
-            return FutureBuilder(
-                future: getimage(imageurl),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return GestureDetector(
-                      onTap: () {                        
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MoreQr(
-                                    imageUrl: snapshot.data.toString(),
-                                    item: item)),
-                          );                        
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: Card(
-                            shadowColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15.0),
-                                    topRight: Radius.circular(15.0),
+        child: (qrlisty.isEmpty)
+            ? Center(
+                child: Text("empty"),
+              )
+            : GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 7.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 2 / 3),
+                itemCount: qrlisty.length,
+                itemBuilder: (context, index) {
+                  final imageurl = qrlisty[index]['qr_code_image_url_key'];
+                  final item = qrlisty[index];
+                  return FutureBuilder(
+                      future: getimage(imageurl),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return GestureDetector(
+                            onTap: () {
+                              print(inmyqrs);
+                              inmyqrs
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => VierMyQr(
+                                              imageUrl:
+                                                  snapshot.data.toString(),
+                                              item: item)),
+                                    )
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MoreQr(
+                                              imageUrl:
+                                                  snapshot.data.toString(),
+                                              item: item)),
+                                    );
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Card(
+                                  shadowColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
                                   ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: snapshot.data.toString(),
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                      child: Text(
-                                        "${item['qr_code_id']}",
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15.0),
+                                          topRight: Radius.circular(15.0),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: snapshot.data.toString(),
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 0, 0, 0),
+                                            child: Text(
+                                              "${item['qr_code_id']}",
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Text("Hello");
-                  } else {
-                    return Container(
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      width: MediaQuery.sizeOf(context).width,
-                      decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 33, 33, 33)),
-                      child: const Center(
-                        child: Text('insert loader'),
-                      ),
-                    );
-                  }
-                });
-          },
-        ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return const Text("Hello");
+                        } else {
+                          return Container(
+                            height: MediaQuery.sizeOf(context).height * 0.3,
+                            width: MediaQuery.sizeOf(context).width,
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 33, 33, 33)),
+                            child: const Center(
+                              child: Text('insert loader'),
+                            ),
+                          );
+                        }
+                      });
+                },
+              ),
       ),
     );
   }

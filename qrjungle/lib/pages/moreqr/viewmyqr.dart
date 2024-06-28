@@ -10,28 +10,24 @@ import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 
-class MoreQr extends StatefulWidget {
+class VierMyQr extends StatefulWidget {
   final String imageUrl;
   final dynamic item;
 
-  const MoreQr({Key? key, required this.imageUrl, required this.item})
+  const VierMyQr({Key? key, required this.imageUrl, required this.item})
       : super(key: key);
 
   @override
-  State<MoreQr> createState() => _MoreQrState();
+  State<VierMyQr> createState() => _VierMyQrState();
 }
 
-class _MoreQrState extends State<MoreQr> {
+class _VierMyQrState extends State<VierMyQr> {
   List<String> favlist = [];
 
   @override
   void initState() {
     super.initState();
-    if (loggedinmain) {
-      loadFavourites();
-    }
     print(widget.item);
-    print("Hello");
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
@@ -59,31 +55,6 @@ class _MoreQrState extends State<MoreQr> {
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
     return Color(mostProminentColor);
-  }
-
-  Future<void> loadFavourites() async {
-    try {
-      var response = await Apiss().listUserDetails();
-      var data = response[0]['favourites'];
-      setState(() {
-        favlist = List<String>.from(data);
-      });
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
-  Future<void> toggleFavourite() async {
-    await loadFavourites();
-    if (favlist.contains(widget.item['qr_code_id'])) {
-      favlist.remove(widget.item['qr_code_id']);
-      print("removed from wishlist");
-    } else {
-      favlist.add(widget.item['qr_code_id']);
-      print("added to wishlist");
-    }
-    await Apiss().addFavourites(favlist);
-    print("Updated favourites");
   }
 
   final TextEditingController urlcontroller = TextEditingController();
@@ -203,63 +174,44 @@ class _MoreQrState extends State<MoreQr> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height *
-                      0.1, // Adjust as needed
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      // color: const Color(0xff121212),
-                      width: 2.0,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 17.0, vertical: 10.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "#${widget.item['qr_code_id']}",
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 17.0, vertical: 10.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "#${widget.item['qr_code_id']}",
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Text(
+                                widget.item['qr_code_category'],
                                 style: const TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                child: Text(
-                                  widget.item['qr_code_category'],
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.favorite, size: 25),
-                          onPressed: () async {
-                            if (loggedinmain) {
-                              await toggleFavourite();
-                            } else {
-                              print("show modal sheet");
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) =>
-                                      const LoginModalSheet());
-                            }
-                          },
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                ),
+              ),
+              Text(
+                "current url - ${widget.item['redirect_url']}",
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const Divider(
@@ -272,7 +224,7 @@ class _MoreQrState extends State<MoreQr> {
                   controller: urlcontroller,
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                    labelText: 'Enter Redirect URL',
+                    labelText: 'Enter Reset URL',
                     labelStyle: const TextStyle(
                       fontSize:
                           12.0, // Set the desired font size for the label text
@@ -290,43 +242,6 @@ class _MoreQrState extends State<MoreQr> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
-                child: InkWell(
-                  onTap: () {
-                    if (loggedinmain) {
-                      Payment(
-                        context: context,
-                        amount: "500",
-                        qrCodeId: widget.item['qr_code_id'],
-                        redirectUrl: urlcontroller.text,
-                      );
-                    } else {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const LoginModalSheet());
-                    }
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height *
-                        0.05, // Adjust as needed
-                    decoration: BoxDecoration(
-                      color: const Color(0xff2081e2),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Purchase QR',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
