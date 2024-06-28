@@ -14,126 +14,53 @@ class Payment {
     required this.context,
     required this.amount,
     required this.qrCodeId,
-    required String redirectUrl,
+    required this.redirectUrl,
     this.currency = "INR",
-  }) : redirectUrl = redirectUrl.startsWith('https://')
-            ? redirectUrl
-            : 'https://$redirectUrl' {
+  }) {
     print(
         "initiating payment with amount - $amount \n qrCodeId - $qrCodeId \n redirectUrl - $redirectUrl \n currency -  $currency");
     initiatePayment();
   }
 
-  void showAlertDialog(String title, String message) {
-    Widget continueButton = ElevatedButton(
-      child: const Text("Continue"),
-      onPressed: () {},
-    );
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [continueButton],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
+  void navigateToResultPage(String title, String message, {bool success = false}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentResultPage(
+          title: title,
+          message: message,
+          success: success,
+          redirectUrl: redirectUrl,
+        ),
+      ),
     );
   }
 
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
-    showAlertDialog(
+    navigateToResultPage(
       "Payment Failed",
       "Description: ${response.message}",
+      success: false,
     );
   }
 
-  //showAlertDialog("Payment Successful", "Payment ID: ${response.paymentId}");
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
     Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          backgroundColor: Colors.black,
-          title: Text(
-            'Payment Successful!',
-            style: TextStyle(color: Colors.white),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PageSelect(
-                                initialIndex: 0,
-                              )));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Change color as needed
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                  child: Text(
-                    'Browse More QRs',
-                    style: TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PageSelect(
-                                initialIndex: 1,
-                              )));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Change color as needed
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                  child: Text(
-                    'View Your QRs',
-                    style: TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+    navigateToResultPage(
+      "Payment Successful!",
+      "Payment ID: ${response.paymentId}",
+      success: true,
     );
   }
 
-  fetchOrderId() async {
+  Future<String?> fetchOrderId() async {
     print("Fetching order id");
     try {
       final orderId = await Apiss().createOrder(amount, currency);
       return orderId;
     } catch (e) {
       print("Error fetching orderId: $e");
-      // Handle error scenario if needed
       return null;
     }
   }
@@ -163,7 +90,92 @@ class Payment {
     if (orderId != null) {
       startPayment(orderId);
     } else {
-      showAlertDialog("Error", "Failed to create order. Please try again.");
+      navigateToResultPage("Error", "Failed to create order. Please try again.");
     }
+  }
+}
+
+class PaymentResultPage extends StatelessWidget {
+  final String title;
+  final String message;
+  final bool success;
+  final String redirectUrl;
+
+  PaymentResultPage({
+    required this.title,
+    required this.message,
+    required this.success,
+    required this.redirectUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              message,
+              style: TextStyle(fontSize: 18.0),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.0),
+            success ? PaymentSuccessActions(redirectUrl: redirectUrl) : Container(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PaymentSuccessActions extends StatelessWidget {
+  final String redirectUrl;
+
+  PaymentSuccessActions({required this.redirectUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PageSelect(initialIndex: 0)));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+            child: Text(
+              'Browse More QRs',
+              style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+            ),
+          ),
+        ),
+        SizedBox(height: 10.0),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PageSelect(initialIndex: 1)));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+            child: Text(
+              'View Your QRs',
+              style: TextStyle(fontSize: 16.0, color: const Color.fromARGB(255, 0, 0, 0)),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
