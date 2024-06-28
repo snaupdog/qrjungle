@@ -208,7 +208,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                 children: <Widget>[
                                   SizedBox(
                                     width: 100,
-                                    height: 180,
+                                    height: 200,
                                     child: ClipRRect(
                                       borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(15.0),
