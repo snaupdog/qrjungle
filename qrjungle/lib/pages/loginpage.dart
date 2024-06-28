@@ -33,7 +33,8 @@ class _LoginPageState extends State<LoginPage> {
       return e.message;
     }
   }
-  bool loader=false;
+
+  bool loader = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
+    TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.transparent),
@@ -54,13 +55,13 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(child: Image.asset('assets/logo.png', height: 200)),              
-                SizedBox(height: 50),
+                Center(child: Image.asset('assets/logo.png', height: 200)),
+                const SizedBox(height: 50),
                 Form(
                   key: formKey,
                   child: TextFormField(
                     controller: emailController,
-                    style: _textTheme.bodySmall,
+                    style: textTheme.bodySmall,
                     decoration: const InputDecoration(
                       hintText: 'Enter Email ID',
                       focusedBorder: UnderlineInputBorder(
@@ -83,34 +84,37 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
-
                         setState(() {
-                          loader=true;
+                          loader = true;
                         });
 
-                        String result = await signInCustomFlow(emailController.text);
+                        String result =
+                            await signInCustomFlow(emailController.text);
 
                         setState(() {
-                          loader=false;
+                          loader = false;
                         });
 
                         if (result == 'Success') {
-                          print('Signed in Successfully, Enter OTP');                          
+                          print('Signed in Successfully, Enter OTP');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OTPVerify(email: emailController.text),
+                              builder: (context) =>
+                                  OTPVerify(email: emailController.text),
                             ),
                           );
                         } else {
                           await Apiss().signup(emailController.text);
-                          String result2 = await signInCustomFlow(emailController.text);
+                          String result2 =
+                              await signInCustomFlow(emailController.text);
                           if (result2 == 'Success') {
-                            print('Signed in Successfully, Enter OTP');                            
+                            print('Signed in Successfully, Enter OTP');
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OTPVerify(email: emailController.text),
+                                builder: (context) =>
+                                    OTPVerify(email: emailController.text),
                               ),
                             );
                           } else {
@@ -119,7 +123,8 @@ class _LoginPageState extends State<LoginPage> {
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.TOP,
                                 timeInSecForIosWeb: 1,
-                                backgroundColor: const Color.fromARGB(134, 0, 0, 0),
+                                backgroundColor:
+                                    const Color.fromARGB(134, 0, 0, 0),
                                 textColor: Colors.white,
                                 fontSize: 16.0);
                           }
@@ -135,20 +140,24 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 18.0);
                       }
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(110, 20, 110, 20),
-                      child:
-                      
-                      (loader)?Center(child: SpinKitThreeBounce(color: Colors.white, size: 23),): Text('Submit',
-                          style:
-                              _textTheme.bodySmall?.copyWith(color: const Color.fromARGB(255, 255, 255, 255))),
-                    ),
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(                      
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: const BorderSide(color: Colors.white),
                       ),
                       backgroundColor: Colors.transparent,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(110, 20, 110, 20),
+                      child: (loader)
+                          ? const Center(
+                              child: SpinKitThreeBounce(
+                                  color: Colors.white, size: 23),
+                            )
+                          : Text('Submit',
+                              style: textTheme.bodySmall?.copyWith(
+                                  color: const Color.fromARGB(
+                                      255, 255, 255, 255))),
                     ),
                   ),
                 ),

@@ -32,7 +32,6 @@ class _ExplorePageState extends State<ExplorePage> {
         categoryname = items
             .map<String>((item) => item['category_name'] as String)
             .toList();
-        print(categoryname);
         isLoading = false;
       });
     } catch (e) {
