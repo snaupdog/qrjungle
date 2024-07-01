@@ -54,10 +54,13 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Qrcardgrid(type: "categories", categoryName: widget.catname)
-              ],
+            child: Container(
+              margin: EdgeInsets.all(14),
+              child: Column(
+                children: [
+                  Qrcardgrid(type: "categories", categoryName: widget.catname)
+                ],
+              ),
             ),
           ),
         ],

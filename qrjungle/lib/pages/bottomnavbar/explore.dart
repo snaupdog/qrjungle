@@ -71,8 +71,8 @@ class _ExplorePageState extends State<ExplorePage> {
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
               isLoading
-                  ? newMethod(textTheme, fakedata)
-                  : newMethod(textTheme, categoryname),
+                  ? CategoryCard(textTheme, fakedata)
+                  : CategoryCard(textTheme, categoryname),
               Text('All QR Codes',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
@@ -84,7 +84,7 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
-  Skeletonizer newMethod(TextTheme textTheme, List<String> categoryname) {
+  Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
     return Skeletonizer(
       enabled: isLoading,
       enableSwitchAnimation: true,
@@ -92,7 +92,7 @@ class _ExplorePageState extends State<ExplorePage> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 1.08, crossAxisCount: 2),
+              childAspectRatio: 0.9, crossAxisCount: 2),
           itemCount: categoryname.length,
           itemBuilder: (context, index) {
             return InkWell(
@@ -107,7 +107,7 @@ class _ExplorePageState extends State<ExplorePage> {
               },
               child: Container(
                 margin: const EdgeInsets.all(8),
-                height: MediaQuery.sizeOf(context).height * 0.2,
+                height: MediaQuery.sizeOf(context).height * 0.3,
                 width: MediaQuery.sizeOf(context).width * 0.43,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(13)),
@@ -117,7 +117,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.13,
+                        height: MediaQuery.sizeOf(context).height * 0.16,
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(13)),

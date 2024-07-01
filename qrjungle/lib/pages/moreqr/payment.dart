@@ -145,10 +145,13 @@ class PaymentSuccessActions extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PageSelect(initialIndex: 0)));
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PageSelect(initialIndex: 0),
+              ),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
@@ -168,10 +171,13 @@ class PaymentSuccessActions extends StatelessWidget {
         SizedBox(height: 10.0),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PageSelect(initialIndex: 1)));
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PageSelect(initialIndex: 1),
+              ),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
