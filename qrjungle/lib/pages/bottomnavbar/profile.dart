@@ -184,6 +184,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       children: <Widget>[
                                         ElevatedButton(
                                           onPressed: () async {
+                                            Apiss.myqrslist = [];
+                                            Apiss.myfavslist = [];
                                             SharedPreferences pref =
                                                 await SharedPreferences
                                                     .getInstance();

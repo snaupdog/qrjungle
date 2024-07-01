@@ -183,7 +183,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
                           snapshot.connectionState == ConnectionState.waiting) {
                         return GestureDetector(
                           onTap: () {
-                            print(inmyqrs);
                             inmyqrs
                                 ? Navigator.push(
                                     context,
