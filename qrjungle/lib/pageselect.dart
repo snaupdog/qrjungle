@@ -50,9 +50,29 @@ class _PageSelectState extends State<PageSelect> {
     Color alternatecolor =
         brightness == Brightness.dark ? Colors.white : Colors.black;
 
+    String appBarTitle;
+    switch (_currentIndex) {
+      case 0:
+        appBarTitle = 'QrJungle';
+        break;
+      case 1:
+        appBarTitle = 'My QRs';
+        break;
+      case 2:
+        appBarTitle = 'Wishlist';
+        break;
+      case 3:
+        appBarTitle = 'Profile';
+        break;
+      default:
+        appBarTitle = '';
+        break;
+    }
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text('qrjungle'),
+          titleSpacing: 20,
+          title: Text(appBarTitle, style: TextStyle(fontSize: 30),),
         ),
         body: Stack(children: [
           SafeArea(

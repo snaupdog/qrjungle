@@ -33,28 +33,19 @@ class _MyQRsPageState extends State<MyQRsPage> {
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.end,
             children: [                 
-              const Center(
-                child: Text(
-                  'My QRs',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 32,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
               (!loggedinmain)
-                  ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
-                Image.asset('assets/empty.png', height: 150),
-                SizedBox(height: 15),
-                Text('Not Logged In :(', style: TextStyle(fontSize: 26)),
-              ],
-            ) 
+                  ? Center(
+                    child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                    SizedBox(height: MediaQuery.sizeOf(context).height*0.3),
+                                    Image.asset('assets/empty.png', height: 150),
+                                    SizedBox(height: 15),
+                                    Text('Not Logged In :(', style: TextStyle(fontSize: 26)),
+                                  ],
+                                ),
+                  ) 
                   : Container(
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       width: MediaQuery.sizeOf(context).width,

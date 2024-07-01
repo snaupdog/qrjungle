@@ -40,30 +40,21 @@ class _WishlistPageState extends State<WishlistPage> {
             padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
             child: Column(
               children: [
-                const Center(
-                  child: Text(
-                    'Wishlist',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 32,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
                 (!loggedinmain)
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                              height: MediaQuery.sizeOf(context).height * 0.2),
-                          Image.asset('assets/empty.png', height: 150),
-                          SizedBox(height: 15),
-                          Text('Not Logged In :(',
-                              style: TextStyle(fontSize: 26)),
-                        ],
-                      )
+                    ? Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                height: MediaQuery.sizeOf(context).height * 0.3),
+                            Image.asset('assets/empty.png', height: 150),
+                            SizedBox(height: 15),
+                            Text('Not Logged In :(',
+                                style: TextStyle(fontSize: 26)),
+                          ],
+                        ),
+                    )
                     : Qrcardgrid(type: "wishlist", categoryName: ""),
               ],
             ),

@@ -152,16 +152,18 @@ class _QrcardgridState extends State<Qrcardgrid> {
                         style: TextStyle(fontSize: 40)),
                   ],
                 )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: MediaQuery.sizeOf(context).height * 0.2),
-                    Image.asset('assets/empty.png', height: 200),
-                    const SizedBox(height: 15),
-                    const Text('Empty :(', style: TextStyle(fontSize: 40)),
-                  ],
-                )
+              : Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.3),
+                      Image.asset('assets/empty.png', height: 150),
+                      const SizedBox(height: 15),
+                      const Text('Empty :(', style: TextStyle(fontSize: 26)),
+                    ],
+                  ),
+              )
           : GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
