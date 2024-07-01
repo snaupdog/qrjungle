@@ -95,7 +95,7 @@ class _VierMyQrState extends State<VierMyQr> {
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
           leading: Container(),
           actions: [
             Row(

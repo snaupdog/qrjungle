@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
@@ -30,6 +31,8 @@ class _ExplorePageState extends State<ExplorePage> {
         categoryname = Apiss.catageroylist
             .map<String>((item) => item['category_name'] as String)
             .toList();
+        print(Apiss.catageroylist);
+        print(categoryname);
         isLoading = false;
       });
     } catch (e) {
@@ -54,7 +57,7 @@ class _ExplorePageState extends State<ExplorePage> {
             children: [
               Center(
                 child: AnimatedContainer(
-                  duration: Duration(seconds: 4),
+                  duration: const Duration(seconds: 4),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.17,
                   decoration: BoxDecoration(
@@ -66,7 +69,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Text('Categories',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
@@ -89,45 +92,54 @@ class _ExplorePageState extends State<ExplorePage> {
       enabled: isLoading,
       enableSwitchAnimation: true,
       child: GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 1.08, crossAxisCount: 2),
-          itemCount: categoryname.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CategoryPage(
-                              catname: categoryname[index],
-                              catimageurl: 'assets/qrsample.png',
-                            )));
-              },
-              child: Container(
-                margin: const EdgeInsets.all(8),
-                height: MediaQuery.sizeOf(context).height * 0.2,
-                width: MediaQuery.sizeOf(context).width * 0.43,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(13)),
-                  color: Color(0xff1B1B1B),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 7.0,
+            mainAxisSpacing: 10.0,
+            childAspectRatio: 1),
+        itemCount: categoryname.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CategoryPage(
+                            catname: categoryname[index],
+                            catimageurl: 'assets/qrsample.png',
+                          )));
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.13,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(13)),
-                          child: Image.asset('assets/qrsample.png',
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.cover),
-                        )),
+                      height: 135,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        child: Image.asset('assets/qrsample.png',
+                            fit: BoxFit.cover),
+
+                        // child: CachedNetworkImage(
+                        //   imageUrl:
+                        //       "https://img.cutenesscdn.com/640/media-storage/contentlab-data/11/12/85a43f6b7a904946a3a3b125273fc548.jpeg",
+                        //   fit: BoxFit.cover,
+                        // ),
+                      ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.all(5.5),
+                      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
                       child: Text(
                           (categoryname[index].toString().replaceFirst(
                               categoryname[index][0],
@@ -138,8 +150,10 @@ class _ExplorePageState extends State<ExplorePage> {
                   ],
                 ),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 }
