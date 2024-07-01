@@ -24,6 +24,7 @@ class _WishlistPageState extends State<WishlistPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(loggedinmain);
     return Scaffold(
       // body: Container(
       //   margin: const EdgeInsets.fromLTRB(12, 14, 12, 0),
@@ -50,9 +51,8 @@ class _WishlistPageState extends State<WishlistPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
-                
-                (!loggedinmain) 
+                SizedBox(height: 15),                
+                (!loggedinmain)                 
                 ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/amplifyconfig.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themeselector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,7 @@ class _ConfigState extends State<Config> {
   void initState() {
     _configureAmplify();
     themeselector.addListener(themeListener);
+    getloginstatus();
     getValues();
     super.initState();
   }
@@ -81,6 +83,16 @@ class _ConfigState extends State<Config> {
     bool onb = pref.getBool('onboarded') ?? false;
     setState(() {
       onboarded = onb;
+    });
+  }
+   
+   getloginstatus() async {
+    print('******* LOGINSTATUS CALLED *********8');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    bool loggedin = pref.getBool('loggedin') ?? false;
+    print("loggedin from sp: $loggedin");
+    setState(() {
+      loggedinmain = loggedin;
     });
   }
 
