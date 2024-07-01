@@ -93,9 +93,9 @@ class _VierMyQrState extends State<VierMyQr> {
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black,
           leading: Container(),
           actions: [
             Row(
