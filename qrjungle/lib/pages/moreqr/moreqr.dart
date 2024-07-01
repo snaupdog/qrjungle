@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MoreQr extends StatefulWidget {
@@ -84,6 +85,16 @@ class _MoreQrState extends State<MoreQr> {
       });
       print('Error: $e');
     }
+  }
+
+   getloginstatus() async {
+    print('******* LOGINSTATUS CALLED *********8');
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    bool loggedin = pref.getBool('loggedin') ?? false;
+    print("loggedin from sp: $loggedin");
+    setState(() {
+      loggedinmain = loggedin;
+    });
   }
 
   Future<void> loadFavourites() async {
