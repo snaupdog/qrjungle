@@ -12,7 +12,7 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: Color.fromARGB(255, 237, 244, 255),
     titleTextStyle: TextStyle(
-        color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 35),
+        color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 20),
   ),
   scaffoldBackgroundColor: primarycolor,
   floatingActionButtonTheme: FloatingActionButtonThemeData(

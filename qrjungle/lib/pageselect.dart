@@ -50,50 +50,69 @@ class _PageSelectState extends State<PageSelect> {
     Color alternatecolor =
         brightness == Brightness.dark ? Colors.white : Colors.black;
 
+    String appBarTitle;
+    switch (_currentIndex) {
+      case 1:
+        appBarTitle = 'My QRs';
+        break;
+      case 2:
+        appBarTitle = 'Wishlist';
+        break;
+      case 3:
+        appBarTitle = 'Profile';
+        break;
+      default:
+        appBarTitle = '';
+        break;
+    }
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('qrjungle'),
-        ),
-        body: Stack(children: [
-          SafeArea(
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _pageController,
-              onPageChanged: onPageChanged,
-              children: const [
-                ExplorePage(),
-                MyQRsPage(),
-                WishlistPage(),
-                ProfilePage(),
-              ],
+      appBar: _currentIndex == 0
+          ? null
+          : AppBar(
+              title: Text(appBarTitle, style: TextStyle(fontSize: 30)),
             ),
+      body: Stack(children: [
+        SafeArea(
+          child: PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            onPageChanged: onPageChanged,
+            children: const [
+              ExplorePage(),
+              MyQRsPage(),
+              WishlistPage(),
+              ProfilePage(),
+            ],
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 300,
-            child: BlurBottomView(
-              onIndexChange: onItemTapped,
-              selectedItemColor: accentcolor,
-              showSelectedLabels: true,
-              unselectedItemColor: alternatecolor,
-              backgroundColor: colorcolor,
-              currentIndex: _currentIndex,
-              bottomNavigationBarItems: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.local_mall_outlined),
-                  label: 'Explore',
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.qr_code), label: 'MyQRs'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: 'Profile'),
-              ],
-            ),
-          )
-        ]));
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 300,
+          child: BlurBottomView(
+            onIndexChange: onItemTapped,
+            selectedItemColor: accentcolor,
+            showSelectedLabels: true,
+            unselectedItemColor: alternatecolor,
+            backgroundColor: colorcolor,
+            currentIndex: _currentIndex,
+            bottomNavigationBarItems: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.local_mall_outlined),
+                label: 'Explore',
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.qr_code), label: 'MyQRs'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: 'Profile'),
+            ],
+          ),
+        )
+      ]),
+    );
   }
 }

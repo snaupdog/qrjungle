@@ -74,8 +74,8 @@ class _ExplorePageState extends State<ExplorePage> {
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
               isLoading
-                  ? newMethod(textTheme, fakedata)
-                  : newMethod(textTheme, categoryname),
+                  ? CategoryCard(textTheme, fakedata)
+                  : CategoryCard(textTheme, categoryname),
               Text('All QR Codes',
                   style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
@@ -87,7 +87,7 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
-  Skeletonizer newMethod(TextTheme textTheme, List<String> categoryname) {
+  Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
     return Skeletonizer(
       enabled: isLoading,
       enableSwitchAnimation: true,
