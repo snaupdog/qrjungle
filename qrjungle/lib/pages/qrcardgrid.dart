@@ -153,7 +153,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   ],
                 )
               : Center(
-                child: Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -163,7 +163,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                       const Text('Empty :(', style: TextStyle(fontSize: 26)),
                     ],
                   ),
-              )
+                )
           : GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
