@@ -42,19 +42,20 @@ class _WishlistPageState extends State<WishlistPage> {
               children: [
                 (!loggedinmain)
                     ? Center(
-                      child: Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                                height: MediaQuery.sizeOf(context).height * 0.3),
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.3),
                             Image.asset('assets/empty.png', height: 150),
                             SizedBox(height: 15),
                             Text('Not Logged In :(',
                                 style: TextStyle(fontSize: 26)),
                           ],
                         ),
-                    )
+                      )
                     : Qrcardgrid(type: "wishlist", categoryName: ""),
               ],
             ),

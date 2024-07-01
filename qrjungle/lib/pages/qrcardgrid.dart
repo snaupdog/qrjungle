@@ -128,10 +128,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.0),
-        child: isloading ? qrcard(fakedata) : qrcard(qrlisty),
-      ),
+      child: isloading ? qrcard(fakedata) : qrcard(qrlisty),
     );
   }
 
@@ -153,7 +150,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   ],
                 )
               : Center(
-                child: Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -163,7 +160,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                       const Text('Empty :(', style: TextStyle(fontSize: 26)),
                     ],
                   ),
-              )
+                )
           : GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -200,47 +197,44 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                   );
                           },
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             child: Card(
                               // shadowColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  SizedBox(
-                                    width: 100,
-                                    height: 200,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(15.0),
-                                        topRight: Radius.circular(15.0),
-                                      ),
-                                      child: Skeleton.replace(
-                                        width: 100,
-                                        height: 200,
-                                        child: snapshot.data != null
-                                            ? CachedNetworkImage(
-                                                imageUrl:
-                                                    snapshot.data.toString(),
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Container(),
-                                      ),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15.0),
+                                      topRight: Radius.circular(15.0),
+                                    ),
+                                    child: Skeleton.replace(
+                                      width: 100,
+                                      height: 200,
+                                      child: snapshot.data != null
+                                          ? CachedNetworkImage(
+                                              imageUrl:
+                                                  snapshot.data.toString(),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Container(),
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 20.0, 0, 0),
-                                        child: Text(
-                                          "#${item['qr_code_id']}",
-                                        ),
+                                      Text(
+                                        "#${item['qr_code_id']}",
+                                        style: const TextStyle(fontSize: 15.0),
+                                      ),
+                                      const Text(
+                                        "100\$",
+                                        style: TextStyle(fontSize: 10.0),
                                       ),
                                     ],
                                   ),

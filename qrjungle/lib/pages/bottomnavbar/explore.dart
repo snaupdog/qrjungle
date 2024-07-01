@@ -139,7 +139,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 0),
                       child: Text(
                           (categoryname[index].toString().replaceFirst(
                               categoryname[index][0],
