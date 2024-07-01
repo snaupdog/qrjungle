@@ -235,22 +235,55 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            12.0, 20.0, 0, 0),
-                                        child: Text(
-                                          "#${item['qr_code_id']}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                                        ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                12.0, 10.0, 0, 0),
+                                            child: Text(
+                                              "#${item['qr_code_id']}",
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                12.0, 8.0, 0, 0),
+                                            child: Text(
+                                              "Buy Now",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                12.0, 0.0, 0, 0),
+                                            child: Text(
+                                              "8.00 \$",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 20.0, 12, 0),
-                                        child: Text(
-                                          "8\$", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0.0, 50.0, 20.0, 0),
+                                        child: const Icon(
+                                          Icons.favorite_outline,
+                                          color: Colors.grey,
                                         ),
                                       ),
                                     ],
-                                  ), 
+                                  ),
                                 ],
                               ),
                             ),
