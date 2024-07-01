@@ -22,7 +22,8 @@ class Payment {
     initiatePayment();
   }
 
-  void navigateToResultPage(String title, String message, {bool success = false}) {
+  void navigateToResultPage(String title, String message,
+      {bool success = false}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -46,6 +47,7 @@ class Payment {
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
     Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
+    Apiss().listmyqrs();
 
     navigateToResultPage(
       "Payment Successful!",
@@ -90,7 +92,8 @@ class Payment {
     if (orderId != null) {
       startPayment(orderId);
     } else {
-      navigateToResultPage("Error", "Failed to create order. Please try again.");
+      navigateToResultPage(
+          "Error", "Failed to create order. Please try again.");
     }
   }
 }
@@ -121,7 +124,9 @@ class PaymentResultPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20.0),
-            success ? PaymentSuccessActions(redirectUrl: redirectUrl) : Container(),
+            success
+                ? PaymentSuccessActions(redirectUrl: redirectUrl)
+                : Container(),
           ],
         ),
       ),
@@ -140,7 +145,10 @@ class PaymentSuccessActions extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PageSelect(initialIndex: 0)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PageSelect(initialIndex: 0)));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
@@ -152,14 +160,18 @@ class PaymentSuccessActions extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
             child: Text(
               'Browse More QRs',
-              style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(
+                  fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         ),
         SizedBox(height: 10.0),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PageSelect(initialIndex: 1)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PageSelect(initialIndex: 1)));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
@@ -171,7 +183,8 @@ class PaymentSuccessActions extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
             child: Text(
               'View Your QRs',
-              style: TextStyle(fontSize: 16.0, color: const Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(
+                  fontSize: 16.0, color: const Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         ),
