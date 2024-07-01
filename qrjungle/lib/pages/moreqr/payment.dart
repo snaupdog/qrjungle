@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pageselect.dart';
+import 'package:qrjungle/themes.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Payment {
@@ -154,7 +155,7 @@ class PaymentSuccessActions extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.amber,
+            backgroundColor: accentcolor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
@@ -180,7 +181,7 @@ class PaymentSuccessActions extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.amber,
+            backgroundColor: accentcolor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),

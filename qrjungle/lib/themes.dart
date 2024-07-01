@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Color primarycolor = Color(0xFFF0F3FF);
 Color secondarycolor = Color.fromARGB(255, 18, 18, 18);
 
-Color accentcolor = Colors.amber;
+Color accentcolor = Colors.blue;
 
 ThemeData lightTheme = ThemeData(
   primaryColor: primarycolor,
