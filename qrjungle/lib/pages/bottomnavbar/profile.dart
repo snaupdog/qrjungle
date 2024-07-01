@@ -1,11 +1,9 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
-import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool loggedinmain = false;

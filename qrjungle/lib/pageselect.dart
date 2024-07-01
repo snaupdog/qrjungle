@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
 import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/themes.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'pages/bottomnavbar/profile.dart';
 import 'pages/bottomnavbar/wishlist.dart';
 
