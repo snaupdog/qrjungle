@@ -1,6 +1,8 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
 import 'package:qrjungle/pageselect.dart';
@@ -105,40 +107,43 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           icon: const Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),                            
+                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
                             child: Icon(Icons.exit_to_app_outlined,
                                 color: Color.fromARGB(255, 255, 255, 255)),
                           ),
                         )
-                      : Text(email, style: TextStyle(fontSize: 19),)),
-                    SizedBox(height:30),
-                    TextButton.icon(
-                      onPressed: () {},
-                      label: const Text(
-                        'Privacy Policy',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          decoration: TextDecoration.underline,
-                          fontSize: 14,
-                        ),
-                      ),
-                      icon: const Icon(Icons.info_outline,
-                          color: Color.fromARGB(255, 255, 255, 255), size: 20),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      label: const Text(
-                        'Terms and Conditions',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          decoration: TextDecoration.underline,
-                          fontSize: 14,
-                        ),
-                      ),
-                      icon: const Icon(Icons.info_outline,
-                          color: Color.fromARGB(255, 255, 255, 255), size: 20),
-                    ),
-                    (!loggedinmain)
+                      : Text(
+                          email,
+                          style: TextStyle(fontSize: 19),
+                        )),
+              SizedBox(height: 30),
+              TextButton.icon(
+                onPressed: () {},
+                label: const Text(
+                  'Privacy Policy',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    decoration: TextDecoration.underline,
+                    fontSize: 14,
+                  ),
+                ),
+                icon: const Icon(Icons.info_outline,
+                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                label: const Text(
+                  'Terms and Conditions',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    decoration: TextDecoration.underline,
+                    fontSize: 14,
+                  ),
+                ),
+                icon: const Icon(Icons.info_outline,
+                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
+              ),
+              (!loggedinmain)
                   ? Container()
                   : TextButton.icon(
                       onPressed: () async {
@@ -180,12 +185,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                       children: <Widget>[
                                         ElevatedButton(
                                           onPressed: () async {
-                                            Navigator.of(context)
-                                                .pop();                                            
                                             SharedPreferences pref =
                                                 await SharedPreferences
                                                     .getInstance();
-                                            await pref.clear();
+                                            await pref.remove('loggedin');
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Config(onboarded: true,)),
+                                              (route) => false,
+                                            );
                                             Fluttertoast.showToast(
                                                 msg: "You've been logged out!",
                                                 toastLength: Toast.LENGTH_SHORT,
@@ -196,13 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         134, 0, 0, 0),
                                                 textColor: Colors.white,
                                                 fontSize: 18.0);
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const PageSelect(
-                                                            initialIndex: 3)),
-                                                (route) => false);
+                                           
                                           },
                                           child: Text('Yes'),
                                           style: ElevatedButton.styleFrom(
