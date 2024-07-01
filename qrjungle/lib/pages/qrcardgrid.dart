@@ -214,11 +214,16 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                         topLeft: Radius.circular(15.0),
                                         topRight: Radius.circular(15.0),
                                       ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: snapshot.data.toString(),
-                                        fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
+                                      child: Skeleton.replace(
+                                        width: 100,
+                                        height: 200,
+                                        child: snapshot.data != null
+                                            ? CachedNetworkImage(
+                                                imageUrl:
+                                                    snapshot.data.toString(),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Container(),
                                       ),
                                     ),
                                   ),
