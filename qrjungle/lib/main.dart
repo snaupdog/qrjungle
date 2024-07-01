@@ -33,7 +33,7 @@ class Config extends StatefulWidget {
 class _ConfigState extends State<Config> {
   AmplifyAuthCognito? auth;
 
-  bool loggedinmain = false;
+  
 
   @override
   void initState() {
