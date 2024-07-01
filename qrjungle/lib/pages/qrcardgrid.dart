@@ -231,59 +231,75 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                       ),
                                     ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                12.0, 10.0, 0, 0),
-                                            child: Text(
-                                              "#${item['qr_code_id']}",
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
+                                  inmyqrs
+                                      ? Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              20.0, 20.0, 0, 0),
+                                          child: Text(
+                                            "#${item['qr_code_id']}",
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600),
                                           ),
-                                          const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                12.0, 4.0, 0, 0),
-                                            child: Text(
-                                              "Buy Now",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600),
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          12.0, 10.0, 0, 0),
+                                                  child: Text(
+                                                    "#${item['qr_code_id']}",
+                                                    style: const TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                                const Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      12.0, 4.0, 0, 0),
+                                                  child: Text(
+                                                    "Buy Now",
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                                const Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      12.0, 0.0, 0, 0),
+                                                  child: Text(
+                                                    "8.00 \$",
+                                                    style: TextStyle(
+                                                        fontSize: 15.5,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                12.0, 0.0, 0, 0),
-                                            child: Text(
-                                              "8.00 \$",
-                                              style: TextStyle(
-                                                  fontSize: 15.5,
-                                                  fontWeight: FontWeight.w600),
+                                            const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0.0, 50.0, 20.0, 0),
+                                              child: const Icon(
+                                                Icons.favorite_outline,
+                                                color: Colors.grey,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            0.0, 50.0, 20.0, 0),
-                                        child: const Icon(
-                                          Icons.favorite_outline,
-                                          color: Colors.grey,
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),
