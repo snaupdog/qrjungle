@@ -329,12 +329,24 @@ class _MoreQrState extends State<MoreQr> {
             child: InkWell(
               onTap: () {
                 if (loggedinmain) {
-                  Payment(
-                    context: context,
-                    amount: "500",
-                    qrCodeId: item['qr_code_id'],
-                    redirectUrl: urlcontroller.text,
-                  );
+                  if (urlcontroller.text.isEmpty) {
+                    Fluttertoast.showToast(
+                      msg: "Redirect URL cannot be empty!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: const Color.fromARGB(134, 0, 0, 0),
+                      textColor: Colors.white,
+                      fontSize: 18.0,
+                    );
+                  } else {
+                    Payment(
+                      context: context,
+                      amount: "500",
+                      qrCodeId: item['qr_code_id'],
+                      redirectUrl: urlcontroller.text,
+                    );
+                  }
                 } else {
                   showModalBottomSheet(
                     context: context,
