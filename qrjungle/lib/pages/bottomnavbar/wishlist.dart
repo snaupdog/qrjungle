@@ -50,7 +50,7 @@ class _WishlistPageState extends State<WishlistPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15),
                 (!loggedinmain)
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,13 +58,13 @@ class _WishlistPageState extends State<WishlistPage> {
                         children: [
                           SizedBox(
                               height: MediaQuery.sizeOf(context).height * 0.2),
-                          Image.asset('assets/empty.png', height: 200),
-                          const SizedBox(height: 15),
-                          const Text('Not Logged In :(',
-                              style: TextStyle(fontSize: 40)),
+                          Image.asset('assets/empty.png', height: 150),
+                          SizedBox(height: 15),
+                          Text('Not Logged In :(',
+                              style: TextStyle(fontSize: 26)),
                         ],
                       )
-                    : const Qrcardgrid(type: "wishlist", categoryName: ""),
+                    : Qrcardgrid(type: "wishlist", categoryName: ""),
               ],
             ),
           ),

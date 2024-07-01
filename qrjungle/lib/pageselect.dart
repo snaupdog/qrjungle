@@ -51,11 +51,10 @@ class _PageSelectState extends State<PageSelect> {
         brightness == Brightness.dark ? Colors.white : Colors.black;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('qrjungle'),
-      ),
-      body: Stack(
-        children: [
+        appBar: AppBar(
+          title: const Text('qrjungle'),
+        ),
+        body: Stack(children: [
           SafeArea(
             child: PageView(
               physics: const NeverScrollableScrollPhysics(),
@@ -65,7 +64,7 @@ class _PageSelectState extends State<PageSelect> {
                 ExplorePage(),
                 MyQRsPage(),
                 WishlistPage(),
-                ProfilePage(), 
+                ProfilePage(),
               ],
             ),
           ),
@@ -73,15 +72,19 @@ class _PageSelectState extends State<PageSelect> {
             bottom: 0,
             left: 0,
             right: 0,
+            height: 300,
             child: BlurBottomView(
               onIndexChange: onItemTapped,
               selectedItemColor: accentcolor,
+              showSelectedLabels: true,
               unselectedItemColor: alternatecolor,
               backgroundColor: colorcolor,
               currentIndex: _currentIndex,
-              bottomNavigationBarItems: const <BottomNavigationBarItem>[                
+              bottomNavigationBarItems: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.local_mall_outlined), label: 'Explore'),
+                  icon: Icon(Icons.local_mall_outlined),
+                  label: 'Explore',
+                ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.qr_code), label: 'MyQRs'),
                 BottomNavigationBarItem(
@@ -90,9 +93,7 @@ class _PageSelectState extends State<PageSelect> {
                     icon: Icon(Icons.person), label: 'Profile'),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        ]));
   }
 }

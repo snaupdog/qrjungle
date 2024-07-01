@@ -49,10 +49,10 @@ class _MyQRsPageState extends State<MyQRsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
-                Image.asset('assets/empty.png', height: 200),
+SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
+                Image.asset('assets/empty.png', height: 150),
                 SizedBox(height: 15),
-                Text('Not Logged In :(', style: TextStyle(fontSize: 40)),
+                Text('Not Logged In :(', style: TextStyle(fontSize: 26)),
               ],
             ) 
                   : Container(
