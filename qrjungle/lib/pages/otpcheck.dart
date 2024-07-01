@@ -26,7 +26,6 @@ class _OTPVerifyState extends State<OTPVerify> {
         return "Error";
       } else {
         print('success');
-        getUserdata();
         return "Success";
       }
     } on AuthException catch (e) {
@@ -48,6 +47,8 @@ class _OTPVerifyState extends State<OTPVerify> {
     setState(() {
       loggedinmain = loggedin;
     });
+
+    getUserdata();
   }
 
   bool loady = false;
@@ -113,6 +114,7 @@ class _OTPVerifyState extends State<OTPVerify> {
                       fontSize: 18.0);
 
                   getloginstatus();
+
                   Navigator.pop(context);
                   Navigator.pop(context);
                 } else {
