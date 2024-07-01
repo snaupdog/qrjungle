@@ -231,19 +231,26 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                       ),
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            10.0, 20.0, 0, 0),
+                                            12.0, 20.0, 0, 0),
                                         child: Text(
-                                          "#${item['qr_code_id']}",
+                                          "#${item['qr_code_id']}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 20.0, 12, 0),
+                                        child: Text(
+                                          "8\$", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                     ],
-                                  ),
+                                  ), 
                                 ],
                               ),
                             ),
