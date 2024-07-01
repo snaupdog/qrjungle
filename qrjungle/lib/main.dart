@@ -37,7 +37,6 @@ class _ConfigState extends State<Config> {
   void initState() {
     _configureAmplify();
     themeselector.addListener(themeListener);
-    getloginstatus();
     getValues();
     super.initState();
   }
@@ -49,8 +48,8 @@ class _ConfigState extends State<Config> {
     await Amplify.addPlugins([auth as AmplifyAuthCognito, AmplifyAPI()]);
     try {
       await Amplify.configure(amplifyconfig);
-
       print('Configured Done!!');
+      getloginstatus();
     } on AmplifyAlreadyConfiguredException {
       print('Already Configured!!');
     }
@@ -78,11 +77,16 @@ class _ConfigState extends State<Config> {
 
     bool onb = pref.getBool('onboarded') ?? false;
 
-    await Apiss().getAllqrs("");
-    await Apiss().getCategories();
+    Apiss().getAllqrs("");
+    Apiss().getCategories();
     setState(() {
       onboarded = onb;
     });
+  }
+
+  getUserdata() async {
+    Apiss().listFavourites();
+    Apiss().listmyqrs();
   }
 
   getloginstatus() async {
@@ -93,6 +97,9 @@ class _ConfigState extends State<Config> {
     setState(() {
       loggedinmain = loggedin;
     });
+    if (loggedinmain) {
+      getUserdata();
+    }
   }
 
   @override

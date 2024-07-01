@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,12 +26,18 @@ class _OTPVerifyState extends State<OTPVerify> {
         return "Error";
       } else {
         print('success');
+        getUserdata();
         return "Success";
       }
     } on AuthException catch (e) {
       safePrint('Error signing in: ${e.message}');
       return "Error";
     }
+  }
+
+  getUserdata() async {
+    Apiss().listFavourites();
+    Apiss().listmyqrs();
   }
 
   getloginstatus() async {
@@ -42,7 +49,8 @@ class _OTPVerifyState extends State<OTPVerify> {
       loggedinmain = loggedin;
     });
   }
-bool loady = false;
+
+  bool loady = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -61,7 +69,8 @@ bool loady = false;
             const Text('OTP Verification', style: TextStyle(fontSize: 28)),
             SizedBox(height: 190),
             Text('Enter OTP sent to', style: TextStyle(fontSize: 22)),
-            Text(widget.email, style: TextStyle(fontSize: 20, color: Colors.amber)),
+            Text(widget.email,
+                style: TextStyle(fontSize: 20, color: Colors.amber)),
             const SizedBox(height: 40),
             PinCodeTextField(
               keyboardType: TextInputType.number,
@@ -80,17 +89,18 @@ bool loady = false;
               ),
               onCompleted: (value) async {
                 setState(() {
-                  loady=true;
+                  loady = true;
                 });
                 var otpStatus = await confirmSignIn(value, context);
                 setState(() {
-                  loady=false;
+                  loady = false;
                 });
                 print('This is OTPSTATUS: $otpStatus');
                 if (otpStatus == 'Success') {
                   print('OTP Verification Successful');
 
-                  SharedPreferences pref = await SharedPreferences.getInstance();
+                  SharedPreferences pref =
+                      await SharedPreferences.getInstance();
                   await pref.setBool('loggedin', true);
 
                   Fluttertoast.showToast(
@@ -105,7 +115,6 @@ bool loady = false;
                   getloginstatus();
                   Navigator.pop(context);
                   Navigator.pop(context);
-
                 } else {
                   Fluttertoast.showToast(
                       msg: "Incorrect OTP Entered, please try again!",
@@ -118,13 +127,17 @@ bool loady = false;
               },
             ),
             SizedBox(height: 15),
-            (loady) ? Column(
-              children: [
-                Text('Verifying'),
-                SizedBox(height: 5,),
-                SpinKitThreeBounce(color: Colors.white, size: 25),
-              ],
-            ) : SizedBox()
+            (loady)
+                ? Column(
+                    children: [
+                      Text('Verifying'),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SpinKitThreeBounce(color: Colors.white, size: 25),
+                    ],
+                  )
+                : SizedBox()
           ],
         ),
       ),

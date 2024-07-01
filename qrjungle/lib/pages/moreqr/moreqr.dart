@@ -283,7 +283,9 @@ class _MoreQrState extends State<MoreQr> {
                             liked = !liked;
                           });
                           Fluttertoast.showToast(
-                            msg: "Added to Favourites!",
+                            msg: liked
+                                ? "Added to Favourites!"
+                                : "removed from Favourites",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.CENTER,
                             timeInSecForIosWeb: 1,

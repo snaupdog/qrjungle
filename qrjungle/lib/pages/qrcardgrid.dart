@@ -82,7 +82,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
     // await Apiss().clearlist()
     switch (widget.type) {
       case 'all':
-        // await Apiss().getAllqrs("");
         setState(() {
           qrlisty = Apiss.myallqrslist;
           isloading = false;
@@ -97,7 +96,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
-        await Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
           isloading = false;
@@ -105,7 +103,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'myqrs':
-        await Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
           inmyqrs = true;
@@ -117,9 +114,15 @@ class _QrcardgridState extends State<Qrcardgrid> {
     }
   }
 
-  getimage(String item) async {
-    final hi = await Apiss().getPresignedUrl(item);
-    return hi;
+  Future<String> getimage(String item) async {
+    try {
+      final hi = await Apiss().getPresignedUrl(item);
+      return hi;
+    } catch (e) {
+      print('Error fetching image: $e');
+      // Handle error gracefully, e.g., show an error message
+      return ''; // Return a default value or handle accordingly
+    }
   }
 
   @override
@@ -214,11 +217,16 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                         topLeft: Radius.circular(15.0),
                                         topRight: Radius.circular(15.0),
                                       ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: snapshot.data.toString(),
-                                        fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
+                                      child: Skeleton.replace(
+                                        width: 100,
+                                        height: 200,
+                                        child: snapshot.data != null
+                                            ? CachedNetworkImage(
+                                                imageUrl:
+                                                    snapshot.data.toString(),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Container(),
                                       ),
                                     ),
                                   ),
