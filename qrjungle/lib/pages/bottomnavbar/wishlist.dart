@@ -11,8 +11,7 @@ class WishlistPage extends StatefulWidget {
 }
 
 class _WishlistPageState extends State<WishlistPage> {
-
-    getloginstatus() async {
+  getloginstatus() async {
     print('******* LOGINSTATUS CALLED *********8');
     SharedPreferences pref = await SharedPreferences.getInstance();
     bool loggedin = pref.getBool('loggedin') ?? false;
@@ -41,7 +40,7 @@ class _WishlistPageState extends State<WishlistPage> {
             padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
             child: Column(
               children: [
-                Center(
+                const Center(
                   child: Text(
                     'Wishlist',
                     style: TextStyle(
@@ -51,19 +50,21 @@ class _WishlistPageState extends State<WishlistPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),                
-                (!loggedinmain)                 
-                ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
-                Image.asset('assets/empty.png', height: 150),
                 SizedBox(height: 15),
-                Text('Not Logged In :(', style: TextStyle(fontSize: 26)),
-              ],
-            ) 
-                : Qrcardgrid(type: "wishlist", categoryName: ""),
+                (!loggedinmain)
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.2),
+                          Image.asset('assets/empty.png', height: 150),
+                          SizedBox(height: 15),
+                          Text('Not Logged In :(',
+                              style: TextStyle(fontSize: 26)),
+                        ],
+                      )
+                    : Qrcardgrid(type: "wishlist", categoryName: ""),
               ],
             ),
           ),

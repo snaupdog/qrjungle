@@ -82,7 +82,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
     // await Apiss().clearlist()
     switch (widget.type) {
       case 'all':
-        await Apiss().getAllqrs("");
+        // await Apiss().getAllqrs("");
         setState(() {
           qrlisty = Apiss.myallqrslist;
           isloading = false;

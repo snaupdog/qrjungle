@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/amplifyconfig.dart';
+import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themeselector.dart';
@@ -16,10 +17,8 @@ ThemeSelect themeselector = ThemeSelect();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   final pref = await SharedPreferences.getInstance();
   final onboarded = pref.getBool('onboarded') ?? false;
-
   runApp(Config(onboarded: onboarded));
 }
 
@@ -33,8 +32,6 @@ class Config extends StatefulWidget {
 
 class _ConfigState extends State<Config> {
   AmplifyAuthCognito? auth;
-
-  
 
   @override
   void initState() {
@@ -77,16 +74,18 @@ class _ConfigState extends State<Config> {
   bool onboarded = false;
 
   getValues() async {
-    print("init");
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     bool onb = pref.getBool('onboarded') ?? false;
+
+    await Apiss().getAllqrs("");
+    await Apiss().getCategories();
     setState(() {
       onboarded = onb;
     });
   }
-   
-   getloginstatus() async {
+
+  getloginstatus() async {
     print('******* LOGINSTATUS CALLED *********8');
     SharedPreferences pref = await SharedPreferences.getInstance();
     bool loggedin = pref.getBool('loggedin') ?? false;

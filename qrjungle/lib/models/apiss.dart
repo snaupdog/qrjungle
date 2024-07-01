@@ -9,6 +9,7 @@ class Apiss {
   static List myallqrslist = [];
   static List myfavslist = [];
   static List myqrslist = [];
+  static List catageroylist = [];
 
   // Future clearlist() async {
   //   qrinfolist = [];
@@ -38,8 +39,13 @@ class Apiss {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    var body = json.decode(response.body);
-    return body;
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+      catageroylist = body;
+    } else {
+      print(response.body);
+      throw Exception('Failed to load categories');
+    }
   }
 
   Future<String> getPresignedUrl(String key) async {
@@ -55,6 +61,7 @@ class Apiss {
       final dataa = json.decode(response.body);
       return dataa['url'];
     } else {
+      print(response.body);
       throw Exception('Failed to fetch URL for key $key');
     }
   }
@@ -72,11 +79,14 @@ class Apiss {
       headers: {"Content-Type": "application/json"},
       body: jsonData,
     );
-    final body = json.decode(response.body);
-    var qrlist = body['data'];
-    mycatlist = qrlist;
-
-    // print(dataa['nextToken']);
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      var qrlist = body['data'];
+      mycatlist = qrlist;
+    } else {
+      print(response.body);
+      throw Exception("failed to get qr from catagorie $categoryName ");
+    }
   }
 
   getAllqrs(String nextToken) async {
@@ -93,30 +103,43 @@ class Apiss {
       body: jsonData,
     );
     // print(dataa['nextToken']);
-    final body = json.decode(response.body);
-    var qrlist = body['data'];
-    // allqrslist = qrlist;
-    var hi = qrlist[0];
-    myallqrslist = qrlist;
-
-    var ra = myallqrslist[0];
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      var qrlist = body['data'];
+      myallqrslist = qrlist;
+    } else {
+      print(response.body);
+      throw Exception("error getting all qrs");
+    }
   }
 
   listmyqrs() async {
     print("calling list my qrs");
-    var operation = Amplify.API.query(
-      request: GraphQLRequest(
-        document: '''query ListMyQrs {
-    listMyQrs
-  }
-''',
-      ),
-    );
-    var response = await operation.response;
-    var body = jsonDecode(response.data);
-    var hello = body['listMyQrs'];
-    var body2 = jsonDecode(hello);
-    myqrslist = body2.toList();
+
+    try {
+      var operation = Amplify.API.query(
+        request: GraphQLRequest(
+          document: '''query ListMyQrs {
+          listMyQrs
+        }''',
+        ),
+      );
+
+      var response = await operation.response;
+
+      // Check if the response has errors
+      if (response.errors.isNotEmpty) {
+        print("GraphQL Error: ${response.errors}");
+        return;
+      }
+
+      var body = jsonDecode(response.data);
+      var hello = body['listMyQrs'];
+      var body2 = jsonDecode(hello);
+      myqrslist = body2;
+    } catch (e) {
+      print("An error occurred: $e");
+    }
   }
 
   listFavourites() async {
@@ -225,7 +248,11 @@ class Apiss {
           'user_email_id': email,
           'command': 'userSignUp',
         }));
-
-    var body = json.decode(response.body);
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+    } else {
+      print(response.body);
+      throw Exception("error in signup");
+    }
   }
 }

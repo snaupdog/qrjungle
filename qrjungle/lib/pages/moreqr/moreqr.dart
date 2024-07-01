@@ -87,7 +87,7 @@ class _MoreQrState extends State<MoreQr> {
     }
   }
 
-   getloginstatus() async {
+  getloginstatus() async {
     print('******* LOGINSTATUS CALLED *********8');
     SharedPreferences pref = await SharedPreferences.getInstance();
     bool loggedin = pref.getBool('loggedin') ?? false;

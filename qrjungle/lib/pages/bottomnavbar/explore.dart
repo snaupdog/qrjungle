@@ -26,10 +26,8 @@ class _ExplorePageState extends State<ExplorePage> {
 
   categories() async {
     try {
-      var items = await Apiss().getCategories();
-
       setState(() {
-        categoryname = items
+        categoryname = Apiss.catageroylist
             .map<String>((item) => item['category_name'] as String)
             .toList();
         isLoading = false;

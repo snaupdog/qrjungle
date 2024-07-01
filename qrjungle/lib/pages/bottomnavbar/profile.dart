@@ -78,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(child: Image.asset('assets/logo.png', height: 200)),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Center(
                   child: (!loggedinmain)
                       ? TextButton.icon(
@@ -86,7 +86,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LoginPage())).then(
+                                    builder: (context) =>
+                                        const LoginPage())).then(
                               (value) {
                                 getloginstatus();
                               },
@@ -112,9 +113,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         )
                       : Text(
                           email,
-                          style: TextStyle(fontSize: 19),
+                          style: const TextStyle(fontSize: 19),
                         )),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextButton.icon(
                 onPressed: () {},
                 label: const Text(
@@ -159,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    Text(
+                                    const Text(
                                       'Log Out',
                                       style: TextStyle(
                                         fontSize: 24.0,
@@ -167,8 +168,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    SizedBox(height: 20.0),
-                                    Text(
+                                    const SizedBox(height: 20.0),
+                                    const Text(
                                       'Are you sure you want to log out?',
                                       style: TextStyle(
                                         fontSize: 18.0,
@@ -176,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(height: 20.0),
+                                    const SizedBox(height: 20.0),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -191,7 +192,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      Config(onboarded: true,)),
+                                                      const Config(
+                                                        onboarded: true,
+                                                      )),
                                               (route) => false,
                                             );
                                             Fluttertoast.showToast(
@@ -204,9 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         134, 0, 0, 0),
                                                 textColor: Colors.white,
                                                 fontSize: 18.0);
-                                           
                                           },
-                                          child: Text('Yes'),
                                           style: ElevatedButton.styleFrom(
                                             foregroundColor: Colors.white,
                                             backgroundColor: Colors.red,
@@ -215,13 +216,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   BorderRadius.circular(10.0),
                                             ),
                                           ),
+                                          child: const Text('Yes'),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
                                             Navigator.of(context)
                                                 .pop(); // Close the dialog
                                           },
-                                          child: Text('No'),
                                           style: ElevatedButton.styleFrom(
                                             foregroundColor: Colors.white,
                                             backgroundColor: Colors.grey,
@@ -230,6 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   BorderRadius.circular(10.0),
                                             ),
                                           ),
+                                          child: const Text('No'),
                                         ),
                                       ],
                                     ),
