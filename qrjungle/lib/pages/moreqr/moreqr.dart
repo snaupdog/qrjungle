@@ -231,9 +231,6 @@ class _MoreQrState extends State<MoreQr> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 5.0,
-          ),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
@@ -334,6 +331,25 @@ class _MoreQrState extends State<MoreQr> {
               ),
               cursorColor: Colors.blue,
             ),
+          ),
+          const SizedBox(height: 5.0), // Adjust the spacing as needed
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(children: [
+              Icon(
+                Icons.info_outline,
+                size: 16.0,
+                color: Colors.grey,
+              ),
+              SizedBox(width: 5.0),
+              Text(
+                'Note: The redirect URL can be changed at any time.',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.grey,
+                ),
+              ),
+            ]),
           ),
           const SizedBox(height: 20.0),
           Padding(
