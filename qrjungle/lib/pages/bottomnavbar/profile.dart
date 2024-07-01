@@ -105,40 +105,43 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           icon: const Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),                            
+                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
                             child: Icon(Icons.exit_to_app_outlined,
                                 color: Color.fromARGB(255, 255, 255, 255)),
                           ),
                         )
-                      : Text(email, style: TextStyle(fontSize: 19),)),
-                    SizedBox(height:30),
-                    TextButton.icon(
-                      onPressed: () {},
-                      label: const Text(
-                        'Privacy Policy',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          decoration: TextDecoration.underline,
-                          fontSize: 14,
-                        ),
-                      ),
-                      icon: const Icon(Icons.info_outline,
-                          color: Color.fromARGB(255, 255, 255, 255), size: 20),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      label: const Text(
-                        'Terms and Conditions',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          decoration: TextDecoration.underline,
-                          fontSize: 14,
-                        ),
-                      ),
-                      icon: const Icon(Icons.info_outline,
-                          color: Color.fromARGB(255, 255, 255, 255), size: 20),
-                    ),
-                    (!loggedinmain)
+                      : Text(
+                          email,
+                          style: TextStyle(fontSize: 19),
+                        )),
+              SizedBox(height: 30),
+              TextButton.icon(
+                onPressed: () {},
+                label: const Text(
+                  'Privacy Policy',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    decoration: TextDecoration.underline,
+                    fontSize: 14,
+                  ),
+                ),
+                icon: const Icon(Icons.info_outline,
+                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                label: const Text(
+                  'Terms and Conditions',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    decoration: TextDecoration.underline,
+                    fontSize: 14,
+                  ),
+                ),
+                icon: const Icon(Icons.info_outline,
+                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
+              ),
+              (!loggedinmain)
                   ? Container()
                   : TextButton.icon(
                       onPressed: () async {
@@ -180,8 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       children: <Widget>[
                                         ElevatedButton(
                                           onPressed: () async {
-                                            Navigator.of(context)
-                                                .pop();                                            
+                                            Navigator.of(context).pop();
                                             SharedPreferences pref =
                                                 await SharedPreferences
                                                     .getInstance();

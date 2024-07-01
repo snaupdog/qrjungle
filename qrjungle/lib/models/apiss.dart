@@ -98,8 +98,6 @@ class Apiss {
     // allqrslist = qrlist;
     var hi = qrlist[0];
     myallqrslist = qrlist;
-
-    var ra = myallqrslist[0];
   }
 
   listmyqrs() async {
