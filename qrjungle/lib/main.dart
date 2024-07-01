@@ -79,6 +79,7 @@ class _ConfigState extends State<Config> {
     bool onb = pref.getBool('onboarded') ?? false;
 
     await Apiss().getAllqrs("");
+    await Apiss().getCategories();
     setState(() {
       onboarded = onb;
     });
