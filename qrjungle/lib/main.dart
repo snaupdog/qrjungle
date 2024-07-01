@@ -115,7 +115,7 @@ class _ConfigState extends State<Config> {
         splash: Image.asset('assets/$splashimage'),
         splashIconSize: 200,
         backgroundColor: splashbg,
-        nextScreen: (widget.onboarded) ? PageSelect() : Onboard(),
+        nextScreen: (widget.onboarded) ? PageSelect(initialIndex: 0,) : Onboard(),
         animationDuration: const Duration(milliseconds: 400),
       ),
     );
