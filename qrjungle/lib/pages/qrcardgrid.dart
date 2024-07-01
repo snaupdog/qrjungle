@@ -253,7 +253,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                           ),
                                           const Padding(
                                             padding: EdgeInsets.fromLTRB(
-                                                12.0, 8.0, 0, 0),
+                                                12.0, 4.0, 0, 0),
                                             child: Text(
                                               "Buy Now",
                                               style: TextStyle(
@@ -268,7 +268,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             child: Text(
                                               "8.00 \$",
                                               style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 15.5,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
