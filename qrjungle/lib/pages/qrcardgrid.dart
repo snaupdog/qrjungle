@@ -1,7 +1,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
@@ -36,17 +36,17 @@ class MyClass {
 
 class _QrcardgridState extends State<Qrcardgrid> {
   late List<Map<String, dynamic>> fakedata;
+  TextEditingController emailController = TextEditingController();
+  var qrlisty = [];
+  bool inmyqrs = false;
+  bool isloading = true;
+
   @override
   void initState() {
     fakedata = MyClass().fakedata;
     super.initState();
     fetchmyqrs();
   }
-
-  TextEditingController emailController = TextEditingController();
-  var qrlisty = [];
-  bool inmyqrs = false;
-  bool isloading = true;
 
   void LogInModalSheet(BuildContext context) {
     showModalBottomSheet(
@@ -97,10 +97,8 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
-        Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
-          print(qrlisty);
           isloading = false;
         });
         break;
@@ -115,6 +113,21 @@ class _QrcardgridState extends State<Qrcardgrid> {
       default:
         print("Defailt");
     }
+  }
+
+  Future<void> toggleFavourite(String item) async {
+    if (Apiss.favqrsids.contains(item)) {
+      Apiss.favqrsids.remove(item);
+      print("removed from wishlist");
+    } else {
+      Apiss.favqrsids.add(item);
+      print("added to wishlist");
+    }
+    await Apiss().addFavourites(Apiss.favqrsids);
+    setState(() {
+      Apiss().listFavourites();
+    });
+    print("Updated favourites");
   }
 
   @override
@@ -166,8 +179,12 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   childAspectRatio: 2 / 3),
               itemCount: data.length,
               itemBuilder: (context, index) {
-                final imageurl = data[index]['qr_code_image_url_key'];
+                bool liked = false;
                 final item = data[index];
+                final imageurl = item['qr_code_image_url_key'];
+                if (Apiss.favqrsids.contains(item['qr_code_id'])) {
+                  liked = true;
+                }
 
                 return GestureDetector(
                   onTap: () {
@@ -264,12 +281,31 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                           ),
                                         ],
                                       ),
-                                      const Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            0.0, 30.0, 20.0, 0),
-                                        child: const Icon(
-                                          Icons.favorite_outline,
-                                          color: Colors.grey,
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0.0, 10.0, 0.0, 0),
+                                        child: IconButton(
+                                          icon: liked
+                                              ? const Icon(Icons.favorite)
+                                              : const Icon(
+                                                  Icons.favorite_outline),
+                                          onPressed: () async {
+                                            if (loggedinmain) {
+                                              setState(() {
+                                                liked = !liked;
+                                              });
+                                              await toggleFavourite(
+                                                  item['qr_code_id']);
+                                            } else {
+                                              print("show modal sheet");
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) =>
+                                                    const LoginModalSheet(),
+                                              );
+                                            }
+                                          },
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ],
