@@ -119,6 +119,7 @@ class PaymentResultPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset('assets/yay.png'),
             Text(
               message,
               style: TextStyle(fontSize: 18.0),
