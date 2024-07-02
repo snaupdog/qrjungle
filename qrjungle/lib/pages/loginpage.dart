@@ -149,17 +149,19 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       backgroundColor: Colors.transparent,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(110, 20, 110, 20),
-                      child: (loader)
-                          ? const Center(
-                              child: SpinKitThreeBounce(
-                                  color: Colors.white, size: 23),
-                            )
-                          : Text('Submit',
-                              style: textTheme.bodySmall?.copyWith(
-                                  color: const Color.fromARGB(
-                                      255, 255, 255, 255))),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        child: (loader)
+                            ? const Center(
+                                child: SpinKitThreeBounce(
+                                    color: Colors.white, size: 23),
+                              )
+                            : Text('Submit',
+                                style: textTheme.bodySmall?.copyWith(
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255))),
+                      ),
                     ),
                   ),
                 ),

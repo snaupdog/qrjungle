@@ -31,8 +31,6 @@ class _ExplorePageState extends State<ExplorePage> {
         categoryname = Apiss.catageroylist
             .map<String>((item) => item['category_name'] as String)
             .toList();
-        print(Apiss.catageroylist);
-        print(categoryname);
         isLoading = false;
       });
     } catch (e) {
@@ -104,7 +102,6 @@ class _ExplorePageState extends State<ExplorePage> {
             childAspectRatio: 1),
         itemCount: categoryname.length,
         itemBuilder: (context, index) {
-          print(Apiss.catageroylist[index]['category_icon']);
           return GestureDetector(
             onTap: () {
               Navigator.push(
