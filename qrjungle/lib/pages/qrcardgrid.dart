@@ -177,11 +177,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
               itemBuilder: (context, index) {
                 final imageurl = data[index]['qr_code_image_url_key'];
                 final item = data[index];
-                return FutureBuilder(
-                    future: getimage(imageurl),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData ||
-                          snapshot.connectionState == ConnectionState.waiting) {
+               
                         return GestureDetector(
                           onTap: () {
                             inmyqrs
@@ -189,14 +185,14 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => VierMyQr(
-                                            imageUrl: snapshot.data.toString(),
+                                            imageUrl: "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
                                             item: item)),
                                   )
                                 : Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MoreQr(
-                                            imageUrl: snapshot.data.toString(),
+                                            imageUrl: "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
                                             item: item)),
                                   );
                           },
@@ -224,13 +220,13 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                         ),
                                         child: Skeleton.replace(
                                           height: constraints.maxHeight * 0.7,
-                                          child: snapshot.data != null
-                                              ? CachedNetworkImage(
+                                          child:  CachedNetworkImage(
+                                            
                                                   imageUrl:
-                                                      snapshot.data.toString(),
+                                                      "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
                                                   fit: BoxFit.cover,
                                                 )
-                                              : Container(),
+                                              ,
                                         ),
                                       ),
                                     ),
@@ -300,11 +296,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
                             }),
                           ),
                         );
-                      } else {
-                        return const Text("error loading image");
                       }
-                    });
-              },
+                    
+              
             ),
     );
   }
