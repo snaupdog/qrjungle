@@ -97,8 +97,10 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
+        Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
+          print(qrlisty);
           isloading = false;
         });
         break;
@@ -112,17 +114,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
       default:
         print("Defailt");
-    }
-  }
-
-  Future<String> getimage(String item) async {
-    try {
-      final hi = await Apiss().getPresignedUrl(item);
-      return hi;
-    } catch (e) {
-      print('Error fetching image: $e');
-      // Handle error gracefully, e.g., show an error message
-      return ''; // Return a default value or handle accordingly
     }
   }
 

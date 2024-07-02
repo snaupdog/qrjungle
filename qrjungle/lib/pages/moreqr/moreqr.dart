@@ -40,7 +40,7 @@ class _MoreQrState extends State<MoreQr> {
   void initState() {
     super.initState();
     if (loggedinmain) {
-      loadFavourites();
+      Apiss().listFavourites();
     }
     fetchMostProminentColor();
   }
@@ -97,28 +97,16 @@ class _MoreQrState extends State<MoreQr> {
     });
   }
 
-  Future<void> loadFavourites() async {
-    try {
-      var response = await Apiss().listUserDetails();
-      var data = response[0]['favourites'];
-      setState(() {
-        favlist = List<String>.from(data);
-      });
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
   Future<void> toggleFavourite() async {
-    await loadFavourites();
-    if (favlist.contains(widget.item['qr_code_id'])) {
-      favlist.remove(widget.item['qr_code_id']);
+    if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
+      Apiss.favqrsids.remove(widget.item['qr_code_id']);
       print("removed from wishlist");
     } else {
-      favlist.add(widget.item['qr_code_id']);
+      Apiss.favqrsids.add(widget.item['qr_code_id']);
       print("added to wishlist");
     }
-    await Apiss().addFavourites(favlist);
+    await Apiss().addFavourites(Apiss.favqrsids);
+    Apiss().listFavourites();
     print("Updated favourites");
   }
 
