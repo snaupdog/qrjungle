@@ -25,14 +25,6 @@ class _WishlistPageState extends State<WishlistPage> {
   Widget build(BuildContext context) {
     print(loggedinmain);
     return Scaffold(
-      // body: Container(
-      //   margin: const EdgeInsets.fromLTRB(12, 14, 12, 0),
-      //   child: Padding(
-      //     padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
-      //     child: Column(
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.fromLTRB(12, 14, 12, 0),
@@ -50,24 +42,18 @@ class _WishlistPageState extends State<WishlistPage> {
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.3),
                             Image.asset('assets/empty.png', height: 150),
-                            SizedBox(height: 15),
-                            Text('Not Logged In :(',
+                            const SizedBox(height: 15),
+                            const Text('Not Logged In :(',
                                 style: TextStyle(fontSize: 26)),
                           ],
                         ),
                       )
-                    : Qrcardgrid(type: "wishlist", categoryName: ""),
+                    : const Qrcardgrid(type: "wishlist", categoryName: ""),
               ],
             ),
           ),
         ),
       ),
-
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // );
     );
   }
 }

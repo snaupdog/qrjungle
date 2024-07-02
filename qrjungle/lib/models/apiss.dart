@@ -12,6 +12,7 @@ class Apiss {
   static List myfavslist = [];
   static List myqrslist = [];
   static List catageroylist = [];
+  static List<String> favqrsids = [];
 
   // Future clearlist() async {
   //   qrinfolist = [];
@@ -47,24 +48,6 @@ class Apiss {
     } else {
       print(response.body);
       throw Exception('Failed to load categories');
-    }
-  }
-
-  Future<String> getPresignedUrl(String key) async {
-    final Map<String, String> data = {"command": "getPresignedURL", "key": key};
-    final jsonData = json.encode(data);
-    final response = await post(
-      Uri.parse(
-          'https://ppq54dc20b.execute-api.ap-south-1.amazonaws.com/production/get_presigned_url'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonData,
-    );
-    if (response.statusCode == 200) {
-      final dataa = json.decode(response.body);
-      return dataa['url'];
-    } else {
-      print(response.body);
-      throw Exception('Failed to fetch URL for key $key');
     }
   }
 
@@ -159,7 +142,10 @@ class Apiss {
     var body = jsonDecode(response.data);
     var hello = body['listMyFavourites'];
     var body2 = jsonDecode(hello);
-    myfavslist = body2['data'].toList();
+    myfavslist = body2['data'] as List;
+    favqrsids =
+        myfavslist.map((item) => item['qr_code_id'].toString()).toList();
+    print(favqrsids);
   }
 
   listUserDetails() async {
