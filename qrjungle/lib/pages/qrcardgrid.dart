@@ -97,6 +97,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
+        await Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
           isloading = false;
