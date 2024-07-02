@@ -13,6 +13,7 @@ import 'pages/oboard/onboard.dart';
 import 'themes.dart';
 
 final formkey = GlobalKey<FormState>();
+const preurl = "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/";
 ThemeSelect themeselector = ThemeSelect();
 
 void main() async {
@@ -122,7 +123,7 @@ class _ConfigState extends State<Config> {
         splashIconSize: 200,
         backgroundColor: splashbg,
         nextScreen: (widget.onboarded)
-            ? PageSelect(
+            ? const PageSelect(
                 initialIndex: 0,
               )
             : Onboard(),

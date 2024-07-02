@@ -188,6 +188,7 @@ class _MoreQrState extends State<MoreQr> {
   Skeletonizer card(dynamic item, String imageUrl) {
     return Skeletonizer(
       enabled: isloading,
+      enableSwitchAnimation: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -5,6 +5,8 @@ import 'package:http/http.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 class Apiss {
+  static String preurl =
+      "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/";
   static List mycatlist = [];
   static List myallqrslist = [];
   static List myfavslist = [];

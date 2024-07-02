@@ -11,7 +11,6 @@ class MyQRsPage extends StatefulWidget {
 }
 
 class _MyQRsPageState extends State<MyQRsPage> {
-
   getloginstatus() async {
     print('******* LOGINSTATUS CALLED *********8');
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -22,7 +21,6 @@ class _MyQRsPageState extends State<MyQRsPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,20 +30,22 @@ class _MyQRsPageState extends State<MyQRsPage> {
           padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.end,
-            children: [                 
+            children: [
               (!loggedinmain)
                   ? Center(
-                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                    SizedBox(height: MediaQuery.sizeOf(context).height*0.3),
-                                    Image.asset('assets/empty.png', height: 150),
-                                    SizedBox(height: 15),
-                                    Text('Not Logged In :(', style: TextStyle(fontSize: 26)),
-                                  ],
-                                ),
-                  ) 
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.3),
+                          Image.asset('assets/empty.png', height: 150),
+                          SizedBox(height: 15),
+                          Text('Not Logged In :(',
+                              style: TextStyle(fontSize: 26)),
+                        ],
+                      ),
+                    )
                   : Container(
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       width: MediaQuery.sizeOf(context).width,
