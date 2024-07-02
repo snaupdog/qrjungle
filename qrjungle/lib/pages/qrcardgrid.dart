@@ -177,129 +177,119 @@ class _QrcardgridState extends State<Qrcardgrid> {
               itemBuilder: (context, index) {
                 final imageurl = data[index]['qr_code_image_url_key'];
                 final item = data[index];
-               
-                        return GestureDetector(
-                          onTap: () {
-                            inmyqrs
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => VierMyQr(
-                                            imageUrl: "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
-                                            item: item)),
-                                  )
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MoreQr(
-                                            imageUrl: "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
-                                            item: item)),
-                                  );
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child:
-                                LayoutBuilder(builder: (context, constraints) {
-                              return Card(
-                                // shadowColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+
+                return GestureDetector(
+                  onTap: () {
+                    inmyqrs
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VierMyQr(
+                                    imageUrl:
+                                        "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
+                                    item: item)),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MoreQr(
+                                    imageUrl:
+                                        "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
+                                    item: item)),
+                          );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      return Card(
+                        // shadowColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                              // height: 200,
+                              height: constraints.maxHeight * 0.7,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15.0),
+                                  topRight: Radius.circular(15.0),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      // height: 200,
-                                      height: constraints.maxHeight * 0.7,
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(15.0),
-                                          topRight: Radius.circular(15.0),
-                                        ),
-                                        child: Skeleton.replace(
-                                          height: constraints.maxHeight * 0.7,
-                                          child:  CachedNetworkImage(
-                                            
-                                                  imageUrl:
-                                                      "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
-                                                  fit: BoxFit.cover,
-                                                )
-                                              ,
-                                        ),
-                                      ),
+                                child: Skeleton.replace(
+                                  height: constraints.maxHeight * 0.7,
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            inmyqrs
+                                ? Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20.0, 20.0, 0, 0),
+                                    child: Text(
+                                      "#${item['qr_code_id']}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600),
                                     ),
-                                    inmyqrs
-                                        ? Padding(
+                                  )
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
                                             padding: const EdgeInsets.fromLTRB(
-                                                20.0, 20.0, 0, 0),
+                                                12.0, 10.0, 0, 0.0),
                                             child: Text(
                                               "#${item['qr_code_id']}",
                                               style: const TextStyle(
-                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                  fontSize: 18,
                                                   fontWeight: FontWeight.w600),
                                             ),
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(
-                                                        12.0, 10.0, 0, 10.0),
-                                                    child: Text(
-                                                      "#${item['qr_code_id']}",
-                                                      style: const TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                  const Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            12.0, 0.0, 0, 0.0),
-                                                    child: Text(
-                                                      "8.00 \$",
-                                                      style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 15.5,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0.0, 30.0, 20.0, 0),
-                                                child: const Icon(
-                                                  Icons.favorite_outline,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
                                           ),
-                                  ],
-                                ),
-                              );
-                            }),
-                          ),
-                        );
-                      }
-                    
-              
-            ),
+                                          const Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                12.0, 0.0, 0, 0.0),
+                                            child: Text(
+                                              "8.00 \$",
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 15.5,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0.0, 30.0, 20.0, 0),
+                                        child: const Icon(
+                                          Icons.favorite_outline,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+                );
+              }),
     );
   }
 }
