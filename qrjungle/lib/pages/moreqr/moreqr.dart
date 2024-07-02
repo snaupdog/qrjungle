@@ -24,7 +24,6 @@ class MoreQr extends StatefulWidget {
 }
 
 class _MoreQrState extends State<MoreQr> {
-  List<String> favlist = [];
   Map<String, dynamic> fakedata = {
     "qr_code_status": "fake",
     "qr_code_created_on": 1714738115822,
@@ -35,14 +34,25 @@ class _MoreQrState extends State<MoreQr> {
     "price": null
   };
   Color? mostProminentColor;
+  final TextEditingController urlcontroller = TextEditingController();
+  bool isloading = true;
+  bool liked = false;
+
+//     if (Apiss.favqrsids.contains(widget.item['qr_code_id']) ){
+//
+// };
 
   @override
   void initState() {
+    getstate();
     super.initState();
-    if (loggedinmain) {
-      Apiss().listFavourites();
-    }
     fetchMostProminentColor();
+  }
+
+  getstate() async {
+    if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
+      liked = true;
+    }
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
@@ -106,19 +116,24 @@ class _MoreQrState extends State<MoreQr> {
       print("added to wishlist");
     }
     await Apiss().addFavourites(Apiss.favqrsids);
-    Apiss().listFavourites();
+    setState(() {
+      Apiss().listFavourites();
+    });
     print("Updated favourites");
   }
 
-  final TextEditingController urlcontroller = TextEditingController();
-  bool liked = false;
-  bool isloading = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
+        //test skeletonizer
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   setState(() {
+        //     isloading = !isloading;
+        //   });
+        // }),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: Container(),
@@ -203,15 +218,19 @@ class _MoreQrState extends State<MoreQr> {
                         ),
                 ),
                 // Image
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fit: BoxFit.cover,
+                Skeleton.ignore(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
+                    child: Skeleton.leaf(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -249,7 +268,7 @@ class _MoreQrState extends State<MoreQr> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                             child: Text(
                               item['qr_code_category'],
                               style: const TextStyle(
@@ -299,27 +318,29 @@ class _MoreQrState extends State<MoreQr> {
           const Divider(
             color: Color(0xff121212),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
-            child: TextFormField(
-              controller: urlcontroller,
-              decoration: InputDecoration(
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                labelText: 'Enter Redirect URL',
-                labelStyle: const TextStyle(
-                  fontSize: 12.0,
+          Skeleton.leaf(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
+              child: TextFormField(
+                controller: urlcontroller,
+                decoration: InputDecoration(
+                  floatingLabelBehavior: FloatingLabelBehavior.never,
+                  labelText: 'Enter Redirect URL',
+                  labelStyle: const TextStyle(
+                    fontSize: 12.0,
+                  ),
+                  fillColor: const Color(0xFF1b1b1b),
+                  filled: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 10.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
-                fillColor: const Color(0xFF1b1b1b),
-                filled: true,
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 10.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
+                cursorColor: Colors.blue,
               ),
-              cursorColor: Colors.blue,
             ),
           ),
           const SizedBox(height: 5.0), // Adjust the spacing as needed
