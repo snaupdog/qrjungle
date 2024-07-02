@@ -190,11 +190,9 @@ class _MoreQrState extends State<MoreQr> {
       enabled: isloading,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 600,
-            height: 500,
+            height: MediaQuery.of(context).size.height * 0.5,
             child: Stack(
               children: [
                 // Gradient background
@@ -230,6 +228,9 @@ class _MoreQrState extends State<MoreQr> {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
           Padding(
             padding:
