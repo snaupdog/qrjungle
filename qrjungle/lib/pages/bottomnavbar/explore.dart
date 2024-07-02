@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
@@ -103,6 +104,7 @@ class _ExplorePageState extends State<ExplorePage> {
             childAspectRatio: 1),
         itemCount: categoryname.length,
         itemBuilder: (context, index) {
+          print(Apiss.catageroylist[index]['category_icon']);
           return GestureDetector(
             onTap: () {
               Navigator.push(
@@ -110,7 +112,8 @@ class _ExplorePageState extends State<ExplorePage> {
                   MaterialPageRoute(
                       builder: (context) => CategoryPage(
                             catname: categoryname[index],
-                            catimageurl: 'assets/qrsample.png',
+                            catimageurl: Apiss.preurl +
+                                Apiss.catageroylist[index]['category_icon'],
                           )));
             },
             child: ClipRRect(
@@ -130,14 +133,11 @@ class _ExplorePageState extends State<ExplorePage> {
                           topLeft: Radius.circular(15.0),
                           topRight: Radius.circular(15.0),
                         ),
-                        child: Image.asset('assets/qrsample.png',
-                            fit: BoxFit.cover),
-
-                        // child: CachedNetworkImage(
-                        //   imageUrl:
-                        //       "https://img.cutenesscdn.com/640/media-storage/contentlab-data/11/12/85a43f6b7a904946a3a3b125273fc548.jpeg",
-                        //   fit: BoxFit.cover,
-                        // ),
+                        child: CachedNetworkImage(
+                          imageUrl: Apiss.preurl +
+                              Apiss.catageroylist[index]['category_icon'],
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Padding(
