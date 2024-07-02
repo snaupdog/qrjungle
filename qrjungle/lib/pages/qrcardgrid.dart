@@ -222,6 +222,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                           height: constraints.maxHeight * 0.7,
                                           child:  CachedNetworkImage(
                                             
+                                            
                                                   imageUrl:
                                                       "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
                                                   fit: BoxFit.cover,
