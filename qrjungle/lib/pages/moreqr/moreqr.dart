@@ -24,7 +24,6 @@ class MoreQr extends StatefulWidget {
 }
 
 class _MoreQrState extends State<MoreQr> {
-  List<String> favlist = [];
   Map<String, dynamic> fakedata = {
     "qr_code_status": "fake",
     "qr_code_created_on": 1714738115822,
@@ -35,14 +34,25 @@ class _MoreQrState extends State<MoreQr> {
     "price": null
   };
   Color? mostProminentColor;
+  final TextEditingController urlcontroller = TextEditingController();
+  bool isloading = true;
+  bool liked = false;
+
+//     if (Apiss.favqrsids.contains(widget.item['qr_code_id']) ){
+//
+// };
 
   @override
   void initState() {
+    getstate();
     super.initState();
-    if (loggedinmain) {
-      Apiss().listFavourites();
-    }
     fetchMostProminentColor();
+  }
+
+  getstate() async {
+    if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
+      liked = true;
+    }
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
@@ -106,13 +116,12 @@ class _MoreQrState extends State<MoreQr> {
       print("added to wishlist");
     }
     await Apiss().addFavourites(Apiss.favqrsids);
-    Apiss().listFavourites();
+    setState(() {
+      Apiss().listFavourites();
+    });
     print("Updated favourites");
   }
 
-  final TextEditingController urlcontroller = TextEditingController();
-  bool liked = false;
-  bool isloading = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
