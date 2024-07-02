@@ -49,7 +49,7 @@ class _ExplorePageState extends State<ExplorePage> {
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
-          margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+          margin: const EdgeInsets.fromLTRB(12, 30, 12, 0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
