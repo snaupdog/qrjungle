@@ -22,7 +22,7 @@ class MyClass {
   Map<String, dynamic> hi = {
     "qr_code_status": "fake",
     "qr_code_created_on": 1714738115822,
-    "qr_code_image_url_key": "2Omp.png",
+    "qr_code_image_url_key": "",
     "qr_code_id": "fake",
     "qr_prompt": "fake",
     "price": null
@@ -275,7 +275,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             child: Text(
                                               "8.00 \$",
                                               style: TextStyle(
-                                                  color: Colors.grey,
+                                                  color: Colors.white,
                                                   fontSize: 15.5,
                                                   fontWeight: FontWeight.w600),
                                             ),
@@ -284,12 +284,12 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            0.0, 10.0, 0.0, 0),
+                                            0, 0, 5, 4),
                                         child: IconButton(
                                           icon: liked
                                               ? const Icon(Icons.favorite)
                                               : const Icon(
-                                                  Icons.favorite_outline),
+                                                  Icons.favorite_border),
                                           onPressed: () async {
                                             if (loggedinmain) {
                                               setState(() {
@@ -306,7 +306,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                               );
                                             }
                                           },
-                                          color: Colors.white,
+                                          color: liked
+                                              ? Colors.white
+                                              : Colors.grey,
                                         ),
                                       ),
                                     ],

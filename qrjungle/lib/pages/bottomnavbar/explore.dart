@@ -63,22 +63,27 @@ class _ExplorePageState extends State<ExplorePage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(23),
                     ),
-                    child: Image.asset(
-                      'assets/gifgifgif.gif',
-                      fit: BoxFit.fitWidth
-                    ),
+                    child: Image.asset('assets/gifgifgif.gif',
+                        fit: BoxFit.fitWidth),
                   ),
                 ),
                 const SizedBox(height: 40),
-                Text('Categories',
-                    style: textTheme.bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.w600)),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
+                  child: Text('Categories',
+                      style: textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600)),
+                ),
                 isLoading
                     ? CategoryCard(textTheme, fakedata)
                     : CategoryCard(textTheme, categoryname),
-                Text('All QR Codes',
-                    style: textTheme.bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.w600)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 20, 0, 10),
+                  child: Text('All QR Codes',
+                      style: textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600)),
+                ),
                 const Qrcardgrid(type: "all", categoryName: "")
               ],
             ),
