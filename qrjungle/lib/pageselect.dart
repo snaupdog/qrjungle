@@ -52,6 +52,9 @@ class _PageSelectState extends State<PageSelect> {
 
     String appBarTitle;
     switch (_currentIndex) {
+      case 0:
+        appBarTitle = 'qrjungle';
+        break;
       case 1:
         appBarTitle = 'My QRs';
         break;
@@ -67,9 +70,7 @@ class _PageSelectState extends State<PageSelect> {
     }
 
     return Scaffold(
-      appBar: _currentIndex == 0
-          ? null
-          : AppBar(
+      appBar: AppBar(
               title: Text(appBarTitle, style: TextStyle(fontSize: 30)),
             ),
       body: Stack(children: [

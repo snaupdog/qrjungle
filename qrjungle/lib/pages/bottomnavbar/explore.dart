@@ -65,7 +65,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     ),
                     child: Image.asset(
                       'assets/gifgifgif.gif',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth
                     ),
                   ),
                 ),
