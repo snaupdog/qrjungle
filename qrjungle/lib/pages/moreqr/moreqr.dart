@@ -15,8 +15,9 @@ import 'package:skeletonizer/skeletonizer.dart';
 class MoreQr extends StatefulWidget {
   final String imageUrl;
   final dynamic item;
+  final String price;
 
-  const MoreQr({Key? key, required this.imageUrl, required this.item})
+  const MoreQr({Key? key, required this.imageUrl, required this.item, required this.price})
       : super(key: key);
 
   @override
@@ -128,12 +129,6 @@ class _MoreQrState extends State<MoreQr> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
-        //test skeletonizer
-        // floatingActionButton: FloatingActionButton(onPressed: () {
-        //   setState(() {
-        //     isloading = !isloading;
-        //   });
-        // }),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: Container(),
@@ -244,7 +239,7 @@ class _MoreQrState extends State<MoreQr> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.135,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 2.0,
@@ -270,10 +265,21 @@ class _MoreQrState extends State<MoreQr> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                             child: Text(
-                              item['qr_code_category'],
+                              item['qr_code_category'][0].toUpperCase() + item['qr_code_category'].substring(1),
                               style: const TextStyle(
                                 color: const Color(0xff2081e2),
                                 fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: Text(
+                              widget.price,
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w600
                               ),
                             ),
                           ),
@@ -354,7 +360,7 @@ class _MoreQrState extends State<MoreQr> {
               ),
               SizedBox(width: 5.0),
               Text(
-                'Note: The redirect URL can be changed at any time.',
+                'Redirect URL can be changed after purchase.',
                 style: TextStyle(
                   fontSize: 12.0,
                   color: Colors.grey,

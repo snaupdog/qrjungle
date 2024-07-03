@@ -77,7 +77,7 @@ class Apiss {
   getAllqrs(String nextToken) async {
     print("callig get all qrs");
     final Map<String, String> data = {
-      "command": "listAllQrs",
+      "command": "listPortalQrs",
       "nextToken": nextToken
     };
     final jsonData = json.encode(data);
