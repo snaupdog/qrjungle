@@ -138,23 +138,18 @@ class Apiss {
       ),
     );
 
-   try{
-     var response = await operation.response;
-    print("resss: ${response.data}");
-
-    var body = jsonDecode(response.data);
-
-    var hello = body['listMyFavourites'];
-    var body2 = jsonDecode(hello);
-    print("body 2: $body2");
-    myfavslist = body2['data'] as List;
-    favqrsids =
-        myfavslist.map((item) => item['qr_code_id'].toString()).toList();
-    print("WISHLIST QRSSSSSSSSSSSSSSSSSSS : $favqrsids");
-   }catch(e){
-    print("error: $e");
-   }
-   
+    try {
+      var response = await operation.response;
+      var body = jsonDecode(response.data);
+      var hello = body['listMyFavourites'];
+      var body2 = jsonDecode(hello);
+      print("body 2: $body2");
+      myfavslist = body2['data'] as List;
+      favqrsids =
+          myfavslist.map((item) => item['qr_code_id'].toString()).toList();
+    } catch (e) {
+      print("error: $e");
+    }
   }
 
   listUserDetails() async {

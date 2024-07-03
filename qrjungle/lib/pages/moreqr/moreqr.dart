@@ -51,6 +51,7 @@ class _MoreQrState extends State<MoreQr> {
   @override
   void initState() {
     getstate();
+    getloginstatus();
     super.initState();
     fetchMostProminentColor();
   }
@@ -334,7 +335,7 @@ class _MoreQrState extends State<MoreQr> {
                 style: TextStyle(fontSize: 18),
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Enter Redirect URL',                  
+                  labelText: 'Enter Redirect URL',
                   labelStyle: const TextStyle(
                     fontSize: 12.0,
                   ),

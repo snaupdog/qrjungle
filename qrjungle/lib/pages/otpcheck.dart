@@ -20,12 +20,10 @@ class _OTPVerifyState extends State<OTPVerify> {
   confirmSignIn(code, context) async {
     try {
       final result = await Amplify.Auth.confirmSignIn(confirmationValue: code);
-      print('ressssss ' '${result.isSignedIn}');
       if (result.isSignedIn == false) {
         print('not signed in');
         return "Error";
       } else {
-        print('success');
         return "Success";
       }
     } on AuthException catch (e) {
@@ -105,6 +103,7 @@ class _OTPVerifyState extends State<OTPVerify> {
                       await SharedPreferences.getInstance();
                   await pref.setBool('loggedin', true);
 
+                  await getloginstatus();
                   Fluttertoast.showToast(
                       msg: "OTP Verification Successful!",
                       toastLength: Toast.LENGTH_SHORT,
@@ -113,8 +112,6 @@ class _OTPVerifyState extends State<OTPVerify> {
                       backgroundColor: const Color.fromARGB(134, 0, 0, 0),
                       textColor: Colors.white,
                       fontSize: 18.0);
-
-                  getloginstatus();
 
                   Navigator.pop(context);
                   Navigator.pop(context);

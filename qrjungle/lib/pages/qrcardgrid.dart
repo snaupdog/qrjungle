@@ -97,9 +97,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
-      print("insideeee");
+        print("insideeee");
         await Apiss().listFavourites();
-       
+
         setState(() {
           qrlisty = Apiss.myfavslist;
           isloading = false;
@@ -121,16 +121,13 @@ class _QrcardgridState extends State<Qrcardgrid> {
   Future<void> toggleFavourite(String item) async {
     if (Apiss.favqrsids.contains(item)) {
       Apiss.favqrsids.remove(item);
-      print("removed from wishlist");
     } else {
       Apiss.favqrsids.add(item);
-      print("added to wishlist");
     }
     await Apiss().addFavourites(Apiss.favqrsids);
     setState(() {
       Apiss().listFavourites();
     });
-    print("Updated favourites");
   }
 
   @override
@@ -145,8 +142,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
 
   Skeletonizer qrcard(List<dynamic> data) {
     String price = '5.00 \$';
-    print('DATAAAAAAAAAAA: $data');
-    return Skeletonizer(      
+    return Skeletonizer(
       enabled: isloading,
       enableSwitchAnimation: true,
       child: (data.isEmpty || data.contains(Null))
@@ -208,7 +204,8 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                 builder: (context) => MoreQr(
                                     imageUrl:
                                         "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
-                                    item: item, price: price)),
+                                    item: item,
+                                    price: price)),
                           );
                   },
                   child: ClipRRect(
@@ -273,7 +270,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
-                                           Padding(
+                                          Padding(
                                             padding: EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
