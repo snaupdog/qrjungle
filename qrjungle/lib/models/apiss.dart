@@ -169,6 +169,7 @@ class Apiss {
     var body2 = jsonDecode(hello);
 
     userdetailslist = body2['data']['items'];
+   
   }
 
   addFavourites(List<String> favourited) async {
