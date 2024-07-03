@@ -13,7 +13,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -41,9 +41,9 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
               ),
               background: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/qrsample.png'),
+                    image: NetworkImage(widget.catimageurl),
                     fit: BoxFit.cover,
                   ),
                   color: Color.fromARGB(255, 255, 255, 255),
@@ -58,7 +58,7 @@ class _CategoryPageState extends State<CategoryPage> {
               margin: EdgeInsets.all(14),
               child: Column(
                 children: [
-                  Qrcardgrid(type: "categories", categoryName: widget.catname)
+                  Qrcardgrid(type: "categories", categoryName: widget.catname),                  
                 ],
               ),
             ),

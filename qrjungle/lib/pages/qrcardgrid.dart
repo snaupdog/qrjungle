@@ -142,7 +142,8 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Skeletonizer qrcard(List<dynamic> data) {
-    return Skeletonizer(
+    String price = '5.00 \$';
+    return Skeletonizer(      
       enabled: isloading,
       enableSwitchAnimation: true,
       child: (data.isEmpty)
@@ -204,7 +205,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                 builder: (context) => MoreQr(
                                     imageUrl:
                                         "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
-                                    item: item)),
+                                    item: item, price: price)),
                           );
                   },
                   child: ClipRRect(
@@ -269,11 +270,11 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
-                                          const Padding(
+                                           Padding(
                                             padding: EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
-                                              "8.00 \$",
+                                              price,
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15.5,
