@@ -5,9 +5,10 @@ import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 bool loggedinmain = false;
-String email = '';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -18,12 +19,14 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List myqrslist = [];
+  String email = '';
+  bool isloading = true;
 
   @override
   void initState() {
-    getloginstatus();
+    getloginstatus();    
     super.initState();
-    getuserDetails();
+    getuserDetails();    
   }
 
   getuserDetails() async {
@@ -32,7 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
       print('Email: ${res[0]['user_name']}');
       setState(() {
         email = res[0]['user_name'];
+        isloading = false;
       });
+      print('Email: ${res[0]['user_name']}');
     }
   }
 
@@ -69,6 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('EmailLLLLLLLLLLLLL SIUUU : $email');
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.fromLTRB(12, 80, 12, 80),
@@ -79,7 +85,12 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Center(child: Image.asset('assets/logo.png', height: 200)),
               const SizedBox(height: 30),
-              Center(
+              Skeletonizer(
+                enabled: isloading,
+                enableSwitchAnimation: true,
+                child: Column(
+                  children: [
+                    Center(
                   child: (!loggedinmain)
                       ? TextButton.icon(
                           onPressed: () {
@@ -190,6 +201,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 await SharedPreferences
                                                     .getInstance();
                                             await pref.remove('loggedin');
+                                            setState(() {
+                                              email = "";
+                                            });
                                             Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
@@ -248,10 +262,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           style: TextStyle(color: Colors.white)),
                       icon: const Icon(Icons.logout, color: Colors.white),
                     ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
       ),
     );
   }
+
+  
 }

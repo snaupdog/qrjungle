@@ -107,9 +107,15 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         } else {
+                          setState(() {
+                            loader = true;
+                          });
                           await Apiss().signup(emailController.text);
                           String result2 =
                               await signInCustomFlow(emailController.text);
+                          setState(() {
+                            loader = false;
+                          });
                           if (result2 == 'Success') {
                             print('Signed in Successfully, Enter OTP');
                             Navigator.push(

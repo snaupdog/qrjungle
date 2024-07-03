@@ -330,9 +330,10 @@ class _MoreQrState extends State<MoreQr> {
                   const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
               child: TextFormField(
                 controller: urlcontroller,
+                style: TextStyle(fontSize: 18),
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Enter Redirect URL',
+                  labelText: 'Enter Redirect URL',                  
                   labelStyle: const TextStyle(
                     fontSize: 12.0,
                   ),

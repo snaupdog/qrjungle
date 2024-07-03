@@ -25,7 +25,7 @@ class MyClass {
     "qr_code_image_url_key": "",
     "qr_code_id": "fake",
     "qr_prompt": "fake",
-    "price": null
+    "price": "5.00 \$"
   };
   late List<Map<String, dynamic>> fakedata;
 
@@ -97,7 +97,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
+      print("insideeee");
         await Apiss().listFavourites();
+       
         setState(() {
           qrlisty = Apiss.myfavslist;
           isloading = false;
@@ -143,10 +145,11 @@ class _QrcardgridState extends State<Qrcardgrid> {
 
   Skeletonizer qrcard(List<dynamic> data) {
     String price = '5.00 \$';
+    print('DATAAAAAAAAAAA: $data');
     return Skeletonizer(      
       enabled: isloading,
       enableSwitchAnimation: true,
-      child: (data.isEmpty)
+      child: (data.isEmpty || data.contains(Null))
           ? (!loggedinmain)
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
