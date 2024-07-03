@@ -30,13 +30,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   getuserDetails() async {
     if (email == "") {
-      var res = await Apiss().listUserDetails();
-      print('Email: ${res[0]['user_name']}');
       setState(() {
-        email = res[0]['user_name'];
-        isloading = false;
+        email = Apiss.userdetailslist[0]['user_name'];
       });
-      print('Email: ${res[0]['user_name']}');
     }
   }
 
@@ -205,6 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: const Text('No', style: TextStyle(fontSize: 18, color: Colors.white)),
                                 ),
                               ],
+                              elevation: 5.0,
                             );
                           },
                         );
