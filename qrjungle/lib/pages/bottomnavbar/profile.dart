@@ -44,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Apiss.myfavslist = [];
     Apiss.userdetailslist = [];
     Apiss.favqrsids = [];
+    Apiss().getAllqrs("");
     Apiss().listUserDetails();
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove('loggedin');

@@ -143,7 +143,6 @@ class Apiss {
       var body = jsonDecode(response.data);
       var hello = body['listMyFavourites'];
       var body2 = jsonDecode(hello);
-      print("body 2: $body2");
       myfavslist = body2['data'] as List;
       favqrsids =
           myfavslist.map((item) => item['qr_code_id'].toString()).toList();
