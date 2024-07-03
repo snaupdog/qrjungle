@@ -273,7 +273,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             padding: EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
-                                              "8.00 \$",
+                                              "5.00 \$",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15.5,
