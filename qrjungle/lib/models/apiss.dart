@@ -13,6 +13,7 @@ class Apiss {
   static List myqrslist = [];
   static List catageroylist = [];
   static List<String> favqrsids = [];
+  static List userdetailslist = [];
 
   // Future clearlist() async {
   //   qrinfolist = [];
@@ -145,7 +146,6 @@ class Apiss {
     myfavslist = body2['data'] as List;
     favqrsids =
         myfavslist.map((item) => item['qr_code_id'].toString()).toList();
-    print(favqrsids);
   }
 
   listUserDetails() async {
@@ -156,12 +156,10 @@ class Apiss {
 
     var response = await operation.response;
     var body = jsonDecode(response.data);
-
     var hello = body['getCurrentUserDetails'];
     var body2 = jsonDecode(hello);
-    var help = body2['data']['items'];
 
-    return help;
+    userdetailslist = body2['data']['items'];
   }
 
   addFavourites(List<String> favourited) async {

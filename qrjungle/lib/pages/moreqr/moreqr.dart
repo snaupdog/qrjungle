@@ -115,16 +115,13 @@ class _MoreQrState extends State<MoreQr> {
   Future<void> toggleFavourite() async {
     if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
       Apiss.favqrsids.remove(widget.item['qr_code_id']);
-      print("removed from wishlist");
     } else {
       Apiss.favqrsids.add(widget.item['qr_code_id']);
-      print("added to wishlist");
     }
     await Apiss().addFavourites(Apiss.favqrsids);
     setState(() {
       Apiss().listFavourites();
     });
-    print("Updated favourites");
   }
 
   @override
@@ -165,7 +162,6 @@ class _MoreQrState extends State<MoreQr> {
                           icon: const Icon(Icons.share, size: 25),
                           onPressed: () {
                             // Add your onPressed code here!
-                            print("Share button pressed");
                           },
                           color: Colors.white,
                         ),
@@ -311,7 +307,6 @@ class _MoreQrState extends State<MoreQr> {
                           );
                           await toggleFavourite();
                         } else {
-                          print("show modal sheet");
                           showModalBottomSheet(
                             context: context,
                             builder: (context) => const LoginModalSheet(),
@@ -383,7 +378,7 @@ class _MoreQrState extends State<MoreQr> {
                     Fluttertoast.showToast(
                       msg: "Redirect URL cannot be empty!",
                       toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
+                      gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
                       backgroundColor: const Color.fromARGB(134, 0, 0, 0),
                       textColor: Colors.white,

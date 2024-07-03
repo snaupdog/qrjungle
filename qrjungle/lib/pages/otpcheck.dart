@@ -35,6 +35,7 @@ class _OTPVerifyState extends State<OTPVerify> {
   }
 
   getUserdata() async {
+    Apiss().listUserDetails();
     Apiss().listFavourites();
     Apiss().listmyqrs();
   }

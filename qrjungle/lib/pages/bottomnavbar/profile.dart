@@ -28,10 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   getuserDetails() async {
     if (email == "") {
-      var res = await Apiss().listUserDetails();
-      print('Email: ${res[0]['user_name']}');
       setState(() {
-        email = res[0]['user_name'];
+        email = Apiss.userdetailslist[0]['user_name'];
       });
     }
   }
@@ -186,6 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           onPressed: () async {
                                             Apiss.myqrslist = [];
                                             Apiss.myfavslist = [];
+                                            Apiss.userdetailslist = [];
                                             SharedPreferences pref =
                                                 await SharedPreferences
                                                     .getInstance();
