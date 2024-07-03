@@ -13,19 +13,9 @@ class WishlistPage extends StatefulWidget {
 }
 
 class _WishlistPageState extends State<WishlistPage> {
-  getloginstatus() async {
-    print('******* LOGINSTATUS CALLED *********8');
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    bool loggedin = pref.getBool('loggedin') ?? false;
-    print("loggedin from sp: $loggedin");
-    setState(() {
-      loggedinmain = loggedin;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(loggedinmain);
+    print("This is wishlist logged in check $loggedinmain");
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
         Navigator.push(

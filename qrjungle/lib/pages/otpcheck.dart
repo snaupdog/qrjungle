@@ -36,7 +36,8 @@ class _OTPVerifyState extends State<OTPVerify> {
     Apiss().listUserDetails();
     Apiss().listFavourites();
     Apiss().listmyqrs();
-    print("\n\n\n\\n\n\n\n\n\n\n\n\n\n");
+    print("\n\n\n\\n\n\n\n\n\n\n\n\n");
+    print("this is user details");
     print(Apiss.userdetailslist);
   }
 
@@ -69,10 +70,10 @@ class _OTPVerifyState extends State<OTPVerify> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text('OTP Verification', style: TextStyle(fontSize: 28)),
-            SizedBox(height: 190),
-            Text('Enter OTP sent to', style: TextStyle(fontSize: 22)),
+            const SizedBox(height: 190),
+            const Text('Enter OTP sent to', style: TextStyle(fontSize: 22)),
             Text(widget.email,
-                style: TextStyle(fontSize: 20, color: Colors.amber)),
+                style: const TextStyle(fontSize: 20, color: Colors.amber)),
             const SizedBox(height: 40),
             PinCodeTextField(
               keyboardType: TextInputType.number,
@@ -80,13 +81,10 @@ class _OTPVerifyState extends State<OTPVerify> {
               enablePinAutofill: true,
               appContext: context,
               length: 6,
-              onChanged: (value) {
-                print(value);
-              },
               pinTheme: PinTheme(
                 shape: PinCodeFieldShape.box,
-                inactiveColor: Color.fromARGB(255, 255, 255, 255),
-                activeColor: Color.fromARGB(255, 255, 255, 255),
+                inactiveColor: const Color.fromARGB(255, 255, 255, 255),
+                activeColor: const Color.fromARGB(255, 255, 255, 255),
                 selectedColor: Colors.amber,
               ),
               onCompleted: (value) async {
@@ -129,9 +127,9 @@ class _OTPVerifyState extends State<OTPVerify> {
                 }
               },
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             (loady)
-                ? Column(
+                ? const Column(
                     children: [
                       Text('Verifying'),
                       SizedBox(
@@ -140,7 +138,7 @@ class _OTPVerifyState extends State<OTPVerify> {
                       SpinKitThreeBounce(color: Colors.white, size: 25),
                     ],
                   )
-                : SizedBox()
+                : const SizedBox()
           ],
         ),
       ),
