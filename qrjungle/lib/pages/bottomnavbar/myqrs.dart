@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyQRsPage extends StatefulWidget {
   const MyQRsPage({super.key});
@@ -11,16 +10,6 @@ class MyQRsPage extends StatefulWidget {
 }
 
 class _MyQRsPageState extends State<MyQRsPage> {
-  getloginstatus() async {
-    print('******* LOGINSTATUS CALLED *********8');
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    bool loggedin = pref.getBool('loggedin') ?? false;
-    print("loggedin from sp: $loggedin");
-    setState(() {
-      loggedinmain = loggedin;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +29,13 @@ class _MyQRsPageState extends State<MyQRsPage> {
                           SizedBox(
                               height: MediaQuery.sizeOf(context).height * 0.3),
                           Image.asset('assets/empty.png', height: 150),
-                          SizedBox(height: 15),
-                          Text('Not Logged In :(',
+                          const SizedBox(height: 15),
+                          const Text('Not Logged In :(',
                               style: TextStyle(fontSize: 26)),
                         ],
                       ),
                     )
-                  : Container(
+                  : SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       width: MediaQuery.sizeOf(context).width,
                       child: const Qrcardgrid(type: "myqrs", categoryName: "")),

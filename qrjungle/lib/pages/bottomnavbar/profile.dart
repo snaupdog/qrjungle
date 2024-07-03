@@ -47,26 +47,10 @@ class _ProfilePageState extends State<ProfilePage> {
     Apiss().getAllqrs("");
     Apiss().listUserDetails();
     SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      loggedinmain = false;
+    });
     await pref.remove('loggedin');
-  }
-
-  Future<String> signInCustomFlow(String username) async {
-    print('email is: $username');
-    await Amplify.Auth.signOut();
-    // ignore: unused_local_variable
-    final num = emailController.text;
-    try {
-      final result = await Amplify.Auth.signIn(username: username);
-      print('Result@@@@@@@@@@@!!!!!!: $result');
-      return 'Success';
-    } on AuthException catch (e) {
-      print("error");
-      print("message: ${e.message}");
-      if (e.message.contains('No password was provided')) {
-        await Apiss().signup(emailController.text);
-      }
-      return e.message;
-    }
   }
 
   getloginstatus() async {

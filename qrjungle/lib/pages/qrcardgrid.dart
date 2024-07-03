@@ -78,7 +78,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Future<void> fetchmyqrs() async {
-    print("\n\n\n\n\n\n\n\n");
     // await Apiss().clearlist()
     switch (widget.type) {
       case 'all':
@@ -96,9 +95,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
-        print("insideeee");
-        await Apiss().listFavourites();
-
+        // await Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
           isloading = false;
@@ -193,16 +190,14 @@ class _QrcardgridState extends State<Qrcardgrid> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => VierMyQr(
-                                    imageUrl:
-                                        "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
+                                    imageUrl: Apiss.preurl + imageurl,
                                     item: item)),
                           )
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MoreQr(
-                                    imageUrl:
-                                        "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
+                                    imageUrl: Apiss.preurl + imageurl,
                                     item: item,
                                     price: price)),
                           );
@@ -230,8 +225,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                 child: Skeleton.replace(
                                   height: constraints.maxHeight * 0.7,
                                   child: CachedNetworkImage(
-                                    imageUrl:
-                                        "https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/$imageurl",
+                                    imageUrl: Apiss.preurl + imageurl,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
