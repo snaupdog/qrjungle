@@ -15,9 +15,11 @@ class Payment {
     required this.context,
     required this.amount,
     required this.qrCodeId,
-    required this.redirectUrl,
+    required String redirectUrl,
     this.currency = "INR",
-  }) {
+  }) : redirectUrl = redirectUrl.startsWith('https://')
+            ? redirectUrl
+            : 'https://$redirectUrl' {
     print(
         "initiating payment with amount - $amount \n qrCodeId - $qrCodeId \n redirectUrl - $redirectUrl \n currency -  $currency");
     initiatePayment();

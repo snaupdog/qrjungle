@@ -17,7 +17,11 @@ class MoreQr extends StatefulWidget {
   final dynamic item;
   final String price;
 
-  const MoreQr({Key? key, required this.imageUrl, required this.item, required this.price})
+  const MoreQr(
+      {Key? key,
+      required this.imageUrl,
+      required this.item,
+      required this.price})
       : super(key: key);
 
   @override
@@ -67,8 +71,8 @@ class _MoreQrState extends State<MoreQr> {
     if (image == null) throw Exception('Image cannot be decoded');
 
     final Map<int, int> colorCount = {};
-    for (var y = 0; y < 50; y = y + 1) {
-      for (var x = 0; x < image.width; x = x + 1) {
+    for (var y = 0; y < 6; y = y + 2) {
+      for (var x = 0; x < image.width; x = x + 4) {
         final pixel = image.getPixel(x, y);
         final color = ((pixel.a.toInt() & 0xFF) << 24) |
             ((pixel.r.toInt() & 0xFF) << 16) |
@@ -265,7 +269,8 @@ class _MoreQrState extends State<MoreQr> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                             child: Text(
-                              item['qr_code_category'][0].toUpperCase() + item['qr_code_category'].substring(1),
+                              item['qr_code_category'][0].toUpperCase() +
+                                  item['qr_code_category'].substring(1),
                               style: const TextStyle(
                                 color: const Color(0xff2081e2),
                                 fontSize: 16.0,
@@ -277,10 +282,9 @@ class _MoreQrState extends State<MoreQr> {
                             child: Text(
                               widget.price,
                               style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w600
-                              ),
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ],
