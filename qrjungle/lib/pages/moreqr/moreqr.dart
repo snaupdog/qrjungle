@@ -43,6 +43,7 @@ class _MoreQrState extends State<MoreQr> {
   final TextEditingController urlcontroller = TextEditingController();
   bool isloading = true;
   bool liked = false;
+  bool isPurchasing = false;
 
 //     if (Apiss.favqrsids.contains(widget.item['qr_code_id']) ){
 //
@@ -352,7 +353,7 @@ class _MoreQrState extends State<MoreQr> {
               ),
             ),
           ),
-          const SizedBox(height: 5.0), // Adjust the spacing as needed
+          const SizedBox(height: 5.0),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(children: [
@@ -389,12 +390,18 @@ class _MoreQrState extends State<MoreQr> {
                       fontSize: 18.0,
                     );
                   } else {
+                    setState(() {
+                      isPurchasing = true;
+                    });
                     Payment(
                       context: context,
                       amount: "500",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,
                     );
+                    setState(() {
+                      isPurchasing = false;
+                    });
                   }
                 } else {
                   showModalBottomSheet(
