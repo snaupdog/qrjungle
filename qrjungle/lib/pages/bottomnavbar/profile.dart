@@ -9,7 +9,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 bool loggedinmain = false;
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -24,9 +23,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    getloginstatus();    
+    getloginstatus();
     super.initState();
-    getuserDetails();    
+    getuserDetails();
   }
 
   getuserDetails() async {
@@ -74,7 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('EmailLLLLLLLLLLLLL SIUUU : $email');
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.fromLTRB(12, 80, 12, 80),
@@ -160,100 +158,53 @@ class _ProfilePageState extends State<ProfilePage> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return Dialog(
+                            return AlertDialog(
+                              backgroundColor: const Color.fromARGB(255, 21, 21, 21),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              elevation: 5.0,
-                              backgroundColor: Colors.black,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    const Text(
-                                      'Log Out',
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20.0),
-                                    const Text(
-                                      'Are you sure you want to log out?',
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 20.0),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            Apiss.myqrslist = [];
-                                            Apiss.myfavslist = [];
-                                            SharedPreferences pref =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            await pref.remove('loggedin');
-                                            setState(() {
-                                              email = "";
-                                            });
-                                            Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Config(
-                                                        onboarded: true,
-                                                      )),
-                                              (route) => false,
-                                            );
-                                            Fluttertoast.showToast(
-                                                msg: "You've been logged out!",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 2,
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        134, 0, 0, 0),
-                                                textColor: Colors.white,
-                                                fontSize: 18.0);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            foregroundColor: Colors.white,
-                                            backgroundColor: Colors.red,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                          ),
-                                          child: const Text('Yes'),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            foregroundColor: Colors.white,
-                                            backgroundColor: Colors.grey,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                          ),
-                                          child: const Text('No'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                              title: const Text('Log Out', style: TextStyle(fontWeight: FontWeight.w600)),
+                              content: const Text(
+                                  'Are you sure you want to log out?', style: TextStyle(fontSize: 16)),
+                              actions: <Widget>[
+                                TextButton(
+                                  style: TextButton.styleFrom(backgroundColor: Colors.red),
+                                  onPressed: () async {
+                                    Apiss.myqrslist = [];
+                                    Apiss.myfavslist = [];
+                                    SharedPreferences pref =
+                                        await SharedPreferences.getInstance();
+                                    await pref.remove('loggedin');
+                                    setState(() {
+                                      email = "";
+                                    });
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Config(
+                                                onboarded: true,
+                                              )),
+                                      (route) => false,
+                                    );
+                                    Fluttertoast.showToast(
+                                        msg: "You've been logged out!",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 2,
+                                        backgroundColor: const Color.fromARGB(
+                                            134, 0, 0, 0),
+                                        textColor: Colors.white,
+                                        fontSize: 18.0);
+                                  },
+                                  child: const Text('Yes', style: TextStyle(fontSize: 18, color: Colors.white)),
                                 ),
-                              ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Close the dialog
+                                  },
+                                  child: const Text('No', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                ),
+                              ],
                             );
                           },
                         );
@@ -264,13 +215,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  
 }

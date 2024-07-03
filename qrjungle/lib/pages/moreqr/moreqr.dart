@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -160,7 +161,7 @@ class _MoreQrState extends State<MoreQr> {
                         child: IconButton(
                           icon: const Icon(Icons.share, size: 25),
                           onPressed: () {
-                            // Add your onPressed code here!
+                            Share.share('fortnite gay balls');
                             print("Share button pressed");
                           },
                           color: Colors.white,

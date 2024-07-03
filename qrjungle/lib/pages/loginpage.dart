@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                         child: (loader)
                             ? const Center(
                                 child: SpinKitThreeBounce(

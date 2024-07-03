@@ -113,11 +113,12 @@ class _OTPVerifyState extends State<OTPVerify> {
                       textColor: Colors.white,
                       fontSize: 18.0);
 
-                  getloginstatus();                  
+                  getloginstatus();
 
                   Navigator.pop(context);
                   Navigator.pop(context);
                 } else {
+                  Navigator.pop(context);
                   Fluttertoast.showToast(
                       msg: "Incorrect OTP Entered, please try again!",
                       gravity: ToastGravity.CENTER,
