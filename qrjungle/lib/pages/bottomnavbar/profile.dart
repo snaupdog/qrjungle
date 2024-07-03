@@ -85,131 +85,148 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     Center(
-                  child: (!loggedinmain)
-                      ? TextButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LoginPage())).then(
-                              (value) {
-                                getloginstatus();
-                              },
-                            );
-                          },
-                          label: const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
-                            child: Text(
-                              'Log In',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                decoration: TextDecoration.underline,
-                                decorationThickness: 2,
-                                fontSize: 22,
-                              ),
-                            ),
-                          ),
-                          icon: const Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                            child: Icon(Icons.exit_to_app_outlined,
-                                color: Color.fromARGB(255, 255, 255, 255)),
-                          ),
-                        )
-                      : Text(
-                          email,
-                          style: const TextStyle(fontSize: 19),
-                        )),
-              const SizedBox(height: 30),
-              TextButton.icon(
-                onPressed: () {},
-                label: const Text(
-                  'Privacy Policy',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    decoration: TextDecoration.underline,
-                    fontSize: 14,
-                  ),
-                ),
-                icon: const Icon(Icons.info_outline,
-                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                label: const Text(
-                  'Terms and Conditions',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    decoration: TextDecoration.underline,
-                    fontSize: 14,
-                  ),
-                ),
-                icon: const Icon(Icons.info_outline,
-                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
-              ),
-              (!loggedinmain)
-                  ? Container()
-                  : TextButton.icon(
-                      onPressed: () async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: const Color.fromARGB(255, 21, 21, 21),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              title: const Text('Log Out', style: TextStyle(fontWeight: FontWeight.w600)),
-                              content: const Text(
-                                  'Are you sure you want to log out?', style: TextStyle(fontSize: 16)),
-                              actions: <Widget>[
-                                TextButton(
-                                  style: TextButton.styleFrom(backgroundColor: Colors.red),
-                                  onPressed: () async {
-                                    Apiss.myqrslist = [];
-                                    Apiss.myfavslist = [];
-                                    SharedPreferences pref =
-                                        await SharedPreferences.getInstance();
-                                    await pref.remove('loggedin');
-                                    setState(() {
-                                      email = "";
-                                    });
-                                    Navigator.pushAndRemoveUntil(
+                        child: (!loggedinmain)
+                            ? TextButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Config(
-                                                onboarded: true,
-                                              )),
-                                      (route) => false,
-                                    );
-                                    Fluttertoast.showToast(
-                                        msg: "You've been logged out!",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor: const Color.fromARGB(
-                                            134, 0, 0, 0),
-                                        textColor: Colors.white,
-                                        fontSize: 18.0);
-                                  },
-                                  child: const Text('Yes', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                          builder: (context) =>
+                                              const LoginPage())).then(
+                                    (value) {
+                                      getloginstatus();
+                                    },
+                                  );
+                                },
+                                label: const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                  child: Text(
+                                    'Log In',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      decoration: TextDecoration.underline,
+                                      decorationThickness: 2,
+                                      fontSize: 22,
+                                    ),
+                                  ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(); // Close the dialog
-                                  },
-                                  child: const Text('No', style: TextStyle(fontSize: 18, color: Colors.white)),
+                                icon: const Padding(
+                                  padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+                                  child: Icon(Icons.exit_to_app_outlined,
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
                                 ),
-                              ],
-                              elevation: 5.0,
-                            );
-                          },
-                        );
-                      },
-                      label: const Text('Log Out',
-                          style: TextStyle(color: Colors.white)),
-                      icon: const Icon(Icons.logout, color: Colors.white),
+                              )
+                            : Text(
+                                email,
+                                style: const TextStyle(fontSize: 19),
+                              )),
+                    const SizedBox(height: 30),
+                    TextButton.icon(
+                      onPressed: () {},
+                      label: const Text(
+                        'Privacy Policy',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          decoration: TextDecoration.underline,
+                          fontSize: 14,
+                        ),
+                      ),
+                      icon: const Icon(Icons.info_outline,
+                          color: Color.fromARGB(255, 255, 255, 255), size: 20),
                     ),
+                    TextButton.icon(
+                      onPressed: () {},
+                      label: const Text(
+                        'Terms and Conditions',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          decoration: TextDecoration.underline,
+                          fontSize: 14,
+                        ),
+                      ),
+                      icon: const Icon(Icons.info_outline,
+                          color: Color.fromARGB(255, 255, 255, 255), size: 20),
+                    ),
+                    (!loggedinmain)
+                        ? Container()
+                        : TextButton.icon(
+                            onPressed: () async {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 21, 21, 21),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    title: const Text('Log Out',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600)),
+                                    content: const Text(
+                                        'Are you sure you want to log out?',
+                                        style: TextStyle(fontSize: 16)),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                            backgroundColor: Colors.red),
+                                        onPressed: () async {
+                                          Apiss.myqrslist = [];
+                                          Apiss.myfavslist = [];
+                                          Apiss.userdetailslist = [];
+                                          SharedPreferences pref =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          await pref.remove('loggedin');
+                                          setState(() {
+                                            email = "";
+                                          });
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Config(
+                                                      onboarded: true,
+                                                    )),
+                                            (route) => false,
+                                          );
+                                          Fluttertoast.showToast(
+                                              msg: "You've been logged out!",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 2,
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      134, 0, 0, 0),
+                                              textColor: Colors.white,
+                                              fontSize: 18.0);
+                                        },
+                                        child: const Text('Yes',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white)),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                        },
+                                        child: const Text('No',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white)),
+                                      ),
+                                    ],
+                                    elevation: 5.0,
+                                  );
+                                },
+                              );
+                            },
+                            label: const Text('Log Out',
+                                style: TextStyle(color: Colors.white)),
+                            icon: const Icon(Icons.logout, color: Colors.white),
+                          ),
                   ],
                 ),
               ),

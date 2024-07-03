@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/hi.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +29,14 @@ class _WishlistPageState extends State<WishlistPage> {
   Widget build(BuildContext context) {
     print(loggedinmain);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AnimatedGridSample(),
+          ),
+        );
+      }),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.fromLTRB(12, 14, 12, 0),

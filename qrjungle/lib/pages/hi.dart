@@ -110,8 +110,8 @@ class _AnimatedGridSampleState extends State<AnimatedGridSample> {
           padding: const EdgeInsets.all(16.0),
           child: AnimatedGrid(
             key: _gridKey,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 100.0,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 10.0,
             ),
