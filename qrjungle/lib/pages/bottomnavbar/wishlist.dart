@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/hi.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
