@@ -48,8 +48,8 @@ class Payment {
     );
   }
 
-  void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
-    Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
+  void handlePaymentSuccessResponse(PaymentSuccessResponse response) async {
+    await Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
     Apiss().listmyqrs();
 
     navigateToResultPage(
@@ -57,6 +57,14 @@ class Payment {
       "Payment ID: ${response.paymentId}",
       success: true,
     );
+  }
+
+  String email = "";
+  getuserDetails() async {
+    Apiss.myfavslist;
+    if (email == "") {
+        email = Apiss.userdetailslist[0]['user_name'];
+    }
   }
 
   Future<String?> fetchOrderId() async {
@@ -76,13 +84,14 @@ class Payment {
     var options = {
       'key': 'rzp_test_fn7n6bC23PIxXQ',
       'amount': amount,
-      'name': 'Qr jungle',
-      'description': 'Purchasing QR code',
+      'name': 'QrJungle',
+      'description': 'Purchase QR Code',
+      'image' : 'https://i.ibb.co/qNkxQs1/Clipboard01.png',
       'order_id': orderId,
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
-      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
-      'theme': {'color': '#8354E2'},
+      'prefill': {'email': email},
+      'theme': {'color': '#6CCEFF'},
     };
 
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
