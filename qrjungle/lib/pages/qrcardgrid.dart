@@ -200,7 +200,12 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                     imageUrl: Apiss.preurl + imageurl,
                                     item: item,
                                     price: price)),
-                          );
+                          ).then((_) {
+                            setState(() {
+                              Apiss().listFavourites();
+                            });
+                            print("hello");
+                          });
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
