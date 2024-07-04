@@ -272,11 +272,11 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.fromLTRB(
+                                            padding: const EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
                                               price,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15.5,
                                                   fontWeight: FontWeight.w600),
