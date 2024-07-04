@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
@@ -275,6 +276,14 @@ class _VierMyQrState extends State<VierMyQr> {
                 Apiss().editRedirect(
                     item['qr_code_id'], "https://${urlcontroller.text}");
                 urlcontroller.clear();
+                Fluttertoast.showToast(
+                    msg: "Qr Code URL changed to $urlcontroller.text",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.TOP,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: const Color.fromARGB(134, 0, 0, 0),
+                    textColor: Colors.white,
+                    fontSize: 16.0);
               },
               child: const Text("reset url")),
           const SizedBox(height: 20.0),

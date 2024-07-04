@@ -84,7 +84,10 @@ class _ExplorePageState extends State<ExplorePage> {
                       style: textTheme.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.w600)),
                 ),
-                const Qrcardgrid(type: "all", categoryName: "")
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
+                  child: Qrcardgrid(type: "all", categoryName: ""),
+                )
               ],
             ),
           ),
