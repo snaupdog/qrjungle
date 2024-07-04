@@ -105,9 +105,9 @@ class _ExplorePageState extends State<ExplorePage> {
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 7.0,
-            mainAxisSpacing: 10.0,
-            childAspectRatio: 1),
+            crossAxisSpacing: 5.0,
+            mainAxisSpacing: 5.0,
+            childAspectRatio: 0.95),
         itemCount: categoryname.length,
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -124,6 +124,7 @@ class _ExplorePageState extends State<ExplorePage> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: Card(
+                color: const Color(0xff1b1b1b),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
@@ -132,7 +133,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.15,
+                      height: MediaQuery.sizeOf(context).height * 0.135,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15.0),
@@ -146,7 +147,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
                       child: Text(
                           overflow: TextOverflow.ellipsis,
                           (categoryname[index].toString().replaceFirst(

@@ -231,11 +231,13 @@ class _MoreQrState extends State<MoreQr> {
                     child: Skeleton.leaf(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                          fit: BoxFit.cover,
+                        child: Center(
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -259,8 +261,8 @@ class _MoreQrState extends State<MoreQr> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 17.0, vertical: 10.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -275,7 +277,7 @@ class _MoreQrState extends State<MoreQr> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                             child: Text(
                               item['qr_code_category'][0].toUpperCase() +
                                   item['qr_code_category'].substring(1),
@@ -286,12 +288,12 @@ class _MoreQrState extends State<MoreQr> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
                               widget.price,
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 25.0,
+                                  fontSize: 17.0,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),

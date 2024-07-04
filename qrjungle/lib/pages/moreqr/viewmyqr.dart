@@ -181,11 +181,13 @@ class _VierMyQrState extends State<VierMyQr> {
                   padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fit: BoxFit.cover,
+                    child: Center(
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
