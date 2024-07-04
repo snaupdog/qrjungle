@@ -225,7 +225,8 @@ class _VierMyQrState extends State<VierMyQr> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 1),
                             child: Text(
-                              item['qr_code_category'],
+                              item['qr_code_category'][0].toUpperCase() +
+                                  item['qr_code_category'].substring(1),
                               style: const TextStyle(
                                 color: Color(0xff2081e2),
                                 fontSize: 16.0,

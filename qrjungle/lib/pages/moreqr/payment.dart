@@ -86,7 +86,7 @@ class Payment {
       'amount': amount,
       'name': 'QrJungle',
       'description': 'Purchase QR Code',
-      'image' : 'https://i.ibb.co/qNkxQs1/Clipboard01.png',
+      'image' : 'https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/Logos/razorpaylogo.png',
       'order_id': orderId,
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
