@@ -91,7 +91,7 @@ class Payment {
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
       'prefill': {'email': email},
-      'theme': {'color': '#6CCEFF'},
+      'theme': {'color': '#000000'},
     };
 
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
