@@ -153,30 +153,32 @@ class _MoreQrState extends State<MoreQr> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: MediaQuery.sizeOf(context).width * 0.71),
-                      Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromARGB(175, 0, 0, 0)),
-                        child: IconButton(
-                          icon: const Icon(Icons.share, size: 25),
-                          onPressed: () async {
-                            final urlImage = widget.imageUrl;
-                            final sendimageurl = Uri.parse(urlImage);
-                            final res = await http.get(sendimageurl);
-                            final bytes = res.bodyBytes;
-                            final temp = await getTemporaryDirectory();
-                            final path = '${temp.path}/image.jpg';
-                            File(path).writeAsBytesSync(bytes);
-                            await Share.shareXFiles([XFile(path)],
-                                text:
-                                    'Check out this cool QR from QRJungle!\nDownload QRJungle now!');
-                            print("Share button pressed");
-                          },
-                          color: Colors.white,
+                      SizedBox(width: MediaQuery.sizeOf(context).width * 0.68),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color.fromARGB(175, 0, 0, 0)),
+                          child: IconButton(
+                            icon: const Icon(Icons.share, size: 25),
+                            onPressed: () async {
+                              final urlImage = widget.imageUrl;
+                              final sendimageurl = Uri.parse(urlImage);
+                              final res = await http.get(sendimageurl);
+                              final bytes = res.bodyBytes;
+                              final temp = await getTemporaryDirectory();
+                              final path = '${temp.path}/image.jpg';
+                              File(path).writeAsBytesSync(bytes);
+                              await Share.shareXFiles([XFile(path)],
+                                  text:
+                                      'Check out this cool QR from QRJungle!\nDownload QRJungle now!');
+                              print("Share button pressed");
+                            },
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      SizedBox(width: MediaQuery.sizeOf(context).width * 0.018),
                     ],
                   ),
                 ),

@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -7,10 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
-
-import 'package:qrjungle/pages/moreqr/payment.dart';
-import 'package:qrjungle/pages/bottomnavbar/profile.dart';
-import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class VierMyQr extends StatefulWidget {
@@ -34,13 +28,15 @@ class _VierMyQrState extends State<VierMyQr> {
     "qr_prompt": "fake",
     "price": null
   };
-
+  late String label;
+  final TextEditingController urlcontroller = TextEditingController();
+  bool isloading = true;
   Color? mostProminentColor;
 
   @override
   void initState() {
+    label = widget.item['redirect_url'];
     super.initState();
-
     fetchMostProminentColor();
   }
 
@@ -85,9 +81,6 @@ class _VierMyQrState extends State<VierMyQr> {
       print('Error: $e');
     }
   }
-
-  final TextEditingController urlcontroller = TextEditingController();
-  bool isloading = true;
 
   // Apiss().editRedirect("kHjF", "www.youtube.com");
   @override
@@ -141,10 +134,15 @@ class _VierMyQrState extends State<VierMyQr> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: isloading
-              ? card(fakedata, "")
-              : card(widget.item, widget.imageUrl),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: isloading
+                ? card(fakedata, "")
+                : card(widget.item, widget.imageUrl),
+          ),
         ),
       ),
     );
@@ -254,7 +252,7 @@ class _VierMyQrState extends State<VierMyQr> {
               decoration: InputDecoration(
                 prefixText: "https://",
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                labelText: "current url - ${widget.item['redirect_url']}",
+                labelText: "current url - $label",
                 labelStyle: const TextStyle(
                   fontSize:
                       15.0, // Set the desired font size for the label text
@@ -275,15 +273,19 @@ class _VierMyQrState extends State<VierMyQr> {
               onPressed: () {
                 Apiss().editRedirect(
                     item['qr_code_id'], "https://${urlcontroller.text}");
-                urlcontroller.clear();
                 Fluttertoast.showToast(
-                    msg: "Qr Code URL changed to $urlcontroller.text",
+                    msg: "Qr Code URL changed successfully",
                     toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.TOP,
+                    gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,
                     backgroundColor: const Color.fromARGB(134, 0, 0, 0),
                     textColor: Colors.white,
                     fontSize: 16.0);
+                setState(() {
+                  label = urlcontroller.text;
+                });
+                FocusScope.of(context).unfocus();
+                urlcontroller.clear();
               },
               child: const Text("reset url")),
           const SizedBox(height: 20.0),
