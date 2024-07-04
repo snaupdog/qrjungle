@@ -1,11 +1,9 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 bool loggedinmain = false;
 
