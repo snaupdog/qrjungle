@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
-
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
@@ -43,11 +45,6 @@ class _MoreQrState extends State<MoreQr> {
   final TextEditingController urlcontroller = TextEditingController();
   bool isloading = true;
   bool liked = false;
-  bool isPurchasing = false;
-
-//     if (Apiss.favqrsids.contains(widget.item['qr_code_id']) ){
-//
-// };
 
   @override
   void initState() {
@@ -163,8 +160,16 @@ class _MoreQrState extends State<MoreQr> {
                             color: Color.fromARGB(175, 0, 0, 0)),
                         child: IconButton(
                           icon: const Icon(Icons.share, size: 25),
-                          onPressed: () {
-                            Share.share('fortnite gay balls');
+                          onPressed: () async{
+                            final urlImage = widget.imageUrl;
+                            final sendimageurl = Uri.parse(urlImage);
+                            final res = await http.get(sendimageurl);
+                            final bytes = res.bodyBytes;
+                            final temp = await getTemporaryDirectory();
+                            final path = '${temp.path}/image.jpg';
+                            File(path).writeAsBytesSync(bytes);
+                            await Share.shareXFiles([XFile(path)],
+                            text: 'Check out this cool QR from QRJungle!\nDownload QRJungle now!');
                             print("Share button pressed");
                           },
                           color: Colors.white,
@@ -390,18 +395,12 @@ class _MoreQrState extends State<MoreQr> {
                       fontSize: 18.0,
                     );
                   } else {
-                    setState(() {
-                      isPurchasing = true;
-                    });
                     Payment(
                       context: context,
                       amount: "500",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,
                     );
-                    setState(() {
-                      isPurchasing = false;
-                    });
                   }
                 } else {
                   showModalBottomSheet(
