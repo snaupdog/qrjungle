@@ -12,7 +12,6 @@ class WishlistPage extends StatefulWidget {
 class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
-    print("This is wishlist logged in check $loggedinmain");
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

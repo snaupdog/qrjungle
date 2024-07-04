@@ -203,6 +203,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
                           ).then((_) {
                             setState(() {
                               Apiss().listFavourites();
+                              if (widget.type == "wishlist") {
+                                qrlisty = Apiss.myfavslist;
+                              }
                             });
                             print("hello");
                           });
