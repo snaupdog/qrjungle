@@ -90,7 +90,7 @@ class Payment {
     razorpay.open(options);
   }
 
-  void initiatePayment() async {    
+  void initiatePayment() async {
     String? orderId = await fetchOrderId();
     if (orderId != null) {
       startPayment(orderId);
@@ -121,7 +121,7 @@ class PaymentResultPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Payment Sucessful!', style: TextStyle(fontSize: 25)),          
+            Text('Payment Sucessful!', style: TextStyle(fontSize: 25)),
             SizedBox(height: 40),
             Text(
               message,

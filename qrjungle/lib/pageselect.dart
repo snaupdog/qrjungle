@@ -158,18 +158,18 @@ class _QRViewPageState extends State<QRViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('QR Scanner', style: TextStyle(fontSize: 30)),centerTitle: true,
+        title: Text('QR Scanner', style: TextStyle(fontSize: 30)),
+        centerTitle: true,
       ),
       body: Stack(
-        children: [          
+        children: [
           QRView(
-          key: qrKey,
-          onQRViewCreated: _onQRViewCreated,
-        ),
-        Center(child: Image.asset('assets/qrscan.png')),
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+          ),
+          Center(child: Image.asset('assets/qrscan.png')),
         ],
       ),
     );
@@ -179,17 +179,18 @@ class _QRViewPageState extends State<QRViewPage> {
     late String? qrurl;
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() async{        
+      setState(() async {
         qrurl = scanData.code;
         print('QRURLLLLLLLLL: $qrurl');
         await launchUrl(Uri.parse(qrurl!));
       });
     });
   }
-  
+
   launchURL(String url) async {
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url),browserConfiguration: BrowserConfiguration(showTitle: true));
+      await launchUrl(Uri.parse(url),
+          browserConfiguration: BrowserConfiguration(showTitle: true));
     } else {
       throw 'Could not launch $url';
     }

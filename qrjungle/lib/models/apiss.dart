@@ -165,6 +165,28 @@ class Apiss {
     userdetailslist = body2['data']['items'];
   }
 
+  editRedirect(String qr_code_id, String redirect_url) async {
+    var operation = Amplify.API.mutate(
+      request: GraphQLRequest(
+        document: '''
+  mutation EditRedirectUrl(\$input: editUrlInput) {
+    editRedirectUrl(input: \$input)
+  }
+  ''',
+        variables: {
+          'input': {
+            "qr_code_id": qr_code_id,
+            "redirect_url": redirect_url,
+          }
+        },
+      ),
+    );
+
+    var response = await operation.response;
+    print(response);
+    Apiss().listmyqrs();
+  }
+
   addFavourites(List<String> favourited) async {
     var encodedFavourites =
         jsonEncode(favourited); // Encode the favourites list as JSON

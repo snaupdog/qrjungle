@@ -24,13 +24,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     getloginstatus();
-    super.initState();
     getuserDetails();
+    super.initState();
   }
 
   getuserDetails() async {
-    print(Apiss.userdetailslist);
-    // Apiss().listmyqrs();
     Apiss.myfavslist;
     if (email == "") {
       setState(() {

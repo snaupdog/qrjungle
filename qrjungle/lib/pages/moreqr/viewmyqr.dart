@@ -88,6 +88,7 @@ class _VierMyQrState extends State<VierMyQr> {
   final TextEditingController urlcontroller = TextEditingController();
   bool isloading = true;
 
+  // Apiss().editRedirect("kHjF", "www.youtube.com");
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -153,11 +154,9 @@ class _VierMyQrState extends State<VierMyQr> {
       enabled: isloading,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 600,
-            height: 500,
+            height: MediaQuery.of(context).size.height * 0.5,
             child: Stack(
               children: [
                 // Gradient background
@@ -194,8 +193,8 @@ class _VierMyQrState extends State<VierMyQr> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 5.0,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.04,
           ),
           Padding(
             padding:
@@ -225,7 +224,7 @@ class _VierMyQrState extends State<VierMyQr> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 1),
                             child: Text(
                               item['qr_code_category'],
                               style: const TextStyle(
@@ -245,19 +244,14 @@ class _VierMyQrState extends State<VierMyQr> {
           const Divider(
             color: Color(0xff121212),
           ),
-          const Text(
-            "Reset url",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-            ),
-          ),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
             child: TextFormField(
               controller: urlcontroller,
+              style: const TextStyle(fontSize: 15),
               decoration: InputDecoration(
+                prefixText: "https://",
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 labelText: "current url - ${widget.item['redirect_url']}",
                 labelStyle: const TextStyle(
@@ -276,6 +270,13 @@ class _VierMyQrState extends State<VierMyQr> {
               cursorColor: Colors.blue,
             ),
           ),
+          ElevatedButton(
+              onPressed: () {
+                Apiss().editRedirect(
+                    item['qr_code_id'], "https://${urlcontroller.text}");
+                urlcontroller.clear();
+              },
+              child: const Text("reset url")),
           const SizedBox(height: 20.0),
         ],
       ),

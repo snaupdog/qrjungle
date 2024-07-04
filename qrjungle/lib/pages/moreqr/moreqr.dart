@@ -160,7 +160,7 @@ class _MoreQrState extends State<MoreQr> {
                             color: Color.fromARGB(175, 0, 0, 0)),
                         child: IconButton(
                           icon: const Icon(Icons.share, size: 25),
-                          onPressed: () async{
+                          onPressed: () async {
                             final urlImage = widget.imageUrl;
                             final sendimageurl = Uri.parse(urlImage);
                             final res = await http.get(sendimageurl);
@@ -169,7 +169,8 @@ class _MoreQrState extends State<MoreQr> {
                             final path = '${temp.path}/image.jpg';
                             File(path).writeAsBytesSync(bytes);
                             await Share.shareXFiles([XFile(path)],
-                            text: 'Check out this cool QR from QRJungle!\nDownload QRJungle now!');
+                                text:
+                                    'Check out this cool QR from QRJungle!\nDownload QRJungle now!');
                             print("Share button pressed");
                           },
                           color: Colors.white,
@@ -277,7 +278,7 @@ class _MoreQrState extends State<MoreQr> {
                               item['qr_code_category'][0].toUpperCase() +
                                   item['qr_code_category'].substring(1),
                               style: const TextStyle(
-                                color: const Color(0xff2081e2),
+                                color: Color(0xff2081e2),
                                 fontSize: 16.0,
                               ),
                             ),
@@ -338,8 +339,9 @@ class _MoreQrState extends State<MoreQr> {
                   const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
               child: TextFormField(
                 controller: urlcontroller,
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
                 decoration: InputDecoration(
+                  prefixText: "https://",
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Enter Redirect URL',
                   labelStyle: const TextStyle(

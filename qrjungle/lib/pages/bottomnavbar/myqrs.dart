@@ -10,6 +10,8 @@ class MyQRsPage extends StatefulWidget {
 }
 
 class _MyQRsPageState extends State<MyQRsPage> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,26 +51,3 @@ class _MyQRsPageState extends State<MyQRsPage> {
 
 
 
-
-// (qrlisty.isEmpty)
-//             ? (!loggedinmain) 
-//             ? Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
-//                 Image.asset('assets/empty.png', height: 200),
-//                 SizedBox(height: 15),
-//                 Text('Not Logged In :(', style: TextStyle(fontSize: 40)),
-//               ],
-//             ) 
-//             : Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 SizedBox(height: MediaQuery.sizeOf(context).height*0.2),
-//                 Image.asset('assets/empty.png', height: 200),
-//                 SizedBox(height: 15),
-//                 Text('Empty :(', style: TextStyle(fontSize: 40)),
-//               ],
-//             )
