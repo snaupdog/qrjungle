@@ -41,6 +41,7 @@ class Payment {
   }
 
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
+    print('RESSSSSSSSSPOSNSEEEEEEEE : $response');
     navigateToResultPage(
       "Payment Failed",
       "Description: ${response.message}",
@@ -51,7 +52,7 @@ class Payment {
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) async {
     await Apiss().purchaseQr(qrCodeId, amount, response.paymentId, redirectUrl);
     Apiss().listmyqrs();
-
+    print('RESSSSSSSSSPOSNSEEEEEEEE : $response');
     navigateToResultPage(
       "Payment Successful!",
       "Payment ID: ${response.paymentId}",
@@ -129,8 +130,8 @@ class PaymentResultPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Payment Sucessful!', style: TextStyle(fontSize: 25)),
+          children: [            
+            Text('$title!', style: TextStyle(fontSize: 25)),
             SizedBox(height: 40),
             Text(
               message,
