@@ -306,10 +306,9 @@ class _VierMyQrState extends State<VierMyQr> {
               },
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.4,
                 decoration: BoxDecoration(
                   color: const Color(0xff2081e2),
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: const Center(
                   child: Text(

@@ -14,6 +14,7 @@ import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -45,6 +46,7 @@ class _MoreQrState extends State<MoreQr> {
   final TextEditingController urlcontroller = TextEditingController();
   bool isloading = true;
   bool liked = false;
+  bool paymentloading = false;
 
   @override
   void initState() {
@@ -110,6 +112,26 @@ class _MoreQrState extends State<MoreQr> {
     setState(() {
       loggedinmain = loggedin;
     });
+  }
+
+  paymentprocess(Payment pay) async {
+    String? orderId = await pay.fetchOrderId();
+    print(orderId);
+
+    if (orderId != null) {
+      pay.startPayment(orderId);
+
+      setState(() {
+        paymentloading = false;
+      });
+    } else {
+      pay.navigateToResultPage(
+          "Error", "Failed to create order. Please try again.");
+
+      setState(() {
+        paymentloading = false;
+      });
+    }
   }
 
   Future<void> toggleFavourite() async {
@@ -401,12 +423,17 @@ class _MoreQrState extends State<MoreQr> {
                       fontSize: 18.0,
                     );
                   } else {
-                    Payment(
+                    setState(() {
+                      paymentloading = true;
+                    });
+
+                    Payment pay = Payment(
                       context: context,
                       amount: "500",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,
                     );
+                    paymentprocess(pay);
                   }
                 } else {
                   showModalBottomSheet(
@@ -421,14 +448,19 @@ class _MoreQrState extends State<MoreQr> {
                   color: const Color(0xff2081e2),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: const Center(
-                  child: Text(
-                    'Purchase QR',
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
+                child: Center(
+                  child: paymentloading
+                      ? const Center(
+                          child:
+                              SpinKitThreeBounce(color: Colors.white, size: 23),
+                        )
+                      : const Text(
+                          'Purchase QR',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
                 ),
               ),
             ),

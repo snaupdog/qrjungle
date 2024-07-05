@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themes.dart';
@@ -22,7 +23,7 @@ class Payment {
             : 'https://$redirectUrl' {
     print(
         "initiating payment with amount - $amount \n qrCodeId - $qrCodeId \n redirectUrl - $redirectUrl \n currency -  $currency");
-    initiatePayment();
+    // initiatePayment();
   }
 
   void navigateToResultPage(String title, String message,
@@ -64,7 +65,7 @@ class Payment {
   getuserDetails() async {
     Apiss.myfavslist;
     if (email == "") {
-        email = Apiss.userdetailslist[0]['user_name'];
+      email = Apiss.userdetailslist[0]['user_name'];
     }
   }
 
@@ -87,7 +88,8 @@ class Payment {
       'amount': amount,
       'name': 'QrJungle',
       'description': 'Purchase QR Code',
-      'image' : 'https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/Logos/razorpaylogo.png',
+      'image':
+          'https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/Logos/razorpaylogo.png',
       'order_id': orderId,
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
@@ -117,7 +119,8 @@ class PaymentResultPage extends StatelessWidget {
   final bool success;
   final String redirectUrl;
 
-  PaymentResultPage({
+  const PaymentResultPage({
+    super.key,
     required this.title,
     required this.message,
     required this.success,
@@ -130,15 +133,15 @@ class PaymentResultPage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [            
-            Text('$title!', style: TextStyle(fontSize: 25)),
-            SizedBox(height: 40),
+          children: [
+            Text('$title!', style: const TextStyle(fontSize: 25)),
+            const SizedBox(height: 40),
             Text(
               message,
-              style: TextStyle(fontSize: 18.0),
+              style: const TextStyle(fontSize: 18.0),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             success
                 ? PaymentSuccessActions(redirectUrl: redirectUrl)
                 : Container(),
@@ -152,7 +155,7 @@ class PaymentResultPage extends StatelessWidget {
 class PaymentSuccessActions extends StatelessWidget {
   final String redirectUrl;
 
-  PaymentSuccessActions({required this.redirectUrl});
+  const PaymentSuccessActions({super.key, required this.redirectUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +167,7 @@ class PaymentSuccessActions extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => PageSelect(initialIndex: 0),
+                builder: (context) => const PageSelect(initialIndex: 0),
               ),
             );
           },
@@ -174,7 +177,7 @@ class PaymentSuccessActions extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          child: Padding(
+          child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
             child: Text(
               'Browse More QRs',
@@ -183,14 +186,14 @@ class PaymentSuccessActions extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         ElevatedButton(
           onPressed: () {
             Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => PageSelect(initialIndex: 1),
+                builder: (context) => const PageSelect(initialIndex: 1),
               ),
             );
           },
@@ -200,12 +203,12 @@ class PaymentSuccessActions extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          child: Padding(
+          child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
             child: Text(
               'View Your QRs',
               style: TextStyle(
-                  fontSize: 16.0, color: const Color.fromARGB(255, 0, 0, 0)),
+                  fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         ),
