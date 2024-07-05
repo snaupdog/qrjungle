@@ -257,6 +257,7 @@ class _VierMyQrState extends State<VierMyQr> {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 labelText: "current url - $label",
                 labelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
                   fontSize:
                       15.0, // Set the desired font size for the label text
                 ),
@@ -272,8 +273,21 @@ class _VierMyQrState extends State<VierMyQr> {
               cursorColor: Colors.blue,
             ),
           ),
-          ElevatedButton(
-              onPressed: () {
+          Padding(
+            padding: const EdgeInsets.fromLTRB(17, 25.0, 17, 4.0),
+            child: InkWell(
+              onTap: () {
+                if (urlcontroller.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "Redirect URL is empty!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: const Color.fromARGB(134, 0, 0, 0),
+                    textColor: Colors.white,
+                    fontSize: 18.0,
+                  );
+                }
                 Apiss().editRedirect(
                     item['qr_code_id'], "https://${urlcontroller.text}");
                 Fluttertoast.showToast(
@@ -290,8 +304,25 @@ class _VierMyQrState extends State<VierMyQr> {
                 FocusScope.of(context).unfocus();
                 urlcontroller.clear();
               },
-              child: const Text("reset url")),
-          const SizedBox(height: 20.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.4,
+                decoration: BoxDecoration(
+                  color: const Color(0xff2081e2),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Reset URL',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        // fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
