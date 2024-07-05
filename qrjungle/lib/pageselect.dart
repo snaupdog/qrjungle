@@ -1,12 +1,12 @@
 import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
 import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/themes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'pages/bottomnavbar/profile.dart';
 import 'pages/bottomnavbar/wishlist.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class PageSelect extends StatefulWidget {
   final int initialIndex;
@@ -19,8 +19,6 @@ class PageSelect extends StatefulWidget {
 class _PageSelectState extends State<PageSelect> {
   late int _currentIndex;
   late PageController _pageController;
-  Barcode? result;
-  QRViewController? controller;
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -77,7 +75,7 @@ class _PageSelectState extends State<PageSelect> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle, style: TextStyle(fontSize: 30)),
+        title: Text(appBarTitle, style: const TextStyle(fontSize: 30)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
@@ -146,56 +144,49 @@ class QRViewPage extends StatefulWidget {
 }
 
 class _QRViewPageState extends State<QRViewPage> {
-  late QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+  bool _isScanning = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('QR Scanner', style: TextStyle(fontSize: 30)),
+        title: const Text('QR Scanner', style: TextStyle(fontSize: 30)),
         centerTitle: true,
       ),
       body: Stack(
         children: [
-          QRView(
-            key: qrKey,
-            onQRViewCreated: _onQRViewCreated,
+          MobileScanner(
+            onDetect: (capture) async {
+              if (_isScanning) return;
+              setState(() {
+                _isScanning = true;
+              });
+
+              final List<Barcode> barcodes = capture.barcodes;
+              for (final barcode in barcodes) {
+                debugPrint('Barcode found! ${barcode.rawValue}');
+              }
+              Barcode code = barcodes[0];
+              String codeUrl = code.rawValue ?? "---";
+              final Uri url = Uri.parse(codeUrl);
+
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url);
+              } else {
+                debugPrint('Could not launch $url');
+              }
+
+              setState(() {
+                _isScanning = false;
+              });
+            },
           ),
           Center(child: Image.asset('assets/qrscan.png')),
         ],
       ),
     );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    late String? qrurl;
-    this.controller = controller;
-    
-    controller.scannedDataStream.listen((scanData) {
-      setState(() async {
-        qrurl = scanData.code;
-        print('QRURLLLLLLLLL: $qrurl');
-        await launchUrl(Uri.parse(qrurl!));
-        controller.dispose();
-      });
-    });
-    
-  }
-
-  launchURL(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url),
-          browserConfiguration: BrowserConfiguration(showTitle: true));
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

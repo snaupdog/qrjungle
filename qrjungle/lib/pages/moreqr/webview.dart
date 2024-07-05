@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:qrjungle/themes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -23,7 +25,10 @@ class _WebViewPageState extends State<WebViewPage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            // Update loading bar.
+            Center(
+                child: LoadingAnimationWidget.inkDrop(
+                    color: accentcolor,
+                    size: 120));
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
@@ -45,7 +50,8 @@ class _WebViewPageState extends State<WebViewPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title, style: TextStyle(fontSize: 25, color: Colors.white)),
+        title: Text(widget.title,
+            style: TextStyle(fontSize: 25, color: Colors.white)),
       ),
       body: WebViewWidget(controller: controller),
     );
