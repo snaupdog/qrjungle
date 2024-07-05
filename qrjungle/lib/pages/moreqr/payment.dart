@@ -89,7 +89,7 @@ class Payment {
       'name': 'QrJungle',
       'description': 'Purchase QR Code',
       'image':
-          'https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/Logos/razorpaylogo.png',
+          'https://qrjungle-all-qrcodes.s3.ap-south-1.amazonaws.com/razorpaylogo.png',
       'order_id': orderId,
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
