@@ -42,12 +42,7 @@ class Payment {
   }
 
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
-    print('RESSSSSSSSSPOSNSEEEEEEEE : $response');
-    navigateToResultPage(
-      "Payment Failed",
-      "Description: ${response.message}",
-      success: false,
-    );
+    showAlertDialog(context, "Payment Failed", "Code: ${response.message}");
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) async {
@@ -150,6 +145,21 @@ class PaymentResultPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void showAlertDialog(BuildContext context, String title, String message) {
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(message),
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 class PaymentSuccessActions extends StatelessWidget {
