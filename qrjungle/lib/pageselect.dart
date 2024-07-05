@@ -178,13 +178,16 @@ class _QRViewPageState extends State<QRViewPage> {
   void _onQRViewCreated(QRViewController controller) {
     late String? qrurl;
     this.controller = controller;
+    
     controller.scannedDataStream.listen((scanData) {
       setState(() async {
         qrurl = scanData.code;
         print('QRURLLLLLLLLL: $qrurl');
         await launchUrl(Uri.parse(qrurl!));
+        controller.dispose();
       });
     });
+    
   }
 
   launchURL(String url) async {
