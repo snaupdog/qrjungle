@@ -160,7 +160,7 @@ class _QRViewPageState extends State<QRViewPage> {
         children: [
           MobileScanner(
             onDetect: (capture) async {
-              if (_isScanning) return; // Prevent multiple scans
+              if (_isScanning) return;
               setState(() {
                 _isScanning = true;
               });

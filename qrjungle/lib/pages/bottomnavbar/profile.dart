@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
+import 'package:qrjungle/pages/moreqr/webview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool loggedinmain = false;
@@ -18,6 +19,8 @@ class _ProfilePageState extends State<ProfilePage> {
   List myqrslist = [];
   String email = '';
   bool isloading = true;
+  String toclink = 'https://termsofservice.qrjungle.com/';
+  String pplink = 'https://privacypolicy.qrjungle.com/';
 
   @override
   void initState() {
@@ -111,7 +114,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         )),
               const SizedBox(height: 30),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WebViewPage(
+                              linky: pplink, title: 'Privacy Policy')));
+                },
                 label: const Text(
                   'Privacy Policy',
                   style: TextStyle(
@@ -124,7 +133,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Color.fromARGB(255, 255, 255, 255), size: 20),
               ),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WebViewPage(
+                              linky: toclink, title: 'Terms and Conditions')));
+                },
                 label: const Text(
                   'Terms and Conditions',
                   style: TextStyle(

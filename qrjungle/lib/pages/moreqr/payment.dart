@@ -84,7 +84,7 @@ class Payment {
     print("initiating razorpay ");
     Razorpay razorpay = Razorpay();
     var options = {
-      'key': 'rzp_test_fn7n6bC23PIxXQ',
+      'key': 'rzp_live_E4Wv12VZpnQzUa',
       'amount': amount,
       'name': 'QrJungle',
       'description': 'Purchase QR Code',
