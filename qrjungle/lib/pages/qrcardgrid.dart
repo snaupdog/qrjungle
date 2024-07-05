@@ -137,7 +137,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Skeletonizer qrcard(List<dynamic> data) {
-    String price = '5.00 \$';
     return Skeletonizer(
       enabled: isloading,
       enableSwitchAnimation: true,
@@ -197,9 +196,9 @@ class _QrcardgridState extends State<Qrcardgrid> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MoreQr(
-                                    imageUrl: Apiss.preurl + imageurl,
-                                    item: item,
-                                    price: price)),
+                                      imageUrl: Apiss.preurl + imageurl,
+                                      item: item,
+                                    )),
                           ).then((_) {
                             setState(() {
                               Apiss().listFavourites();
@@ -275,7 +274,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
-                                              price,
+                                              "${item['price']} INR",
                                               style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15.5,

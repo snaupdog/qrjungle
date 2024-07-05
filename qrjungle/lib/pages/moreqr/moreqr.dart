@@ -19,14 +19,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class MoreQr extends StatefulWidget {
   final String imageUrl;
   final dynamic item;
-  final String price;
 
-  const MoreQr(
-      {Key? key,
-      required this.imageUrl,
-      required this.item,
-      required this.price})
-      : super(key: key);
+  const MoreQr({
+    Key? key,
+    required this.imageUrl,
+    required this.item,
+  }) : super(key: key);
 
   @override
   State<MoreQr> createState() => _MoreQrState();
@@ -312,7 +310,7 @@ class _MoreQrState extends State<MoreQr> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              widget.price,
+                              "${item['price']} INR",
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 17.0,
@@ -429,7 +427,8 @@ class _MoreQrState extends State<MoreQr> {
 
                     Payment pay = Payment(
                       context: context,
-                      amount: "500",
+                      // hardcoded price
+                      amount: "${item['price']}00",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,
                     );
