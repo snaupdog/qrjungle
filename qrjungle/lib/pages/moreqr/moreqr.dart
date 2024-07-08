@@ -67,28 +67,30 @@ class _MoreQrState extends State<MoreQr> {
     Stopwatch cachedimage = Stopwatch()..start();
     final cacheManager = DefaultCacheManager();
     final fileInfo = await cacheManager.getFileFromCache(imageUrl);
+    Uint8List bytes;
+
     if (fileInfo != null) {
-      final bytes = await fileInfo.file.readAsBytes();
+      bytes = await fileInfo.file.readAsBytes();
       print("This is cache bytes $bytes");
+      cachedimage.stop();
+      print(
+          "this is time taken to fetch cached image${cachedimage.elapsedMilliseconds}");
+    } else {
+      Stopwatch imagetime = Stopwatch()..start();
+      final response = await http.get(Uri.parse(imageUrl));
+      print(response.bodyBytes);
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load image');
+      }
+      bytes = response.bodyBytes;
+      imagetime.stop();
+      print(
+          "this is time taken to fetch image ${imagetime.elapsedMilliseconds}");
     }
-    cachedimage.stop();
 
-    print(
-        "this is time taken to fetch cached image${cachedimage.elapsedMilliseconds}");
-
-    Stopwatch imagetime = Stopwatch()..start();
-    final response = await http.get(Uri.parse(imageUrl));
-    print(response.bodyBytes);
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load image');
-    }
     var a = 0;
-
-    final bytes = response.bodyBytes;
     final image = img.decodeImage(Uint8List.fromList(bytes));
     if (image == null) throw Exception('Image cannot be decoded');
-    imagetime.stop();
-    print("this is time taken to fetch image ${imagetime.elapsedMilliseconds}");
 
     Stopwatch colortime = Stopwatch()..start();
     final Map<int, int> colorCount = {};
@@ -104,7 +106,7 @@ class _MoreQrState extends State<MoreQr> {
         colorCount[color] = (colorCount[color] ?? 0) + 1;
       }
     }
-    print("This is $a");
+    print("looped  $a");
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
