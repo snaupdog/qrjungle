@@ -245,20 +245,16 @@ class _MoreQrState extends State<MoreQr> {
                         ),
                 ),
                 // Image
-                Skeleton.ignore(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
-                    child: Skeleton.leaf(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Center(
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Center(
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -359,7 +355,7 @@ class _MoreQrState extends State<MoreQr> {
           const Divider(
             color: Color(0xff121212),
           ),
-          Skeleton.leaf(
+          Skeleton.shade(
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
