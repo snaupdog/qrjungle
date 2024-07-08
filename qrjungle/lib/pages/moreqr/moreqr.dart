@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -61,6 +62,20 @@ class _MoreQrState extends State<MoreQr> {
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
+    // Get the DefaultCacheManager
+
+    Stopwatch cachedimage = Stopwatch()..start();
+    final cacheManager = DefaultCacheManager();
+    final fileInfo = await cacheManager.getFileFromCache(imageUrl);
+    if (fileInfo != null) {
+      final bytes = await fileInfo.file.readAsBytes();
+      print("This is cache bytes $bytes");
+    }
+    cachedimage.stop();
+
+    print(
+        "this is time taken to fetch cached image${cachedimage.elapsedMilliseconds}");
+
     Stopwatch imagetime = Stopwatch()..start();
     final response = await http.get(Uri.parse(imageUrl));
     print(response.bodyBytes);
