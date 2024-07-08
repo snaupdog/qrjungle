@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
 
@@ -5,7 +6,8 @@ class CategoryPage extends StatefulWidget {
   final String catname;
   final String catimageurl;
 
-  CategoryPage({required this.catname, required this.catimageurl});
+  const CategoryPage(
+      {super.key, required this.catname, required this.catimageurl});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -13,11 +15,12 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Colors.transparent,
             pinned: true,
             expandedHeight: MediaQuery.sizeOf(context).height * 0.25,
             leading: Container(), // Hides the default back button
@@ -43,10 +46,12 @@ class _CategoryPageState extends State<CategoryPage> {
               background: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(widget.catimageurl),
+                    // image: NetworkImage(widget.catimageurl),
+                    image: CachedNetworkImageProvider(widget.catimageurl),
                     fit: BoxFit.cover,
                   ),
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  // color: const Color.fromARGB(255, 255, 255, 255),
+                  color: Colors.black,
                 ),
                 alignment: Alignment.bottomLeft,
                 padding: const EdgeInsets.only(left: 10, bottom: 16),
@@ -55,10 +60,10 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           SliverToBoxAdapter(
             child: Container(
-              margin: EdgeInsets.all(14),
+              margin: const EdgeInsets.all(14),
               child: Column(
                 children: [
-                  Qrcardgrid(type: "categories", categoryName: widget.catname),                  
+                  Qrcardgrid(type: "categories", categoryName: widget.catname),
                 ],
               ),
             ),

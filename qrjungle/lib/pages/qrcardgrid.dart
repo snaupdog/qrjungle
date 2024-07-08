@@ -29,7 +29,7 @@ class MyClass {
   late List<Map<String, dynamic>> fakedata;
 
   MyClass() {
-    fakedata = List.filled(10, hi);
+    fakedata = List.filled(6, hi);
   }
 }
 
@@ -45,36 +45,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
     fakedata = MyClass().fakedata;
     super.initState();
     fetchmyqrs();
-  }
-
-  void LogInModalSheet(BuildContext context) {
-    showModalBottomSheet(
-      showDragHandle: true,
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        return const LoginModalSheet();
-      },
-    );
-  }
-
-  Future<String> signInCustomFlow(String username) async {
-    print('email is: $username');
-    await Amplify.Auth.signOut();
-    // ignore: unused_local_variable
-    final num = emailController.text;
-    try {
-      final result = await Amplify.Auth.signIn(username: username);
-      print('Result@@@@@@@@@@@!!!!!!: $result');
-      return 'Success';
-    } on AuthException catch (e) {
-      print("error");
-      print("message: ${e.message}");
-      if (e.message.contains('No password was provided')) {
-        await Apiss().signup(emailController.text);
-      }
-      return e.message;
-    }
   }
 
   Future<void> fetchmyqrs() async {
@@ -139,7 +109,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
   Skeletonizer qrcard(List<dynamic> data) {
     return Skeletonizer(
       enabled: isloading,
-      enableSwitchAnimation: true,
+      enableSwitchAnimation: false,
       child: (data.isEmpty || data.contains(Null))
           ? (!loggedinmain)
               ? Column(
@@ -178,6 +148,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                 bool liked = false;
                 final item = data[index];
                 final imageurl = item['qr_code_image_url_key'];
+                print(" at $item");
                 if (Apiss.favqrsids.contains(item['qr_code_id'])) {
                   liked = true;
                 }
@@ -213,7 +184,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                     borderRadius: BorderRadius.circular(15.0),
                     child: LayoutBuilder(builder: (context, constraints) {
                       return Card(
-                        // shadowColor: Colors.white,
+                        // shadowColor: Colors.white,qrcard
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -229,12 +200,17 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                   topLeft: Radius.circular(15.0),
                                   topRight: Radius.circular(15.0),
                                 ),
-                                child: Skeleton.replace(
-                                  height: constraints.maxHeight * 0.7,
-                                  child: CachedNetworkImage(
-                                    imageUrl: Apiss.preurl + imageurl,
-                                    fit: BoxFit.cover,
+                                child: CachedNetworkImage(
+                                  placeholder: (context, url) => Skeletonizer(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      color: Colors.grey[
+                                          300], // Adjust the color as needed
+                                    ),
                                   ),
+                                  imageUrl: Apiss.preurl + imageurl,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -270,12 +246,14 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
+                                          const Padding(
+                                            padding: EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
-                                              "${item['price']} INR",
-                                              style: const TextStyle(
+                                              "399 INR",
+                                              //                       hardcodede price,
+                                              // "${item['price']} INR",
+                                              style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15.5,
                                                   fontWeight: FontWeight.w600),

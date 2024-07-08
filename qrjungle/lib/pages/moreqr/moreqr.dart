@@ -307,11 +307,13 @@ class _MoreQrState extends State<MoreQr> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              "${item['price']} INR",
-                              style: const TextStyle(
+                              "399 INR",
+                              //                               hardcoded price
+                              // "${item['price']} INR",
+                              style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.w600),
@@ -428,7 +430,8 @@ class _MoreQrState extends State<MoreQr> {
                     Payment pay = Payment(
                       context: context,
                       // hardcoded price
-                      amount: "${item['price']}00",
+                      amount: "39900",
+                      // amount: "${item['price']}00",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,
                     );

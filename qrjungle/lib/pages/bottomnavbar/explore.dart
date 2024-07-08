@@ -67,7 +67,6 @@ class _ExplorePageState extends State<ExplorePage> {
                         fit: BoxFit.fitWidth),
                   ),
                 ),
-                const SizedBox(height: 40),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
