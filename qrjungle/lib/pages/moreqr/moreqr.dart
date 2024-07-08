@@ -61,18 +61,26 @@ class _MoreQrState extends State<MoreQr> {
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
+    Stopwatch imagetime = Stopwatch()..start();
     final response = await http.get(Uri.parse(imageUrl));
+    print(response.bodyBytes);
     if (response.statusCode != 200) {
       throw Exception('Failed to load image');
     }
+    var a = 0;
 
     final bytes = response.bodyBytes;
     final image = img.decodeImage(Uint8List.fromList(bytes));
     if (image == null) throw Exception('Image cannot be decoded');
+    imagetime.stop();
+    print("this is time taken to fetch image ${imagetime.elapsedMilliseconds}");
 
+    Stopwatch colortime = Stopwatch()..start();
     final Map<int, int> colorCount = {};
-    for (var y = 0; y < 6; y = y + 2) {
+    for (var y = 0; y < 7; y = y + 2) {
       for (var x = 0; x < image.width; x = x + 4) {
+        a = a + 1;
+
         final pixel = image.getPixel(x, y);
         final color = ((pixel.a.toInt() & 0xFF) << 24) |
             ((pixel.r.toInt() & 0xFF) << 16) |
@@ -81,9 +89,13 @@ class _MoreQrState extends State<MoreQr> {
         colorCount[color] = (colorCount[color] ?? 0) + 1;
       }
     }
+    print("This is $a");
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+
+    colortime.stop();
+    print("this is time taken to fetch color ${colortime.elapsedMilliseconds}");
     return Color(mostProminentColor);
   }
 

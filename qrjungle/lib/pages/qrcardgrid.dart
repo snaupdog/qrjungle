@@ -184,7 +184,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                     borderRadius: BorderRadius.circular(15.0),
                     child: LayoutBuilder(builder: (context, constraints) {
                       return Card(
-                        // shadowColor: Colors.white,qrcard
+                        color: const Color(0xff1b1b1b),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
