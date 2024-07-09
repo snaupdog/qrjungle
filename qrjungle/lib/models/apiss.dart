@@ -247,6 +247,7 @@ class Apiss {
     );
     var response = await operation.response;
     var body = jsonDecode(response.data);
+    print(body);
   }
 
   signup(String email) async {

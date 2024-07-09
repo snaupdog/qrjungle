@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/widgets/iap_services.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themeselector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +37,7 @@ class Config extends StatefulWidget {
 
 class _ConfigState extends State<Config> {
   AmplifyAuthCognito? auth;
+  late StreamSubscription<List<PurchaseDetails>> _iapSubscription;
 
   @override
   void initState() {
@@ -40,6 +45,17 @@ class _ConfigState extends State<Config> {
     themeselector.addListener(themeListener);
     getValues();
     super.initState();
+
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+
+    _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
+      print("Purchase stream started");
+      IAPService().listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _iapSubscription.cancel();
+    }, onError: (error) {
+      _iapSubscription.cancel();
+    }) as StreamSubscription<List<PurchaseDetails>>;
   }
 
   void _configureAmplify() async {

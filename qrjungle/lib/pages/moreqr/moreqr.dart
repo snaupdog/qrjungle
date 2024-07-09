@@ -8,6 +8,7 @@ import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
+import 'package:qrjungle/pages/moreqr/inapp.dart';
 import 'dart:typed_data';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
@@ -448,19 +449,23 @@ class _MoreQrState extends State<MoreQr> {
                       fontSize: 18.0,
                     );
                   } else {
-                    setState(() {
-                      paymentloading = true;
-                    });
-
-                    Payment pay = Payment(
-                      context: context,
-                      // hardcoded price
-                      amount: "39900",
-                      // amount: "${item['price']}00",
-                      qrCodeId: item['qr_code_id'],
-                      redirectUrl: urlcontroller.text,
-                    );
-                    paymentprocess(pay);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const StoreIos()));
+                    // setState(() {
+                    //   paymentloading = true;
+                    // });
+                    //
+                    // Payment pay = Payment(
+                    //   context: context,
+                    //   // hardcoded price
+                    //   amount: "39900",
+                    //   // amount: "${item['price']}00",
+                    //   qrCodeId: item['qr_code_id'],
+                    //   redirectUrl: urlcontroller.text,
+                    // );
+                    // paymentprocess(pay);
                   }
                 } else {
                   showModalBottomSheet(
