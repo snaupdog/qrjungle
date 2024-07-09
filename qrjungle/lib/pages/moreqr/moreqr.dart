@@ -94,8 +94,8 @@ class _MoreQrState extends State<MoreQr> {
 
     Stopwatch colortime = Stopwatch()..start();
     final Map<int, int> colorCount = {};
-    for (var y = 0; y < 7; y = y + 2) {
-      for (var x = 0; x < image.width; x = x + 4) {
+    for (var y = 0; y < 10; y = y + 1) {
+      for (var x = 0; x < image.width; x = x + 1) {
         a = a + 1;
 
         final pixel = image.getPixel(x, y);
