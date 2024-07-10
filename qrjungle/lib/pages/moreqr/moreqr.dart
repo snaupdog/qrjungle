@@ -449,6 +449,7 @@ class _MoreQrState extends State<MoreQr> {
                       fontSize: 18.0,
                     );
                   } else {
+                    Apiss.qr_idpayment = widget.item['qr_code_id'];
                     Navigator.push(
                         context,
                         MaterialPageRoute(

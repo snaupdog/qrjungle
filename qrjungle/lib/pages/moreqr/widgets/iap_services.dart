@@ -15,6 +15,7 @@ class IAPService {
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
+        print("Complete purchase");
         await InAppPurchase.instance.completePurchase(purchaseDetails);
         print("Purchase marked complete");
       }
@@ -23,7 +24,8 @@ class IAPService {
 
   void _handleSuccessfulPurchase(PurchaseDetails purchaseDetails) async {
     if (purchaseDetails.productID == 'buy_qrcode') {
-      await Apiss().purchaseQr("ZZnm", "399", "", "https://sniapdog.com");
+      await Apiss()
+          .purchaseQr(Apiss.qr_idpayment, "399", "", "https://sniapdog.com");
       print("shoudl succesfull get order id");
     }
   }

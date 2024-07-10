@@ -14,6 +14,7 @@ class Apiss {
   static List catageroylist = [];
   static List<String> favqrsids = [];
   static List userdetailslist = [];
+  static String qr_idpayment = "";
 
   // Future clearlist() async {
   //   qrinfolist = [];
