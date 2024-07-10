@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 const List<String> _productIds = <String>[
-  'buy_qrcode',
+  'artistic_qrs',
 ];
 
 class StoreIos extends StatefulWidget {
@@ -46,9 +46,9 @@ class _StoreIosState extends State<StoreIos> {
     setState(() {
       _loading = false;
       _products = productDetailsResponse.productDetails;
-      print(_products[1].title);
-      print(_products[1].price);
-      print(_products[1].description);
+      print(_products[0].title);
+      print(_products[0].price);
+      print(_products[0].description);
     });
 
     if (productDetailsResponse.error != null) {
@@ -73,21 +73,21 @@ class _StoreIosState extends State<StoreIos> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                _products[1].title,
+                _products[0].title,
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
-                _products[1].price,
+                _products[0].price,
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
-                _products[1].description,
+                _products[0].description,
                 style: const TextStyle(color: Colors.white),
               ),
               ElevatedButton(
                   onPressed: () {
                     final PurchaseParam purchaseParam =
-                        PurchaseParam(productDetails: _products[1]);
+                        PurchaseParam(productDetails: _products[0]);
                     InAppPurchase.instance
                         .buyConsumable(purchaseParam: purchaseParam);
                   },
