@@ -73,6 +73,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'myqrs':
+        Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
           inmyqrs = true;
@@ -148,7 +149,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
                 bool liked = false;
                 final item = data[index];
                 final imageurl = item['qr_code_image_url_key'];
-                print(" at $item");
                 if (Apiss.favqrsids.contains(item['qr_code_id'])) {
                   liked = true;
                 }

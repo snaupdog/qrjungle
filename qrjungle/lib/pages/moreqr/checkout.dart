@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
@@ -6,7 +7,20 @@ const List<String> _productIds = <String>[
 ];
 
 class StoreIos extends StatefulWidget {
-  const StoreIos({super.key});
+  final String amount;
+  final String imageurl;
+  final String qrCodeId;
+  final String redirectUrl;
+  final String currency;
+
+  StoreIos({
+    super.key,
+    required this.amount,
+    required this.imageurl,
+    required this.qrCodeId,
+    required this.redirectUrl,
+    this.currency = "INR",
+  });
 
   @override
   State<StoreIos> createState() => _StoreIosState();
@@ -17,7 +31,6 @@ class _StoreIosState extends State<StoreIos> {
   bool _isAvailable = false;
   String? _notice;
   List<ProductDetails> _products = [];
-  bool _loading = true;
 
   @override
   void initState() {
@@ -33,7 +46,6 @@ class _StoreIosState extends State<StoreIos> {
 
     if (!_isAvailable) {
       setState(() {
-        _loading = false;
         _notice = "There are no upgrades at this time";
       });
       return;
@@ -44,11 +56,7 @@ class _StoreIosState extends State<StoreIos> {
         await _inAppPurchase.queryProductDetails(_productIds.toSet());
 
     setState(() {
-      _loading = false;
       _products = productDetailsResponse.productDetails;
-      print(_products[0].title);
-      print(_products[0].price);
-      print(_products[0].description);
     });
 
     if (productDetailsResponse.error != null) {
@@ -72,6 +80,10 @@ class _StoreIosState extends State<StoreIos> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                "Checkout",
+                style: TextStyle(fontSize: 20),
+              ),
               Text(
                 _products[0].title,
                 style: const TextStyle(color: Colors.white),
@@ -84,6 +96,9 @@ class _StoreIosState extends State<StoreIos> {
                 _products[0].description,
                 style: const TextStyle(color: Colors.white),
               ),
+              Text(widget.qrCodeId),
+              Text(widget.redirectUrl),
+              CachedNetworkImage(imageUrl: widget.imageurl),
               ElevatedButton(
                   onPressed: () {
                     final PurchaseParam purchaseParam =

@@ -8,7 +8,7 @@ import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
-import 'package:qrjungle/pages/moreqr/inapp.dart';
+import 'package:qrjungle/pages/moreqr/checkout.dart';
 import 'dart:typed_data';
 import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
@@ -453,7 +453,12 @@ class _MoreQrState extends State<MoreQr> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const StoreIos()));
+                            builder: (context) => StoreIos(
+                                  amount: "39900",
+                                  qrCodeId: item['qr_code_id'],
+                                  redirectUrl: urlcontroller.text,
+                                  imageurl: widget.imageUrl,
+                                )));
                     // setState(() {
                     //   paymentloading = true;
                     // });

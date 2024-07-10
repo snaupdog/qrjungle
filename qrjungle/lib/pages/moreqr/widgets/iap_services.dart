@@ -23,10 +23,11 @@ class IAPService {
   }
 
   void _handleSuccessfulPurchase(PurchaseDetails purchaseDetails) async {
-    if (purchaseDetails.productID == 'buy_qrcode') {
-      await Apiss()
-          .purchaseQr(Apiss.qr_idpayment, "399", "", "https://sniapdog.com");
+    if (purchaseDetails.productID == 'artistic_qrs') {
+      // await Apiss()
+      //     .purchaseQr(Apiss.qr_idpayment, "399", "", "https://sniapdog.com");
       print("shoudl succesfull get order id");
+      Apiss().listmyqrs();
     }
   }
 }

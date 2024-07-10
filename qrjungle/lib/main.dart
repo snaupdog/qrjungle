@@ -52,8 +52,10 @@ class _ConfigState extends State<Config> {
       print("Purchase stream started");
       IAPService().listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
+      print("Payment done");
       _iapSubscription.cancel();
     }, onError: (error) {
+      print("ERROR on payment");
       _iapSubscription.cancel();
     }) as StreamSubscription<List<PurchaseDetails>>;
   }
