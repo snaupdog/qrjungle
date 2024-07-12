@@ -336,7 +336,7 @@ class _MoreQrState extends State<MoreQr> {
                           const Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              "500 INR",
+                              "499 INR",
                               //                               hardcoded price
                               // "${item['price']} INR",
                               style: TextStyle(
@@ -456,7 +456,7 @@ class _MoreQrState extends State<MoreQr> {
                     Payment pay = Payment(
                       context: context,
                       // hardcoded price
-                      amount: "50000",
+                      amount: "49900",
                       // amount: "${item['price']}00",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,

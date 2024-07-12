@@ -249,7 +249,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             padding: EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
-                                              "500 INR",
+                                              "499 INR",
                                               //                       hardcodede price,
                                               // "${item['price']} INR",
                                               style: TextStyle(
