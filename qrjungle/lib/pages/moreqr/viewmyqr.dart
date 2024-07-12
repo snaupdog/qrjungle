@@ -46,8 +46,6 @@ class _VierMyQrState extends State<VierMyQr> {
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
-    // Get the DefaultCacheManager
-
     final cacheManager = DefaultCacheManager();
     final fileInfo = await cacheManager.getFileFromCache(imageUrl);
     Uint8List bytes;
@@ -80,7 +78,7 @@ class _VierMyQrState extends State<VierMyQr> {
         colorCount[color] = (colorCount[color] ?? 0) + 1;
       }
     }
-    print("looped  $a");
+    print("looped $a");
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
@@ -104,7 +102,7 @@ class _VierMyQrState extends State<VierMyQr> {
     }
   }
 
-  // Apiss().editRedirect("kHjF", "www.youtube.com");
+// Apiss().editRedirect("kHjF", "www.youtube.com");
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -189,7 +187,7 @@ class _VierMyQrState extends State<VierMyQr> {
             height: MediaQuery.of(context).size.height * 0.5,
             child: Stack(
               children: [
-                // Gradient background
+// Gradient background
                 Container(
                   decoration: isloading
                       ? const BoxDecoration(color: Colors.black)
@@ -207,7 +205,7 @@ class _VierMyQrState extends State<VierMyQr> {
                           ),
                         ),
                 ),
-                // Image
+// Image
                 Padding(
                   padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
                   child: ClipRRect(
@@ -346,7 +344,7 @@ class _VierMyQrState extends State<VierMyQr> {
                     'Reset URL',
                     style: TextStyle(
                         fontSize: 18.0,
-                        // fontWeight: FontWeight.bold,
+// fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),

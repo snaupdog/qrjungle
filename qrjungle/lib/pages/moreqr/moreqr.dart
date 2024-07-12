@@ -169,6 +169,7 @@ class _MoreQrState extends State<MoreQr> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
+        // backgroundColor: Color(0xff121212),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: Container(),
@@ -325,7 +326,7 @@ class _MoreQrState extends State<MoreQr> {
                           const Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              "399 INR",
+                              "500 INR",
                               //                               hardcoded price
                               // "${item['price']} INR",
                               style: TextStyle(
@@ -384,7 +385,7 @@ class _MoreQrState extends State<MoreQr> {
                 decoration: InputDecoration(
                   prefixText: "https://",
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Enter Redirect URL',
+                  labelText: 'Enter Link ',
                   labelStyle: const TextStyle(
                     fontSize: 12.0,
                   ),
@@ -412,7 +413,7 @@ class _MoreQrState extends State<MoreQr> {
               ),
               SizedBox(width: 5.0),
               Text(
-                'Redirect URL can be changed after purchase.',
+                'QR code link can be changed after purchase.',
                 style: TextStyle(
                   fontSize: 12.0,
                   color: Colors.grey,
@@ -448,19 +449,6 @@ class _MoreQrState extends State<MoreQr> {
                                   redirectUrl: urlcontroller.text,
                                   imageurl: widget.imageUrl,
                                 )));
-                    // setState(() {
-                    //   paymentloading = true;
-                    // });
-                    //
-                    // Payment pay = Payment(
-                    //   context: context,
-                    //   // hardcoded price
-                    //   amount: "39900",
-                    //   // amount: "${item['price']}00",
-                    //   qrCodeId: item['qr_code_id'],
-                    //   redirectUrl: urlcontroller.text,
-                    // );
-                    // paymentprocess(pay);
                   }
                 } else {
                   showModalBottomSheet(

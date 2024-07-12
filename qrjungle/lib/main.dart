@@ -137,6 +137,13 @@ class _ConfigState extends State<Config> {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeselector.thememode,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(0.9)),
+          child: child!,
+        );
+      },
       home: AnimatedSplashScreen(
         splash: Image.asset('assets/$splashimage'),
         splashIconSize: 200,
