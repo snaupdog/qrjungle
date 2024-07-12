@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
+import 'package:qrjungle/pages/moreqr/test.dart';
 
 class IAPService {
   final GlobalKey<NavigatorState> navigatorKey;
+  final PaymentController paymentController = Get.find();
 
   IAPService(this.navigatorKey);
   void listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
@@ -38,12 +41,9 @@ class IAPService {
     if (purchaseDetails.productID == 'artistic_qr') {
       await Apiss().purchaseQr(
           Apiss.qr_idpayment, "499", "ios_purchase", Apiss.qr_redirecturl);
-      Apiss().listmyqrs();
+ await Apiss().listmyqrs();
       print("shoudl get successfful purchase");
-      if (navigatorKey.currentState != null) {
-        navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            '/myqrs', (Route<dynamic> route) => false);
-      }
+      paymentController.setPaymentLoading(false);
     }
   }
 }

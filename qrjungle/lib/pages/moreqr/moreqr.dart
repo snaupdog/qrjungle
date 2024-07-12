@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,7 +12,9 @@ import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/test.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -41,6 +43,7 @@ class MoreQr extends StatefulWidget {
 }
 
 class _MoreQrState extends State<MoreQr> {
+  final PaymentController paymentController = Get.put(PaymentController());
   Map<String, dynamic> fakedata = {
     "qr_code_status": "fake",
     "qr_code_created_on": 1714738115822,
@@ -68,6 +71,19 @@ class _MoreQrState extends State<MoreQr> {
     super.initState();
     initStoreInfo();
     fetchMostProminentColor();
+    paymentController.paymentLoading.listen((value) {
+      if (!value) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const PageSelect(
+              initialIndex: 1,
+            ),
+          ),
+          (Route<dynamic> route) =>
+              false, // This removes all the previous routes
+        );
+      }
+    });
   }
 
   Future<void> initStoreInfo() async {
@@ -265,7 +281,7 @@ class _MoreQrState extends State<MoreQr> {
               () {
                 if (paymentloading.value) {
                   return Container(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withOpacity(0.8),
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
