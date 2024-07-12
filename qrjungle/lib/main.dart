@@ -139,8 +139,9 @@ class _ConfigState extends State<Config> {
       navigatorKey: navigatorKey,
       routes: {
         // '/myqrs': (context) => const MyQRsPage(), // Example of another route
-        '/myqrs': (context) => const PageSelect(
-              initialIndex: 1,
+        '/myqrs': (context) => const PageSelect(), // Example of another route
+        '/Home': (context) => const PageSelect(
+              initialIndex: 0,
             ), // Example of another route
       },
       debugShowCheckedModeBanner: false,

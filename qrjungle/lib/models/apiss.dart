@@ -15,6 +15,7 @@ class Apiss {
   static List<String> favqrsids = [];
   static List userdetailslist = [];
   static String qr_idpayment = "";
+  static String qr_redirecturl = "";
 
   // Future clearlist() async {
   //   qrinfolist = [];

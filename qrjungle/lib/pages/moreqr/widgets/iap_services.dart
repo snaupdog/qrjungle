@@ -16,25 +16,31 @@ class IAPService {
 
       if (purchaseDetails.status == PurchaseStatus.error) {
         print(purchaseDetails.error!);
+        // paymentloading.value = false;
+        if (navigatorKey.currentState != null) {
+          navigatorKey.currentState?.pushReplacementNamed('/Home');
+        }
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
         print("Complete purchase");
         await InAppPurchase.instance.completePurchase(purchaseDetails);
         print("Purchase marked complete");
+        // paymentloading.value = false;
       }
     });
   }
 
   void _handleSuccessfulPurchase(PurchaseDetails purchaseDetails) async {
-    if (purchaseDetails.productID == 'artistic_qrs') {
-      // await Apiss()
-      //     .purchaseQr(Apiss.qr_idpayment, "399", "", "https://sniapdog.com");
-      print("should successfully get order id");
+    if (purchaseDetails.productID == 'artistic_qr') {
+      await Apiss().purchaseQr(
+          Apiss.qr_idpayment, "499", "ios_purchase", Apiss.qr_redirecturl);
       Apiss().listmyqrs();
-
+      Apiss().getAllqrs("");
+      print("shoudl get successfful purchase");
       if (navigatorKey.currentState != null) {
-        navigatorKey.currentState?.pushNamed('/myqrs');
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            '/myqrs', (Route<dynamic> route) => false);
       }
     }
   }

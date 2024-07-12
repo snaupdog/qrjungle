@@ -3,20 +3,26 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/state_manager.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
-import 'package:qrjungle/pages/moreqr/checkout.dart';
 import 'dart:typed_data';
-import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+// RxBool paymentloading = false.obs;
+
+const List<String> _productIds = <String>[
+  'artistic_qr',
+];
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -46,6 +52,12 @@ class _MoreQrState extends State<MoreQr> {
   final TextEditingController urlcontroller = TextEditingController();
   bool isloading = true;
   bool liked = false;
+
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  bool _isAvailable = false;
+  String? _notice;
+  List<ProductDetails> _products = [];
+  bool _loading = true;
   bool paymentloading = false;
 
   @override
@@ -53,7 +65,42 @@ class _MoreQrState extends State<MoreQr> {
     getstate();
     getloginstatus();
     super.initState();
+    initStoreInfo();
     fetchMostProminentColor();
+  }
+
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _inAppPurchase.isAvailable();
+    setState(() {
+      _isAvailable = isAvailable;
+    });
+
+    if (!_isAvailable) {
+      setState(() {
+        _loading = false;
+        _notice = "There are no upgrades at this time";
+      });
+      return;
+    }
+
+    // get IAP.
+    ProductDetailsResponse productDetailsResponse =
+        await _inAppPurchase.queryProductDetails(_productIds.toSet());
+
+    setState(() {
+      _loading = false;
+      _products = productDetailsResponse.productDetails;
+    });
+
+    if (productDetailsResponse.error != null) {
+      setState(() {
+        _notice = "There was a problem connecting to the store";
+      });
+    } else if (productDetailsResponse.productDetails.isEmpty) {
+      setState(() {
+        _notice = "There are no upgrades at this time";
+      });
+    }
   }
 
   getstate() async {
@@ -131,26 +178,6 @@ class _MoreQrState extends State<MoreQr> {
     });
   }
 
-  paymentprocess(Payment pay) async {
-    String? orderId = await pay.fetchOrderId();
-    print(orderId);
-
-    if (orderId != null) {
-      pay.startPayment(orderId);
-
-      setState(() {
-        paymentloading = false;
-      });
-    } else {
-      pay.navigateToResultPage(
-          "Error", "Failed to create order. Please try again.");
-
-      setState(() {
-        paymentloading = false;
-      });
-    }
-  }
-
   Future<void> toggleFavourite() async {
     if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
       Apiss.favqrsids.remove(widget.item['qr_code_id']);
@@ -226,10 +253,32 @@ class _MoreQrState extends State<MoreQr> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: isloading
-              ? card(fakedata, "")
-              : card(widget.item, widget.imageUrl),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: isloading
+                  ? card(fakedata, "")
+                  : card(widget.item, widget.imageUrl),
+            ),
+            if (paymentloading)
+              Container(
+                color:
+                    Colors.black.withOpacity(0.5), // Adjust opacity as needed
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitRipple(color: Colors.white),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Confirming Purchase",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -326,7 +375,7 @@ class _MoreQrState extends State<MoreQr> {
                           const Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              "500 INR",
+                              "499 INR",
                               //                               hardcoded price
                               // "${item['price']} INR",
                               style: TextStyle(
@@ -440,15 +489,15 @@ class _MoreQrState extends State<MoreQr> {
                     );
                   } else {
                     Apiss.qr_idpayment = widget.item['qr_code_id'];
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => StoreIos(
-                                  amount: "39900",
-                                  qrCodeId: item['qr_code_id'],
-                                  redirectUrl: urlcontroller.text,
-                                  imageurl: widget.imageUrl,
-                                )));
+                    Apiss.qr_redirecturl = urlcontroller.text;
+                    setState(() {
+                      // paymentloading.value = true;
+                      paymentloading = true;
+                    });
+
+                    final PurchaseParam purchaseParam =
+                        PurchaseParam(productDetails: _products[0]);
+                    _inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
                   }
                 } else {
                   showModalBottomSheet(
@@ -463,20 +512,35 @@ class _MoreQrState extends State<MoreQr> {
                   color: const Color(0xff2081e2),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Center(
-                  child: paymentloading
-                      ? const Center(
-                          child:
-                              SpinKitThreeBounce(color: Colors.white, size: 23),
-                        )
-                      : const Text(
-                          'Purchase QR',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                ),
+
+                child: paymentloading
+                    ? const Center(
+                        child:
+                            SpinKitThreeBounce(color: Colors.white, size: 23),
+                      )
+                    : const Text(
+                        'Purchase QR',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                // child: Obx(
+                //   () => Center(
+                //     child: paymentloading.value
+                //         ? const Center(
+                //             child: SpinKitThreeBounce(
+                //                 color: Colors.white, size: 23),
+                //           )
+                //         : const Text(
+                //             'Purchase QR',
+                //             style: TextStyle(
+                //                 fontSize: 18.0,
+                //                 fontWeight: FontWeight.bold,
+                //                 color: Colors.white),
+                //           ),
+                //   ),
+                // ),
               ),
             ),
           ),
