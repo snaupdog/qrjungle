@@ -177,7 +177,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                 qrlisty = Apiss.myfavslist;
                               }
                             });
-                            print("hello");
                           });
                   },
                   child: ClipRRect(
@@ -248,7 +247,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                           ),
                                           const Padding(
                                             padding: EdgeInsets.fromLTRB(
-                                                12.0, 0.0, 0, 0.0),
+                                                12.0, 3.0, 0, 0.0),
                                             child: Text(
                                               "500 INR",
                                               //                       hardcodede price,
