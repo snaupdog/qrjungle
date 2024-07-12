@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/models/apiss.dart';
+import 'package:qrjungle/pages/moreqr/moreqr.dart';
 
 class IAPService {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -16,14 +17,16 @@ class IAPService {
 
       if (purchaseDetails.status == PurchaseStatus.error) {
         print(purchaseDetails.error!);
-        // paymentloading.value = false;
+        paymentloading.value = false;
+        print("Hello");
         if (navigatorKey.currentState != null) {
           navigatorKey.currentState?.pushReplacementNamed('/Home');
         }
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
-        print("Complete purchase");
+        print("This is me");
+        paymentloading.value = false;
         await InAppPurchase.instance.completePurchase(purchaseDetails);
         print("Purchase marked complete");
         // paymentloading.value = false;
@@ -36,7 +39,6 @@ class IAPService {
       await Apiss().purchaseQr(
           Apiss.qr_idpayment, "499", "ios_purchase", Apiss.qr_redirecturl);
       Apiss().listmyqrs();
-      Apiss().getAllqrs("");
       print("shoudl get successfful purchase");
       if (navigatorKey.currentState != null) {
         navigatorKey.currentState?.pushNamedAndRemoveUntil(

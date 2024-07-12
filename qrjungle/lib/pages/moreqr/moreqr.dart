@@ -18,7 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-// RxBool paymentloading = false.obs;
+RxBool paymentloading = false.obs;
+RxBool gotoqrs = false.obs;
+// bool paymentloading = false;
 
 const List<String> _productIds = <String>[
   'artistic_qr',
@@ -58,7 +60,6 @@ class _MoreQrState extends State<MoreQr> {
   String? _notice;
   List<ProductDetails> _products = [];
   bool _loading = true;
-  bool paymentloading = false;
 
   @override
   void initState() {
@@ -260,24 +261,30 @@ class _MoreQrState extends State<MoreQr> {
                   ? card(fakedata, "")
                   : card(widget.item, widget.imageUrl),
             ),
-            if (paymentloading)
-              Container(
-                color:
-                    Colors.black.withOpacity(0.5), // Adjust opacity as needed
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SpinKitRipple(color: Colors.white),
-                    SizedBox(
-                      height: 10,
+            Obx(
+              () {
+                if (paymentloading.value) {
+                  return Container(
+                    color: Colors.black.withOpacity(0.5),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SpinKitRipple(color: Colors.white),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Confirming Purchase",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Confirming Purchase",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -491,8 +498,7 @@ class _MoreQrState extends State<MoreQr> {
                     Apiss.qr_idpayment = widget.item['qr_code_id'];
                     Apiss.qr_redirecturl = urlcontroller.text;
                     setState(() {
-                      // paymentloading.value = true;
-                      paymentloading = true;
+                      paymentloading.value = true;
                     });
 
                     final PurchaseParam purchaseParam =
@@ -507,41 +513,20 @@ class _MoreQrState extends State<MoreQr> {
                 }
               },
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.05,
-                decoration: BoxDecoration(
-                  color: const Color(0xff2081e2),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-
-                child: paymentloading
-                    ? const Center(
-                        child:
-                            SpinKitThreeBounce(color: Colors.white, size: 23),
-                      )
-                    : const Text(
-                        'Purchase QR',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                // child: Obx(
-                //   () => Center(
-                //     child: paymentloading.value
-                //         ? const Center(
-                //             child: SpinKitThreeBounce(
-                //                 color: Colors.white, size: 23),
-                //           )
-                //         : const Text(
-                //             'Purchase QR',
-                //             style: TextStyle(
-                //                 fontSize: 18.0,
-                //                 fontWeight: FontWeight.bold,
-                //                 color: Colors.white),
-                //           ),
-                //   ),
-                // ),
-              ),
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff2081e2),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Purchase QR',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  )),
             ),
           ),
         ],

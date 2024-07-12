@@ -138,10 +138,8 @@ class _ConfigState extends State<Config> {
     return MaterialApp(
       navigatorKey: navigatorKey,
       routes: {
-        // '/myqrs': (context) => const MyQRsPage(), // Example of another route
-        '/myqrs': (context) => const PageSelect(), // Example of another route
-        '/Home': (context) => const PageSelect(
-              initialIndex: 0,
+        '/myqrs': (context) => const PageSelect(
+              initialIndex: 1,
             ), // Example of another route
       },
       debugShowCheckedModeBanner: false,
