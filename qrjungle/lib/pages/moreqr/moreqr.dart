@@ -65,28 +65,18 @@ class _MoreQrState extends State<MoreQr> {
   Future<Color> getMostProminentColor(String imageUrl) async {
     // Get the DefaultCacheManager
 
-    Stopwatch cachedimage = Stopwatch()..start();
     final cacheManager = DefaultCacheManager();
     final fileInfo = await cacheManager.getFileFromCache(imageUrl);
     Uint8List bytes;
 
     if (fileInfo != null) {
       bytes = await fileInfo.file.readAsBytes();
-      print("This is cache bytes $bytes");
-      cachedimage.stop();
-      print(
-          "this is time taken to fetch cached image${cachedimage.elapsedMilliseconds}");
     } else {
-      Stopwatch imagetime = Stopwatch()..start();
       final response = await http.get(Uri.parse(imageUrl));
-      print(response.bodyBytes);
       if (response.statusCode != 200) {
         throw Exception('Failed to load image');
       }
       bytes = response.bodyBytes;
-      imagetime.stop();
-      print(
-          "this is time taken to fetch image ${imagetime.elapsedMilliseconds}");
     }
 
     var a = 0;
@@ -111,7 +101,6 @@ class _MoreQrState extends State<MoreQr> {
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
-
     colortime.stop();
     print("this is time taken to fetch color ${colortime.elapsedMilliseconds}");
     return Color(mostProminentColor);

@@ -13,7 +13,7 @@ class StoreIos extends StatefulWidget {
   final String redirectUrl;
   final String currency;
 
-  StoreIos({
+  const StoreIos({
     super.key,
     required this.amount,
     required this.imageurl,
@@ -31,6 +31,7 @@ class _StoreIosState extends State<StoreIos> {
   bool _isAvailable = false;
   String? _notice;
   List<ProductDetails> _products = [];
+  bool _loading = true;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _StoreIosState extends State<StoreIos> {
 
     if (!_isAvailable) {
       setState(() {
+        _loading = false;
         _notice = "There are no upgrades at this time";
       });
       return;
@@ -56,18 +58,17 @@ class _StoreIosState extends State<StoreIos> {
         await _inAppPurchase.queryProductDetails(_productIds.toSet());
 
     setState(() {
+      _loading = false;
       _products = productDetailsResponse.productDetails;
     });
 
     if (productDetailsResponse.error != null) {
       setState(() {
         _notice = "There was a problem connecting to the store";
-        print(_notice);
       });
     } else if (productDetailsResponse.productDetails.isEmpty) {
       setState(() {
         _notice = "There are no upgrades at this time";
-        print(_notice);
       });
     }
   }
@@ -75,40 +76,55 @@ class _StoreIosState extends State<StoreIos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Checkout",
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                _products[0].title,
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                _products[0].price,
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(
-                _products[0].description,
-                style: const TextStyle(color: Colors.white),
-              ),
-              Text(widget.qrCodeId),
-              Text(widget.redirectUrl),
-              CachedNetworkImage(imageUrl: widget.imageurl),
-              ElevatedButton(
-                  onPressed: () {
-                    final PurchaseParam purchaseParam =
-                        PurchaseParam(productDetails: _products[0]);
-                    InAppPurchase.instance
-                        .buyConsumable(purchaseParam: purchaseParam);
-                  },
-                  child: const Text("buuy"))
-            ],
-          ),
-        ));
+      backgroundColor: Colors.black,
+      body: Center(
+        child: _loading
+            ? CircularProgressIndicator()
+            : _isAvailable && _products.isNotEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Checkout",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      Text(
+                        _products[0].title,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        _products[0].price,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        _products[0].description,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        widget.qrCodeId,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        widget.redirectUrl,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      CachedNetworkImage(imageUrl: widget.imageurl),
+                      ElevatedButton(
+                        onPressed: () {
+                          final PurchaseParam purchaseParam =
+                              PurchaseParam(productDetails: _products[0]);
+                          _inAppPurchase.buyConsumable(
+                              purchaseParam: purchaseParam);
+                        },
+                        child: const Text("Buy"),
+                      ),
+                    ],
+                  )
+                : Text(
+                    _notice ?? "Loading...",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+      ),
+    );
   }
 }

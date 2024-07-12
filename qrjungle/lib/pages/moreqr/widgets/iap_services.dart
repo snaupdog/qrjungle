@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/models/apiss.dart';
 
@@ -26,7 +27,7 @@ class IAPService {
     if (purchaseDetails.productID == 'artistic_qrs') {
       // await Apiss()
       //     .purchaseQr(Apiss.qr_idpayment, "399", "", "https://sniapdog.com");
-      print("shoudl succesfull get order id");
+      print("should successfully get order id");
       Apiss().listmyqrs();
     }
   }
