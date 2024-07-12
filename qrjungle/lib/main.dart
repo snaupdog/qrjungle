@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
+import 'package:qrjungle/pages/bottomnavbar/explore.dart';
+import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/iap_services.dart';
 import 'package:qrjungle/pageselect.dart';
@@ -17,6 +19,7 @@ import 'pages/oboard/onboard.dart';
 import 'themes.dart';
 
 final GlobalKey qrKey = GlobalKey(debugLabel: "QR");
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final formkey = GlobalKey<FormState>();
 ThemeSelect themeselector = ThemeSelect();
 
@@ -50,7 +53,7 @@ class _ConfigState extends State<Config> {
 
     _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
       print("Purchase stream started");
-      IAPService().listenToPurchaseUpdated(purchaseDetailsList);
+      IAPService(navigatorKey).listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
       print("Payment done");
       _iapSubscription.cancel();
@@ -133,6 +136,13 @@ class _ConfigState extends State<Config> {
     String splashimage = whatisbrightness ? 'logo_invert.png' : 'logo.png';
     Color splashbg = whatisbrightness ? primarycolor : secondarycolor;
     return MaterialApp(
+      navigatorKey: navigatorKey,
+      routes: {
+        // '/myqrs': (context) => const MyQRsPage(), // Example of another route
+        '/myqrs': (context) => const PageSelect(
+              initialIndex: 1,
+            ), // Example of another route
+      },
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,

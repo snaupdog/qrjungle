@@ -3,6 +3,9 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/models/apiss.dart';
 
 class IAPService {
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  IAPService(this.navigatorKey);
   void listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       print("purchaseDetails.status ${purchaseDetails.status}");
@@ -29,6 +32,10 @@ class IAPService {
       //     .purchaseQr(Apiss.qr_idpayment, "399", "", "https://sniapdog.com");
       print("should successfully get order id");
       Apiss().listmyqrs();
+
+      if (navigatorKey.currentState != null) {
+        navigatorKey.currentState?.pushNamed('/myqrs');
+      }
     }
   }
 }
