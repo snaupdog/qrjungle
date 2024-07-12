@@ -36,7 +36,10 @@ class _WishlistPageState extends State<WishlistPage> {
                           ],
                         ),
                       )
-                    : const Qrcardgrid(type: "wishlist", categoryName: ""),
+                    : const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 80.0),
+                        child: Qrcardgrid(type: "wishlist", categoryName: ""),
+                      ),
               ],
             ),
           ),

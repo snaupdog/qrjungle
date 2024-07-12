@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 import 'dart:typed_data';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -41,18 +46,30 @@ class _VierMyQrState extends State<VierMyQr> {
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
-    final response = await http.get(Uri.parse(imageUrl));
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load image');
+    final cacheManager = DefaultCacheManager();
+    final fileInfo = await cacheManager.getFileFromCache(imageUrl);
+    Uint8List bytes;
+
+    if (fileInfo != null) {
+      bytes = await fileInfo.file.readAsBytes();
+    } else {
+      final response = await http.get(Uri.parse(imageUrl));
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load image');
+      }
+      bytes = response.bodyBytes;
     }
 
-    final bytes = response.bodyBytes;
+    var a = 0;
     final image = img.decodeImage(Uint8List.fromList(bytes));
     if (image == null) throw Exception('Image cannot be decoded');
 
+    Stopwatch colortime = Stopwatch()..start();
     final Map<int, int> colorCount = {};
-    for (var y = 0; y < 50; y = y + 1) {
+    for (var y = 0; y < 10; y = y + 1) {
       for (var x = 0; x < image.width; x = x + 1) {
+        a = a + 1;
+
         final pixel = image.getPixel(x, y);
         final color = ((pixel.a.toInt() & 0xFF) << 24) |
             ((pixel.r.toInt() & 0xFF) << 16) |
@@ -61,9 +78,12 @@ class _VierMyQrState extends State<VierMyQr> {
         colorCount[color] = (colorCount[color] ?? 0) + 1;
       }
     }
+    print("looped $a");
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+    colortime.stop();
+    print("this is time taken to fetch color ${colortime.elapsedMilliseconds}");
     return Color(mostProminentColor);
   }
 
@@ -82,7 +102,7 @@ class _VierMyQrState extends State<VierMyQr> {
     }
   }
 
-  // Apiss().editRedirect("kHjF", "www.youtube.com");
+// Apiss().editRedirect("kHjF", "www.youtube.com");
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -119,8 +139,17 @@ class _VierMyQrState extends State<VierMyQr> {
                             color: Color.fromARGB(175, 0, 0, 0)),
                         child: IconButton(
                           icon: const Icon(Icons.share, size: 25),
-                          onPressed: () {
-                            // Add your onPressed code here!
+                          onPressed: () async {
+                            final urlImage = widget.imageUrl;
+                            final sendimageurl = Uri.parse(urlImage);
+                            final res = await http.get(sendimageurl);
+                            final bytes = res.bodyBytes;
+                            final temp = await getTemporaryDirectory();
+                            final path = '${temp.path}/image.jpg';
+                            File(path).writeAsBytesSync(bytes);
+                            await Share.shareXFiles([XFile(path)],
+                                text:
+                                    'Check out this cool QR from QRJungle!\nDownload QRJungle now!');
                             print("Share button pressed");
                           },
                           color: Colors.white,
@@ -158,7 +187,7 @@ class _VierMyQrState extends State<VierMyQr> {
             height: MediaQuery.of(context).size.height * 0.5,
             child: Stack(
               children: [
-                // Gradient background
+// Gradient background
                 Container(
                   decoration: isloading
                       ? const BoxDecoration(color: Colors.black)
@@ -176,7 +205,7 @@ class _VierMyQrState extends State<VierMyQr> {
                           ),
                         ),
                 ),
-                // Image
+// Image
                 Padding(
                   padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
                   child: ClipRRect(
@@ -315,7 +344,7 @@ class _VierMyQrState extends State<VierMyQr> {
                     'Reset URL',
                     style: TextStyle(
                         fontSize: 18.0,
-                        // fontWeight: FontWeight.bold,
+// fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),

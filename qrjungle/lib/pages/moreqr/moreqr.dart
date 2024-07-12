@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -61,18 +62,42 @@ class _MoreQrState extends State<MoreQr> {
   }
 
   Future<Color> getMostProminentColor(String imageUrl) async {
-    final response = await http.get(Uri.parse(imageUrl));
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load image');
+    // Get the DefaultCacheManager
+
+    Stopwatch cachedimage = Stopwatch()..start();
+    final cacheManager = DefaultCacheManager();
+    final fileInfo = await cacheManager.getFileFromCache(imageUrl);
+    Uint8List bytes;
+
+    if (fileInfo != null) {
+      bytes = await fileInfo.file.readAsBytes();
+      print("This is cache bytes $bytes");
+      cachedimage.stop();
+      print(
+          "this is time taken to fetch cached image${cachedimage.elapsedMilliseconds}");
+    } else {
+      Stopwatch imagetime = Stopwatch()..start();
+      final response = await http.get(Uri.parse(imageUrl));
+      print(response.bodyBytes);
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load image');
+      }
+      bytes = response.bodyBytes;
+      imagetime.stop();
+      print(
+          "this is time taken to fetch image ${imagetime.elapsedMilliseconds}");
     }
 
-    final bytes = response.bodyBytes;
+    var a = 0;
     final image = img.decodeImage(Uint8List.fromList(bytes));
     if (image == null) throw Exception('Image cannot be decoded');
 
+    Stopwatch colortime = Stopwatch()..start();
     final Map<int, int> colorCount = {};
-    for (var y = 0; y < 6; y = y + 2) {
-      for (var x = 0; x < image.width; x = x + 4) {
+    for (var y = 0; y < 10; y = y + 1) {
+      for (var x = 0; x < image.width; x = x + 1) {
+        a = a + 1;
+
         final pixel = image.getPixel(x, y);
         final color = ((pixel.a.toInt() & 0xFF) << 24) |
             ((pixel.r.toInt() & 0xFF) << 16) |
@@ -81,9 +106,13 @@ class _MoreQrState extends State<MoreQr> {
         colorCount[color] = (colorCount[color] ?? 0) + 1;
       }
     }
+    print("looped  $a");
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+
+    colortime.stop();
+    print("this is time taken to fetch color ${colortime.elapsedMilliseconds}");
     return Color(mostProminentColor);
   }
 
@@ -150,6 +179,7 @@ class _MoreQrState extends State<MoreQr> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
+        // backgroundColor: Color(0xff121212),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: Container(),
@@ -245,20 +275,16 @@ class _MoreQrState extends State<MoreQr> {
                         ),
                 ),
                 // Image
-                Skeleton.ignore(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
-                    child: Skeleton.leaf(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Center(
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Center(
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -307,11 +333,13 @@ class _MoreQrState extends State<MoreQr> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              "${item['price']} INR",
-                              style: const TextStyle(
+                              "500 INR",
+                              //                               hardcoded price
+                              // "${item['price']} INR",
+                              style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.w600),
@@ -357,7 +385,7 @@ class _MoreQrState extends State<MoreQr> {
           const Divider(
             color: Color(0xff121212),
           ),
-          Skeleton.leaf(
+          Skeleton.shade(
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
@@ -367,7 +395,7 @@ class _MoreQrState extends State<MoreQr> {
                 decoration: InputDecoration(
                   prefixText: "https://",
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Enter Redirect URL',
+                  labelText: 'Enter Link ',
                   labelStyle: const TextStyle(
                     fontSize: 12.0,
                   ),
@@ -395,7 +423,7 @@ class _MoreQrState extends State<MoreQr> {
               ),
               SizedBox(width: 5.0),
               Text(
-                'Redirect URL can be changed after purchase.',
+                'QR code link can be changed after purchase.',
                 style: TextStyle(
                   fontSize: 12.0,
                   color: Colors.grey,
@@ -428,7 +456,8 @@ class _MoreQrState extends State<MoreQr> {
                     Payment pay = Payment(
                       context: context,
                       // hardcoded price
-                      amount: "${item['price']}00",
+                      amount: "50000",
+                      // amount: "${item['price']}00",
                       qrCodeId: item['qr_code_id'],
                       redirectUrl: urlcontroller.text,
                     );
