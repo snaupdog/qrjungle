@@ -20,7 +20,7 @@ class _CategoryPageState extends State<CategoryPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: const Color(0xff000000),
             pinned: true,
             expandedHeight: MediaQuery.sizeOf(context).height * 0.25,
             leading: Container(), // Hides the default back button
@@ -43,18 +43,31 @@ class _CategoryPageState extends State<CategoryPage> {
                   ],
                 ),
               ),
-              background: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    // image: NetworkImage(widget.catimageurl),
-                    image: CachedNetworkImageProvider(widget.catimageurl),
-                    fit: BoxFit.cover,
+              background: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        // image: NetworkImage(widget.catimageurl),
+                        image: CachedNetworkImageProvider(widget.catimageurl),
+                        fit: BoxFit.cover,
+                      ),
+                      // color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Colors.black,
+                    ),
+                    alignment: Alignment.bottomLeft,
+                    padding: const EdgeInsets.only(left: 10, bottom: 16),
                   ),
-                  // color: const Color.fromARGB(255, 255, 255, 255),
-                  color: Colors.black,
-                ),
-                alignment: Alignment.bottomLeft,
-                padding: const EdgeInsets.only(left: 10, bottom: 16),
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.transparent, Colors.black],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

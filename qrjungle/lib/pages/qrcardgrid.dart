@@ -148,7 +148,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
                 bool liked = false;
                 final item = data[index];
                 final imageurl = item['qr_code_image_url_key'];
-                print(" at $item");
                 if (Apiss.favqrsids.contains(item['qr_code_id'])) {
                   liked = true;
                 }
@@ -250,7 +249,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                             padding: EdgeInsets.fromLTRB(
                                                 12.0, 0.0, 0, 0.0),
                                             child: Text(
-                                              "399 INR",
+                                              "500 INR",
                                               //                       hardcodede price,
                                               // "${item['price']} INR",
                                               style: TextStyle(
