@@ -341,7 +341,7 @@ class _VierMyQrState extends State<VierMyQr> {
                 ),
                 child: const Center(
                   child: Text(
-                    'Reset URL',
+                    'Update URL',
                     style: TextStyle(
                         fontSize: 18.0,
 // fontWeight: FontWeight.bold,
