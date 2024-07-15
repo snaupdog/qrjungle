@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
+import 'package:qrjungle/pages/bottomnavbar/explore.dart';
+import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/widgets/iap_services.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themeselector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +19,7 @@ import 'pages/oboard/onboard.dart';
 import 'themes.dart';
 
 final GlobalKey qrKey = GlobalKey(debugLabel: "QR");
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final formkey = GlobalKey<FormState>();
 ThemeSelect themeselector = ThemeSelect();
 
@@ -33,6 +40,7 @@ class Config extends StatefulWidget {
 
 class _ConfigState extends State<Config> {
   AmplifyAuthCognito? auth;
+  late StreamSubscription<List<PurchaseDetails>> _iapSubscription;
 
   @override
   void initState() {
@@ -40,6 +48,19 @@ class _ConfigState extends State<Config> {
     themeselector.addListener(themeListener);
     getValues();
     super.initState();
+
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+
+    _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
+      print("Purchase stream started");
+      IAPService(navigatorKey).listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      print("Payment done");
+      _iapSubscription.cancel();
+    }, onError: (error) {
+      print("ERROR on payment");
+      _iapSubscription.cancel();
+    }) as StreamSubscription<List<PurchaseDetails>>;
   }
 
   void _configureAmplify() async {
@@ -115,6 +136,12 @@ class _ConfigState extends State<Config> {
     String splashimage = whatisbrightness ? 'logo_invert.png' : 'logo.png';
     Color splashbg = whatisbrightness ? primarycolor : secondarycolor;
     return MaterialApp(
+      navigatorKey: navigatorKey,
+      routes: {
+        '/myqrs': (context) => const PageSelect(
+              initialIndex: 1,
+            ), // Example of another route
+      },
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,

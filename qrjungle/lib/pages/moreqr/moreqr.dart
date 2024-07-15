@@ -1,21 +1,32 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
-import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/test.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+RxBool paymentloading = false.obs;
+RxBool gotoqrs = false.obs;
+// bool paymentloading = false;
+
+const List<String> _productIds = <String>[
+  'artistic_qr',
+];
 
 class MoreQr extends StatefulWidget {
   final String imageUrl;
@@ -32,6 +43,7 @@ class MoreQr extends StatefulWidget {
 }
 
 class _MoreQrState extends State<MoreQr> {
+  final PaymentController paymentController = Get.put(PaymentController());
   Map<String, dynamic> fakedata = {
     "qr_code_status": "fake",
     "qr_code_created_on": 1714738115822,
@@ -45,14 +57,67 @@ class _MoreQrState extends State<MoreQr> {
   final TextEditingController urlcontroller = TextEditingController();
   bool isloading = true;
   bool liked = false;
-  bool paymentloading = false;
+
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  bool _isAvailable = false;
+  String? _notice;
+  List<ProductDetails> _products = [];
+  bool _loading = true;
 
   @override
   void initState() {
     getstate();
     getloginstatus();
     super.initState();
+    initStoreInfo();
     fetchMostProminentColor();
+    paymentController.paymentLoading.listen((value) {
+      if (!value) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const PageSelect(
+              initialIndex: 1,
+            ),
+          ),
+          (Route<dynamic> route) =>
+              false, // This removes all the previous routes
+        );
+      }
+    });
+  }
+
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _inAppPurchase.isAvailable();
+    setState(() {
+      _isAvailable = isAvailable;
+    });
+
+    if (!_isAvailable) {
+      setState(() {
+        _loading = false;
+        _notice = "There are no upgrades at this time";
+      });
+      return;
+    }
+
+    // get IAP.
+    ProductDetailsResponse productDetailsResponse =
+        await _inAppPurchase.queryProductDetails(_productIds.toSet());
+
+    setState(() {
+      _loading = false;
+      _products = productDetailsResponse.productDetails;
+    });
+
+    if (productDetailsResponse.error != null) {
+      setState(() {
+        _notice = "There was a problem connecting to the store";
+      });
+    } else if (productDetailsResponse.productDetails.isEmpty) {
+      setState(() {
+        _notice = "There are no upgrades at this time";
+      });
+    }
   }
 
   getstate() async {
@@ -64,28 +129,18 @@ class _MoreQrState extends State<MoreQr> {
   Future<Color> getMostProminentColor(String imageUrl) async {
     // Get the DefaultCacheManager
 
-    Stopwatch cachedimage = Stopwatch()..start();
     final cacheManager = DefaultCacheManager();
     final fileInfo = await cacheManager.getFileFromCache(imageUrl);
     Uint8List bytes;
 
     if (fileInfo != null) {
       bytes = await fileInfo.file.readAsBytes();
-      print("This is cache bytes $bytes");
-      cachedimage.stop();
-      print(
-          "this is time taken to fetch cached image${cachedimage.elapsedMilliseconds}");
     } else {
-      Stopwatch imagetime = Stopwatch()..start();
       final response = await http.get(Uri.parse(imageUrl));
-      print(response.bodyBytes);
       if (response.statusCode != 200) {
         throw Exception('Failed to load image');
       }
       bytes = response.bodyBytes;
-      imagetime.stop();
-      print(
-          "this is time taken to fetch image ${imagetime.elapsedMilliseconds}");
     }
 
     var a = 0;
@@ -110,7 +165,6 @@ class _MoreQrState extends State<MoreQr> {
 
     final mostProminentColor =
         colorCount.entries.reduce((a, b) => a.value > b.value ? a : b).key;
-
     colortime.stop();
     print("this is time taken to fetch color ${colortime.elapsedMilliseconds}");
     return Color(mostProminentColor);
@@ -139,26 +193,6 @@ class _MoreQrState extends State<MoreQr> {
     setState(() {
       loggedinmain = loggedin;
     });
-  }
-
-  paymentprocess(Payment pay) async {
-    String? orderId = await pay.fetchOrderId();
-    print(orderId);
-
-    if (orderId != null) {
-      pay.startPayment(orderId);
-
-      setState(() {
-        paymentloading = false;
-      });
-    } else {
-      pay.navigateToResultPage(
-          "Error", "Failed to create order. Please try again.");
-
-      setState(() {
-        paymentloading = false;
-      });
-    }
   }
 
   Future<void> toggleFavourite() async {
@@ -236,10 +270,38 @@ class _MoreQrState extends State<MoreQr> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: isloading
-              ? card(fakedata, "")
-              : card(widget.item, widget.imageUrl),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: isloading
+                  ? card(fakedata, "")
+                  : card(widget.item, widget.imageUrl),
+            ),
+            Obx(
+              () {
+                if (paymentloading.value) {
+                  return Container(
+                    color: Colors.black.withOpacity(0.8),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SpinKitRipple(color: Colors.white),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Confirming Purchase",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -449,8 +511,10 @@ class _MoreQrState extends State<MoreQr> {
                       fontSize: 18.0,
                     );
                   } else {
+                    Apiss.qr_idpayment = widget.item['qr_code_id'];
+                    Apiss.qr_redirecturl = urlcontroller.text;
                     setState(() {
-                      paymentloading = true;
+                      paymentloading.value = true;
                     });
 
                     Payment pay = Payment(
@@ -471,26 +535,20 @@ class _MoreQrState extends State<MoreQr> {
                 }
               },
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.05,
-                decoration: BoxDecoration(
-                  color: const Color(0xff2081e2),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Center(
-                  child: paymentloading
-                      ? const Center(
-                          child:
-                              SpinKitThreeBounce(color: Colors.white, size: 23),
-                        )
-                      : const Text(
-                          'Purchase QR',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                ),
-              ),
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff2081e2),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Purchase QR',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  )),
             ),
           ),
         ],
