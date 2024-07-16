@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.fromLTRB(12, 80, 12, 80),
+        margin: const EdgeInsets.fromLTRB(12, 40, 12, 80),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
           child: Column(
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                           },
                           label: const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+                            padding: EdgeInsets.fromLTRB(0, 8, 8, 0),
                             child: Text(
                               'Log In',
                               style: TextStyle(
@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           icon: const Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+                            padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
                             child: Icon(Icons.exit_to_app_outlined,
                                 color: Color.fromARGB(255, 255, 255, 255)),
                           ),

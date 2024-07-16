@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OTPVerify extends StatefulWidget {
@@ -105,7 +106,7 @@ class _OTPVerifyState extends State<OTPVerify> {
 
                   await getloginstatus();
                   Fluttertoast.showToast(
-                      msg: "OTP Verification Successful!",
+                      msg: "Succesfully Logged in!",
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.CENTER,
                       timeInSecForIosWeb: 2,
@@ -113,8 +114,14 @@ class _OTPVerifyState extends State<OTPVerify> {
                       textColor: Colors.white,
                       fontSize: 18.0);
 
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PageSelect(
+                              initialIndex: 0,
+                            )),
+                    (route) => false,
+                  );
                 } else {
                   Navigator.pop(context);
                   Fluttertoast.showToast(
