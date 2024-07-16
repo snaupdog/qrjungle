@@ -4,6 +4,7 @@ import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
 import 'package:qrjungle/pages/moreqr/webview.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool loggedinmain = false;
@@ -153,69 +154,148 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               (!loggedinmain)
                   ? Container()
-                  : TextButton.icon(
-                      onPressed: () async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 21, 21, 21),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              title: const Text('Log Out',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
-                              content: const Text(
-                                  'Are you sure you want to log out?',
-                                  style: TextStyle(fontSize: 16)),
-                              actions: <Widget>[
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  onPressed: () async {
-                                    await clearData();
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Config(
-                                                onboarded: true,
-                                              )),
-                                      (route) => false,
-                                    );
-                                    Fluttertoast.showToast(
-                                        msg: "You've been logged out!",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 2,
-                                        backgroundColor:
-                                            const Color.fromARGB(134, 0, 0, 0),
-                                        textColor: Colors.white,
-                                        fontSize: 18.0);
-                                  },
-                                  child: const Text('Yes',
+                  : Column(
+                      children: [
+                        TextButton.icon(
+                          onPressed: () async {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 21, 21, 21),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  title: const Text('Delete Account',
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.white)),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                  },
-                                  child: const Text('No',
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.white)),
-                                ),
-                              ],
-                              elevation: 5.0,
+                                          fontWeight: FontWeight.w600)),
+                                  content: const Text(
+                                      'Are you sure you want to delete your account? This action cannot be undone and all your data will be lost.',
+                                      style: TextStyle(fontSize: 16)),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Colors.red),
+                                      onPressed: () async {
+                                        await clearData();
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                "Your account has been deleted!",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 2,
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    134, 0, 0, 0),
+                                            textColor: Colors.white,
+                                            fontSize: 18.0);
+
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const PageSelect(
+                                                    initialIndex: 0,
+                                                  )),
+                                          (route) => false,
+                                        );
+                                      },
+                                      child: const Text('Yes',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: const Text('No',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
+                                    ),
+                                  ],
+                                  elevation: 5.0,
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                      label: const Text('Log Out',
-                          style: TextStyle(color: Colors.white)),
-                      icon: const Icon(Icons.logout, color: Colors.white),
+                          label: const Text('Delete Account',
+                              style: TextStyle(color: Colors.white)),
+                          icon: const Icon(Icons.delete_forever,
+                              color: Colors.red),
+                        ),
+                        TextButton.icon(
+                          onPressed: () async {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 21, 21, 21),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  title: const Text('Log Out',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600)),
+                                  content: const Text(
+                                      'Are you sure you want to log out?',
+                                      style: TextStyle(fontSize: 16)),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Colors.red),
+                                      onPressed: () async {
+                                        await clearData();
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const PageSelect(
+                                                    initialIndex: 0,
+                                                  )),
+                                          (route) => false,
+                                        );
+                                        Fluttertoast.showToast(
+                                            msg: "You've been logged out!",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 2,
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    134, 0, 0, 0),
+                                            textColor: Colors.white,
+                                            fontSize: 18.0);
+                                      },
+                                      child: const Text('Yes',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: const Text('No',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white)),
+                                    ),
+                                  ],
+                                  elevation: 5.0,
+                                );
+                              },
+                            );
+                          },
+                          label: const Text('Log Out',
+                              style: TextStyle(color: Colors.white)),
+                          icon: const Icon(Icons.logout, color: Colors.white),
+                        ),
+                      ],
                     ),
             ],
           ),
