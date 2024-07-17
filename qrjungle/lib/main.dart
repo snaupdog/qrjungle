@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
-import 'package:qrjungle/pages/bottomnavbar/explore.dart';
-import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/widgets/iap_services.dart';
 import 'package:qrjungle/pageselect.dart';

@@ -1,5 +1,6 @@
 import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:qrjungle/pages/bottomnavbar/custom.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
 import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/themes.dart';
@@ -66,6 +67,9 @@ class _PageSelectState extends State<PageSelect> {
         appBarTitle = 'Wishlist';
         break;
       case 3:
+        appBarTitle = 'Custom';
+        break;
+      case 4:
         appBarTitle = 'Profile';
         break;
       default:
@@ -103,6 +107,7 @@ class _PageSelectState extends State<PageSelect> {
               ExplorePage(),
               MyQRsPage(),
               WishlistPage(),
+              CustomPage(),
               ProfilePage(),
             ],
           ),
@@ -129,7 +134,10 @@ class _PageSelectState extends State<PageSelect> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.favorite_outlined), label: 'Favourites'),
               BottomNavigationBarItem(
+                  icon: Icon(Icons.note_alt_outlined), label: 'Custom'),
+              BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: 'Profile'),
+
             ],
           ),
         )
