@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -12,6 +11,7 @@ import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
+import 'package:qrjungle/pages/moreqr/payment.dart';
 import 'package:qrjungle/pages/moreqr/test.dart';
 import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:qrjungle/pageselect.dart';
@@ -22,7 +22,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 RxBool paymentloading = false.obs;
 RxBool gotoqrs = false.obs;
-// bool paymentloading = false;
+bool paymentloadingandroid = false;
 
 const List<String> _productIds = <String>[
   'artistic_qr',
@@ -69,21 +69,43 @@ class _MoreQrState extends State<MoreQr> {
     getstate();
     getloginstatus();
     super.initState();
-    initStoreInfo();
     fetchMostProminentColor();
-    paymentController.paymentLoading.listen((value) {
-      if (!value) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const PageSelect(
-              initialIndex: 1,
+    if (Platform.isIOS) {
+      initStoreInfo();
+      paymentController.paymentLoading.listen((value) {
+        if (!value) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const PageSelect(
+                initialIndex: 1,
+              ),
             ),
-          ),
-          (Route<dynamic> route) =>
-              false, // This removes all the previous routes
-        );
-      }
-    });
+            (Route<dynamic> route) =>
+                false, // This removes all the previous routes
+          );
+        }
+      });
+    }
+  }
+
+  paymentprocess(Payment pay) async {
+    String? orderId = await pay.fetchOrderId();
+    print(orderId);
+
+    if (orderId != null) {
+      pay.startPayment(orderId);
+
+      setState(() {
+        paymentloadingandroid = false;
+      });
+    } else {
+      pay.navigateToResultPage(
+          "Error", "Failed to create order. Please try again.");
+
+      setState(() {
+        paymentloadingandroid = false;
+      });
+    }
   }
 
   Future<void> initStoreInfo() async {
@@ -516,16 +538,23 @@ class _MoreQrState extends State<MoreQr> {
                     setState(() {
                       paymentloading.value = true;
                     });
-
-                    Payment pay = Payment(
-                      context: context,
-                      // hardcoded price
-                      amount: "49900",
-                      // amount: "${item['price']}00",
-                      qrCodeId: item['qr_code_id'],
-                      redirectUrl: urlcontroller.text,
-                    );
-                    paymentprocess(pay);
+                    if (Platform.isIOS) {
+                      final PurchaseParam purchaseParam =
+                          PurchaseParam(productDetails: _products[0]);
+                      _inAppPurchase.buyConsumable(
+                          purchaseParam: purchaseParam);
+                    }
+                    if (Platform.isAndroid) {
+                      Payment pay = Payment(
+                        context: context,
+                        // hardcoded price
+                        amount: "49900",
+                        // amount: "${item['price']}00",
+                        qrCodeId: item['qr_code_id'],
+                        redirectUrl: urlcontroller.text,
+                      );
+                      paymentprocess(pay);
+                    }
                   }
                 } else {
                   showModalBottomSheet(
