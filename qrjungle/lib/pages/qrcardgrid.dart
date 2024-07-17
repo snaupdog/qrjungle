@@ -1,6 +1,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
@@ -86,6 +87,12 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Future<void> toggleFavourite(String item) async {
+    if (redeemable.value > 0) {
+      redeemable.value = 0;
+    } else {
+      redeemable.value = 5;
+    }
+
     if (Apiss.favqrsids.contains(item)) {
       Apiss.favqrsids.remove(item);
     } else {

@@ -41,7 +41,7 @@ class IAPService {
     if (purchaseDetails.productID == 'artistic_qr') {
       await Apiss().purchaseQr(
           Apiss.qr_idpayment, "499", "ios_purchase", Apiss.qr_redirecturl);
- await Apiss().listmyqrs();
+      await Apiss().listmyqrs();
       print("shoudl get successfful purchase");
       paymentController.setPaymentLoading(false);
     }
