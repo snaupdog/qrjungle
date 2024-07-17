@@ -1,12 +1,4 @@
-display metrics per qr
-referral codes
-
-niha'
-redirect URL after purchase
-payment page
-
-
-appicon
-razorpay format
-share screenshot
-qr code scanner
+Myqrs should show no url or url
+remove wishlist put cart
+custom category , custom request , per user
+ssh into three pc and give same prompts
