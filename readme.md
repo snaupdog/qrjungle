@@ -1,30 +1,12 @@
-# My Flutter Project
+display metrics per qr
+referral codes
 
-## Features
-
-
-### Integrate Skeletonizer (package) loaders for all card widgets
-
-### QRCard Navigation Page
-- **Set Link**
-- **Info**
-- **Share Button**
-- **Report Button**
-
-### Sliver AppBar
-
-### Categories / Home
-- Sliver AppBar on category expansion
+niha'
+redirect URL after purchase
+payment page
 
 
-### Wishlist
-- Integrated with GraphQL API
-
-### Popup Login Page
-- Implemented with Shared Preferences
-
-### Profile Page
-
----
-
-Feel free to explore the features and contribute to the project!
+appicon
+razorpay format
+share screenshot
+qr code scanner
