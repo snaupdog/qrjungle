@@ -4,7 +4,9 @@ import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
 import 'package:qrjungle/pages/moreqr/webview.dart';
+import 'package:qrjungle/pageselect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io' show Platform;
 
 bool loggedinmain = false;
 
@@ -52,7 +54,6 @@ class _ProfilePageState extends State<ProfilePage> {
     await pref.remove('loggedin');
   }
 
-
   getloginstatus() async {
     print('******* LOGINSTATUS CALLED *********8');
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -69,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.fromLTRB(12, 80, 12, 80),
+        margin: const EdgeInsets.fromLTRB(12, 40, 12, 80),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(9.0, 0.0, 9.0, 0.0),
           child: Column(
@@ -92,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                           },
                           label: const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
+                            padding: EdgeInsets.fromLTRB(0, 8, 8, 0),
                             child: Text(
                               'Log In',
                               style: TextStyle(
@@ -104,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           icon: const Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
+                            padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
                             child: Icon(Icons.exit_to_app_outlined,
                                 color: Color.fromARGB(255, 255, 255, 255)),
                           ),
@@ -156,7 +157,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? Container()
                   : Column(
                       children: [
-
                         TextButton.icon(
                           onPressed: () async {
                             showDialog(
@@ -169,9 +169,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   title: const Text('Delete Account',
-                                      style: TextStyle(fontWeight: FontWeight.w600)),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600)),
                                   content: const Text(
-  'Are you sure you want to delete your account? This action cannot be undone and all your data will be lost.',
+                                      'Are you sure you want to delete your account? This action cannot be undone and all your data will be lost.',
                                       style: TextStyle(fontSize: 16)),
                                   actions: <Widget>[
                                     TextButton(
@@ -179,35 +180,42 @@ class _ProfilePageState extends State<ProfilePage> {
                                           backgroundColor: Colors.red),
                                       onPressed: () async {
                                         await clearData();
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => const Config(
-                                                    onboarded: true,
-                                                  )),
-                                          (route) => false,
-                                        );
                                         Fluttertoast.showToast(
-                                            msg: "Your account has been deleted!",
+                                            msg:
+                                                "Your account has been deleted!",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 2,
                                             backgroundColor:
-                                                const Color.fromARGB(134, 0, 0, 0),
+                                                const Color.fromARGB(
+                                                    134, 0, 0, 0),
                                             textColor: Colors.white,
                                             fontSize: 18.0);
+
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const PageSelect(
+                                                    initialIndex: 0,
+                                                  )),
+                                          (route) => false,
+                                        );
                                       },
                                       child: const Text('Yes',
                                           style: TextStyle(
-                                              fontSize: 18, color: Colors.white)),
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop(); // Close the dialog
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
                                       },
                                       child: const Text('No',
                                           style: TextStyle(
-                                              fontSize: 18, color: Colors.white)),
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                     ),
                                   ],
                                   elevation: 5.0,
@@ -217,7 +225,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           },
                           label: const Text('Delete Account',
                               style: TextStyle(color: Colors.white)),
-                          icon: const Icon(Icons.delete_forever, color: Colors.red),
+                          icon: const Icon(Icons.delete_forever,
+                              color: Colors.red),
                         ),
                         TextButton.icon(
                           onPressed: () async {
@@ -231,7 +240,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   title: const Text('Log Out',
-                                      style: TextStyle(fontWeight: FontWeight.w600)),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600)),
                                   content: const Text(
                                       'Are you sure you want to log out?',
                                       style: TextStyle(fontSize: 16)),
@@ -244,8 +254,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => const Config(
-                                                    onboarded: true,
+                                              builder: (context) =>
+                                                  const PageSelect(
+                                                    initialIndex: 0,
                                                   )),
                                           (route) => false,
                                         );
@@ -255,21 +266,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 2,
                                             backgroundColor:
-                                                const Color.fromARGB(134, 0, 0, 0),
+                                                const Color.fromARGB(
+                                                    134, 0, 0, 0),
                                             textColor: Colors.white,
                                             fontSize: 18.0);
                                       },
                                       child: const Text('Yes',
                                           style: TextStyle(
-                                              fontSize: 18, color: Colors.white)),
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop(); // Close the dialog
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
                                       },
                                       child: const Text('No',
                                           style: TextStyle(
-                                              fontSize: 18, color: Colors.white)),
+                                              fontSize: 18,
+                                              color: Colors.white)),
                                     ),
                                   ],
                                   elevation: 5.0,
