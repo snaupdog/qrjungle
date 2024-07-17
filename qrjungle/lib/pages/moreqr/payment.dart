@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:qrjungle/themes.dart';
