@@ -38,7 +38,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
   late List<Map<String, dynamic>> fakedata;
   TextEditingController emailController = TextEditingController();
   var qrlisty = [];
-  bool inmyqrs = false;
   bool isloading = true;
 
   @override
@@ -76,7 +75,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         Apiss().listmyqrs();
         setState(() {
           qrlisty = Apiss.myqrslist;
-          inmyqrs = true;
           isloading = false;
         });
         break;
@@ -158,14 +156,18 @@ class _QrcardgridState extends State<Qrcardgrid> {
 
                 return GestureDetector(
                   onTap: () {
-                    inmyqrs
+                    (widget.type == 'myqrs')
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => VierMyQr(
                                     imageUrl: Apiss.preurl + imageurl,
                                     item: item)),
-                          )
+                          ).then((_) {
+                            setState(() {
+                              qrlisty = Apiss.myqrslist;
+                            });
+                          })
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -184,156 +186,203 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
-                    child: LayoutBuilder(builder: (context, constraints) {
-                      return Card(
-                        color: const Color(0xff1b1b1b),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                              // height: 200,
-                              height: constraints.maxHeight * 0.7,
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(15.0),
-                                  topRight: Radius.circular(15.0),
-                                ),
-                                child: CachedNetworkImage(
-                                  placeholder: (context, url) => Skeletonizer(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      color: Colors.grey[
-                                          300], // Adjust the color as needed
+                    child: Stack(
+                      children: [
+                        LayoutBuilder(builder: (context, constraints) {
+                          return Card(
+                            color: const Color(0xff1b1b1b),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                SizedBox(
+                                  // height: 200,
+                                  height: constraints.maxHeight * 0.7,
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15.0),
+                                      topRight: Radius.circular(15.0),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      placeholder: (context, url) =>
+                                          Skeletonizer(
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          color: Colors.grey[
+                                              300], // Adjust the color as needed
+                                        ),
+                                      ),
+                                      imageUrl: Apiss.preurl + imageurl,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  imageUrl: Apiss.preurl + imageurl,
-                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            ),
-                            inmyqrs
-                                ? Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        20.0, 20.0, 0, 0),
-                                    child: Text(
-                                      "#${item['qr_code_id']}",
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )
-                                : Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                12.0, 10.0, 0, 0.0),
-                                            child: Text(
-                                              "#${item['qr_code_id']}",
-                                              style: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                12.0, 3.0, 0, 0.0),
-                                            child: (widget.type == "wishlist")
-                                                ? const Text.rich(
-                                                    TextSpan(
-                                                      children: [
-                                                        TextSpan(
-                                                          text: '499 INR',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            decorationThickness:
-                                                                2.0,
-                                                            color: Colors.grey,
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          text: ' Free',
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                : const Text(
-                                                    "499 INR",
-                                                    //                       hardcodede price,
-                                                    // "${item['price']} INR",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15.5,
+                                (widget.type == 'myqrs')
+                                    ? Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20.0, 10.0, 0, 10),
+                                        child: Text(
+                                          "#${item['qr_code_id']}",
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 20),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          12.0, 8.0, 0, 0.0),
+                                                  child: Text(
+                                                    "#${item['qr_code_id']}",
+                                                    style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w600),
                                                   ),
-                                          ),
-                                        ],
-                                      ),
-                                      Obx(() {
-                                        return redeemable.value > 0
-                                            ? Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 0, 5, 4),
-                                                child: IconButton(
-                                                  icon: liked
-                                                      ? const Icon(Icons
-                                                          .add_shopping_cart)
-                                                      : const Icon(Icons
-                                                          .add_shopping_cart_outlined),
-                                                  onPressed: () async {
-                                                    if (loggedinmain) {
-                                                      setState(() {
-                                                        liked = !liked;
-                                                      });
-                                                      await toggleFavourite(
-                                                          item['qr_code_id'],
-                                                          index);
-                                                    } else {
-                                                      print("show modal sheet");
-                                                      showModalBottomSheet(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            const LoginModalSheet(),
-                                                      );
-                                                    }
-                                                  },
-                                                  color: liked
-                                                      ? Colors.white
-                                                      : Colors.grey,
                                                 ),
-                                              )
-                                            : const SizedBox.shrink();
-                                      }),
-                                    ],
-                                  ),
-                          ],
-                        ),
-                      );
-                    }),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          12.0, 3.0, 0, 0.0),
+                                                  child: (widget.type ==
+                                                          "wishlist")
+                                                      ? const Text.rich(
+                                                          TextSpan(
+                                                            children: [
+                                                              TextSpan(
+                                                                text: '499 INR',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 14,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough,
+                                                                  decorationThickness:
+                                                                      2.0,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                              TextSpan(
+                                                                text: ' Free',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : const Text(
+                                                          "499 INR",
+                                                          //                       hardcodede price,
+                                                          // "${item['price']} INR",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                ),
+                                              ],
+                                            ),
+                                            Obx(() {
+                                              return redeemable.value > 0
+                                                  ? Padding(
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(0, 0, 5, 4),
+                                                      child: IconButton(
+                                                        icon: liked
+                                                            ? const Icon(Icons
+                                                                .add_shopping_cart)
+                                                            : const Icon(Icons
+                                                                .add_shopping_cart_outlined),
+                                                        onPressed: () async {
+                                                          if (loggedinmain) {
+                                                            setState(() {
+                                                              liked = !liked;
+                                                            });
+                                                            await toggleFavourite(
+                                                                item[
+                                                                    'qr_code_id'],
+                                                                index);
+                                                          } else {
+                                                            print(
+                                                                "show modal sheet");
+                                                            showModalBottomSheet(
+                                                              context: context,
+                                                              builder: (context) =>
+                                                                  const LoginModalSheet(),
+                                                            );
+                                                          }
+                                                        },
+                                                        color: liked
+                                                            ? Colors.white
+                                                            : Colors.grey,
+                                                      ),
+                                                    )
+                                                  : const SizedBox.shrink();
+                                            }),
+                                          ],
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          );
+                        }),
+                        if (widget.type == 'myqrs' &&
+                            (item['redirect_url'].isEmpty ||
+                                item['redirect_url'] == 'https://'))
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            right: 80,
+                            child: Container(
+                              height: 40, // Example height
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.all(4),
+                              child: Text(
+                                'No Url',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 );
               }),

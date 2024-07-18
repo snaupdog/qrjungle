@@ -30,6 +30,9 @@ class _LoaderState extends State<Loader> {
     }
     // Update redeemable
     redeemable.value = redeemable.value - Apiss.myfavslist.length;
+
+    Apiss().updateRedeemables(redeemable.value.toString());
+
     await Future.delayed(const Duration(seconds: 2));
     setState(() {
       redeemableloader = false;
@@ -48,7 +51,7 @@ class _LoaderState extends State<Loader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff313131),
+      backgroundColor: const Color(0xff161616),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -57,7 +60,10 @@ class _LoaderState extends State<Loader> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SpinKitRipple(color: Colors.white),
+                  SpinKitRipple(
+                    color: Colors.white,
+                    size: 70,
+                  ),
                   Text(
                     "Confirming Purchase",
                     style: TextStyle(fontSize: 20),
@@ -78,8 +84,8 @@ class _LoaderState extends State<Loader> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Center(
-                    child: Text("Your QR's were redeemed successfully")),
+                const Center(child: Text("QR's  redeemed successfully")),
+                const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {

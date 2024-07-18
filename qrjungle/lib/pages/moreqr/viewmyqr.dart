@@ -305,7 +305,7 @@ class _VierMyQrState extends State<VierMyQr> {
           Padding(
             padding: const EdgeInsets.fromLTRB(17, 25.0, 17, 4.0),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
                 if (urlcontroller.text.isEmpty) {
                   Fluttertoast.showToast(
                     msg: "Redirect URL is empty!",
@@ -317,7 +317,7 @@ class _VierMyQrState extends State<VierMyQr> {
                     fontSize: 18.0,
                   );
                 }
-                Apiss().editRedirect(
+                await Apiss().editRedirect(
                     item['qr_code_id'], "https://${urlcontroller.text}");
                 Fluttertoast.showToast(
                     msg: "Qr Code URL changed successfully",

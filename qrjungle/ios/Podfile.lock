@@ -6,7 +6,7 @@ PODS:
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-    - ReachabilitySwift
+    - FlutterMacOS
   - device_info_plus (0.0.1):
     - Flutter
   - Flutter (1.0.0)
@@ -82,7 +82,6 @@ PODS:
   - razorpay_flutter (1.1.10):
     - Flutter
     - razorpay-pod
-  - ReachabilitySwift (5.2.3)
   - rive_common (0.0.1):
     - Flutter
   - share_plus (0.0.1):
@@ -102,7 +101,7 @@ PODS:
 DEPENDENCIES:
   - amplify_auth_cognito (from `.symlinks/plugins/amplify_auth_cognito/darwin`)
   - amplify_secure_storage (from `.symlinks/plugins/amplify_secure_storage/ios`)
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -135,7 +134,6 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - razorpay-pod
-    - ReachabilitySwift
     - Toast
 
 EXTERNAL SOURCES:
@@ -144,7 +142,7 @@ EXTERNAL SOURCES:
   amplify_secure_storage:
     :path: ".symlinks/plugins/amplify_secure_storage/ios"
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/ios"
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
@@ -178,9 +176,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   amplify_auth_cognito: 76b5a54f05f66f69966b468b8121a0dd33a32c70
-  amplify_secure_storage: 501cbdac671a050090d48dfcc002d5637d3f4a55
-  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
-  device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
+  amplify_secure_storage: be403397a8ba39f5e0f2a05303b3ca03b53b9ee9
+  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
+  device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
@@ -197,13 +195,12 @@ SPEC CHECKSUMS:
   mobile_scanner: 8564358885a9253c43f822435b70f9345c87224f
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
+  package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   razorpay-pod: c7064a37dd15fbc0e5f26776314c9a8842df1269
   razorpay_flutter: 84b3bfd206ae9c9c2a9ba585524a1b3d8102b6c1
-  ReachabilitySwift: 7f151ff156cea1481a8411701195ac6a984f4979
   rive_common: cbbac3192af00d7341f19dae2f26298e9e37d99e
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78

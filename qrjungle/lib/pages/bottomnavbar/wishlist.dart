@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/loader.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
-import 'package:rive/rive.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
@@ -89,10 +87,10 @@ class _WishlistPageState extends State<WishlistPage> {
                                     color: const Color(0xff2081e2),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  child: const Center(
+                                  child: Center(
                                     child: Text(
-                                      'Redeem all QR\'s',
-                                      style: TextStyle(
+                                      'Redeem all QR\'s     ${redeemable.value}',
+                                      style: const TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),

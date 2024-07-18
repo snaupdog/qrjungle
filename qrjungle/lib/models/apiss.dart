@@ -125,6 +125,7 @@ class Apiss {
       var hello = body['listMyQrs'];
       var body2 = jsonDecode(hello);
       myqrslist = body2;
+      print(hello);
     } catch (e) {
       print("An error occurred: $e");
     }
@@ -182,9 +183,21 @@ class Apiss {
     var body = jsonDecode(response.data);
     var hello = body['getCurrentUserDetails'];
     var body2 = jsonDecode(hello);
-    print(body2);
-
     userdetailslist = body2['data']['items'];
+  }
+
+  updateRedeemables(String count) async {
+    print("calling update redeemables count");
+    var operation = Amplify.API.mutate(
+      request: GraphQLRequest(
+        document: ''' mutation UpdateRedeemable(\$redeem_count: String) {
+    updateRedeemable(redeem_count: \$redeem_count)}''',
+        variables: {'redeem_count': count},
+      ),
+    );
+
+    var response = await operation.response;
+    print(response);
   }
 
   editRedirect(String qr_code_id, String redirect_url) async {
