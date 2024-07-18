@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qrjungle/models/apiss.dart';
 
 class CustomForm extends StatefulWidget {
   const CustomForm({super.key});
@@ -15,7 +16,7 @@ class _CustomFormState extends State<CustomForm> {
   final TextEditingController _qtyController = TextEditingController();
 
   late String nameinp;
-  late int numinp;
+  late String numinp;
   late String usecaseinp;
   late int qtyinp;
 
@@ -28,31 +29,36 @@ class _CustomFormState extends State<CustomForm> {
     super.dispose();
   }
 
-  void _handleSubmit() {
+  void _handleSubmit() async {
     String phoneNumber = _numController.text;
     if (phoneNumber.length != 10) {
       Fluttertoast.showToast(
         msg: "Phone number must be 10 digits.",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
+        backgroundColor: Color.fromARGB(100, 158, 158, 158),
         textColor: Colors.white,
         fontSize: 16.0,
       );
-      return;
     }
 
     setState(() {
       nameinp = _nameController.text;
-      numinp = int.tryParse(phoneNumber) ?? 0;
+      numinp = phoneNumber;
       usecaseinp = _useCaseController.text;
       qtyinp = int.tryParse(_qtyController.text) ?? 0;
     });
 
+    String desc = '';
     print('Name: $nameinp');
     print('Phone Number: $numinp');
     print('Use Case: $usecaseinp');
     print('Quantity: $qtyinp');
+
+    desc = "Name: $nameinp, Use Case: $usecaseinp, Quantity: $qtyinp";
+    print (desc);
+    
+    await Apiss().requestCustom(numinp, desc);
   }
 
   @override
