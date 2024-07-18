@@ -1,12 +1,8 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/MoreCategory.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
-import 'package:rive/rive.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -35,6 +31,7 @@ class _ExplorePageState extends State<ExplorePage> {
         categoryname = Apiss.catageroylist
             .map<String>((item) => item['category_name'] as String)
             .toList();
+
         isLoading = false;
       });
     } catch (e) {

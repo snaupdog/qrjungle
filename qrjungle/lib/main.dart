@@ -108,6 +108,7 @@ class _ConfigState extends State<Config> {
   getUserdata() async {
     Apiss().listFavourites();
     Apiss().listmyqrs();
+    Apiss().getcustomcategories();
     await Apiss().listUserDetails();
     redeemable.value = int.parse(Apiss.userdetailslist[0]['redeem_count']);
   }

@@ -11,6 +11,7 @@ class Apiss {
   static List myallqrslist = [];
   static List myfavslist = [];
   static List myqrslist = [];
+  static List customcategorielist = [];
   static List catageroylist = [];
   static List<String> favqrsids = [];
   static List userdetailslist = [];
@@ -37,7 +38,10 @@ class Apiss {
 
   Future getCategories() async {
     print("calling get Categories");
-    final Map<String, String> data = {"command": "listActiveCategories"};
+    final Map<String, String> data = {
+      "command": "listActiveCategories",
+      "nextToken": ""
+    };
     final jsonData = json.encode(data);
     final response = await post(
       Uri.parse(
@@ -47,7 +51,8 @@ class Apiss {
     );
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
-      catageroylist = body;
+      catageroylist = body['data'];
+      print(body);
     } else {
       print(response.body);
       throw Exception('Failed to load categories');
@@ -125,7 +130,6 @@ class Apiss {
       var hello = body['listMyQrs'];
       var body2 = jsonDecode(hello);
       myqrslist = body2;
-      print(hello);
     } catch (e) {
       print("An error occurred: $e");
     }
@@ -144,7 +148,8 @@ class Apiss {
     try {
       var response = await operation.response;
       var body = jsonDecode(response.data);
-      print(body);
+      var x = jsonDecode(body['listMyPrivateCategories']);
+      customcategorielist = x['data'];
     } catch (e) {
       print("error: $e");
     }
@@ -218,7 +223,6 @@ class Apiss {
     );
 
     var response = await operation.response;
-    print(response);
     Apiss().listmyqrs();
   }
 
@@ -262,32 +266,27 @@ class Apiss {
   }
 
   requestCustom(String phno, String details) async {
-    print(phno);
-    print(details);
     var operation = Amplify.API.mutate(
       request: GraphQLRequest(
         document: '''
-  mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
-    requestCustomization(
-      user_phone_number: \$user_phone_number
-      details: \$details
-    )
-  }
-  ''',
+mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
+  requestCustomization(
+    user_phone_number: \$user_phone_number
+    details: \$details
+  )
+}
+''',
         variables: {
-          'requestCustomization': {
-            'user_phone_number': "678669868",
-            'details': "klsklfjlef",
-          }
+          'user_phone_number': phno,
+          'details': details,
         },
       ),
     );
-    print("gjgk");
     var response = await operation.response;
     print(response);
     var body = jsonDecode(response.data);
     var requestCustomQR = jsonDecode(body['requestCustomization']);
-    String orderId = requestCustomQR['id'];
+    print(requestCustomQR);
   }
 
   purchaseQr(String qr_code_id, String price, String? utr_no,

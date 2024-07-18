@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl_phone_field/helpers.dart';
 import 'package:qrjungle/models/apiss.dart';
 
 class CustomForm extends StatefulWidget {
@@ -31,7 +32,7 @@ class _CustomFormState extends State<CustomForm> {
 
   void _handleSubmit() async {
     String phoneNumber = _numController.text;
-    if (phoneNumber.length != 10) {
+    if (phoneNumber.length != 10 && isNumeric(phoneNumber)) {
       Fluttertoast.showToast(
         msg: "Phone number must be 10 digits.",
         toastLength: Toast.LENGTH_SHORT,
@@ -40,6 +41,7 @@ class _CustomFormState extends State<CustomForm> {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+      return;
     }
 
     setState(() {
@@ -49,15 +51,9 @@ class _CustomFormState extends State<CustomForm> {
       qtyinp = int.tryParse(_qtyController.text) ?? 0;
     });
 
-    String desc = '';
-    print('Name: $nameinp');
-    print('Phone Number: $numinp');
-    print('Use Case: $usecaseinp');
-    print('Quantity: $qtyinp');
+    String desc = "Name: $nameinp, Use Case: $usecaseinp, Quantity: $qtyinp";
+    print('Description: $desc');
 
-    desc = "Name: $nameinp, Use Case: $usecaseinp, Quantity: $qtyinp";
-    print (desc);
-    
     await Apiss().requestCustom(numinp, desc);
   }
 
@@ -126,7 +122,8 @@ class _CustomFormState extends State<CustomForm> {
                 style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                 decoration: InputDecoration(
                   hintText: 'This is for our team to understand what you need.',
-                  hintStyle: const TextStyle(color: Colors.white60, fontSize: 16),
+                  hintStyle:
+                      const TextStyle(color: Colors.white60, fontSize: 16),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.white),
                   ),
@@ -161,7 +158,8 @@ class _CustomFormState extends State<CustomForm> {
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                     child: Center(
                       child: Text('Submit',
-                          style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF))),
+                          style: const TextStyle(
+                              fontSize: 18, color: Color(0xFF6CCEFF))),
                     ),
                   ),
                   style: TextButton.styleFrom(
