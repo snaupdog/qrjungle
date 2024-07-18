@@ -130,6 +130,25 @@ class Apiss {
     }
   }
 
+  getcustomcategories() async {
+    print("custom categories");
+    var operation = Amplify.API.query(
+      request: GraphQLRequest(
+        document: '''query ListMyPrivateCategories {
+    listMyPrivateCategories
+  }''',
+      ),
+    );
+
+    try {
+      var response = await operation.response;
+      var body = jsonDecode(response.data);
+      print(body);
+    } catch (e) {
+      print("error: $e");
+    }
+  }
+
   listFavourites() async {
     print("calling lsit my  favourites");
     var operation = Amplify.API.query(
@@ -163,6 +182,7 @@ class Apiss {
     var body = jsonDecode(response.data);
     var hello = body['getCurrentUserDetails'];
     var body2 = jsonDecode(hello);
+    print(body2);
 
     userdetailslist = body2['data']['items'];
   }

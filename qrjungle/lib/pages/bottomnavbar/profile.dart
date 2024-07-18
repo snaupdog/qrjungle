@@ -28,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     getloginstatus();
     getuserDetails();
+    Apiss().getcustomcategories();
     super.initState();
   }
 
