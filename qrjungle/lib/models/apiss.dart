@@ -267,12 +267,12 @@ mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
       },
     ),
   );
-    print("gjgk");
     var response = await operation.response;
-    print(response);
     var body = jsonDecode(response.data);
     var requestCustomQR = jsonDecode(body['requestCustomization']);
     print(requestCustomQR);
+    print('CODE YAY${requestCustomQR['status']}');
+    return requestCustomQR['status'];
   }
 
   purchaseQr(String qr_code_id, String price, String? utr_no,
