@@ -1,5 +1,4 @@
 // ignore_for_file: unused_field
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -7,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
@@ -434,35 +434,42 @@ class _MoreQrState extends State<MoreQr> {
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon:
-                          Icon(liked ? Icons.favorite : Icons.favorite_border),
-                      onPressed: () async {
-                        if (loggedinmain) {
-                          setState(() {
-                            liked = !liked;
-                          });
-                          Fluttertoast.showToast(
-                            msg: liked
-                                ? "Added to Favourites!"
-                                : "removed from Favourites",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: const Color.fromARGB(134, 0, 0, 0),
-                            textColor: Colors.white,
-                            fontSize: 18.0,
-                          );
-                          await toggleFavourite();
-                        } else {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (context) => const LoginModalSheet(),
-                          );
-                        }
-                      },
-                      color: Colors.white,
-                    ),
+                    Obx(() {
+                      return redeemable.value > 0
+                          ? IconButton(
+                              icon: Icon(liked
+                                  ? Icons.add_shopping_cart
+                                  : Icons.add_shopping_cart_outlined),
+                              onPressed: () async {
+                                if (loggedinmain) {
+                                  setState(() {
+                                    liked = !liked;
+                                  });
+                                  Fluttertoast.showToast(
+                                    msg: liked
+                                        ? "Added to Favourites!"
+                                        : "Removed from Favourites",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor:
+                                        const Color.fromARGB(134, 0, 0, 0),
+                                    textColor: Colors.white,
+                                    fontSize: 18.0,
+                                  );
+                                  await toggleFavourite();
+                                } else {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) =>
+                                        const LoginModalSheet(),
+                                  );
+                                }
+                              },
+                              color: Colors.white,
+                            )
+                          : const SizedBox.shrink();
+                    }),
                   ],
                 ),
               ),
@@ -522,7 +529,7 @@ class _MoreQrState extends State<MoreQr> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
             child: InkWell(
-              onTap: () {
+              onTap: () async {
                 if (loggedinmain) {
                   if (urlcontroller.text.isEmpty) {
                     Fluttertoast.showToast(
@@ -537,25 +544,39 @@ class _MoreQrState extends State<MoreQr> {
                   } else {
                     Apiss.qr_idpayment = widget.item['qr_code_id'];
                     Apiss.qr_redirecturl = urlcontroller.text;
-                    setState(() {
-                      paymentloading.value = true;
-                    });
                     if (Platform.isIOS) {
-                      final PurchaseParam purchaseParam =
-                          PurchaseParam(productDetails: _products[0]);
-                      _inAppPurchase.buyConsumable(
-                          purchaseParam: purchaseParam);
+                      if (redeemable.value > 0) {
+                        // await Apiss().purchaseQr(item['qr_code_id'], "499",
+                        //     "reedamable_purchase", urlcontroller.text);
+                        print("Bought ${item['qr_code_id']}");
+                        redeemable.value = redeemable.value - 1;
+                      } else {
+                        setState(() {
+                          paymentloading.value = true;
+                        });
+                        final PurchaseParam purchaseParam =
+                            PurchaseParam(productDetails: _products[0]);
+                        _inAppPurchase.buyConsumable(
+                            purchaseParam: purchaseParam);
+                      }
                     }
                     if (Platform.isAndroid) {
-                      Payment pay = Payment(
-                        context: context,
-                        // hardcoded price
-                        amount: "49900",
-                        // amount: "${item['price']}00",
-                        qrCodeId: item['qr_code_id'],
-                        redirectUrl: urlcontroller.text,
-                      );
-                      paymentprocess(pay);
+                      if (redeemable.value > 0) {
+                        // await Apiss().purchaseQr(item['qr_code_id'], "499",
+                        //     "reedamable_purchase", urlcontroller.text);
+                        print("Bought ${item['qr_code_id']}");
+                        redeemable.value = redeemable.value - 1;
+                      } else {
+                        Payment pay = Payment(
+                          context: context,
+                          // hardcoded price
+                          amount: "49900",
+                          // amount: "${item['price']}00",
+                          qrCodeId: item['qr_code_id'],
+                          redirectUrl: urlcontroller.text,
+                        );
+                        paymentprocess(pay);
+                      }
                     }
                   }
                 } else {
@@ -571,15 +592,22 @@ class _MoreQrState extends State<MoreQr> {
                     color: const Color(0xff2081e2),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Purchase QR',
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  )),
+                  child: Center(
+                      child: (redeemable.value > 0)
+                          ? const Text(
+                              'Redeem QR',
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )
+                          : const Text(
+                              'Purchase QR',
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ))),
             ),
           ),
         ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
 import 'package:qrjungle/pages/moreqr/webview.dart';
@@ -26,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     getloginstatus();
     getuserDetails();
+    Apiss().getcustomcategories();
     super.initState();
   }
 

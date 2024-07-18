@@ -4,6 +4,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -19,6 +20,7 @@ final GlobalKey qrKey = GlobalKey(debugLabel: "QR");
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final formkey = GlobalKey<FormState>();
 ThemeSelect themeselector = ThemeSelect();
+RxInt redeemable = 0.obs;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,6 +107,7 @@ class _ConfigState extends State<Config> {
 
   getUserdata() async {
     Apiss().listUserDetails();
+    redeemable.value = 20;
     Apiss().listFavourites();
     Apiss().listmyqrs();
   }
