@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl_phone_field/helpers.dart';
 import 'package:qrjungle/models/apiss.dart';
 
 class CustomForm extends StatefulWidget {
@@ -29,37 +30,32 @@ class _CustomFormState extends State<CustomForm> {
     super.dispose();
   }
 
-  void _handleSubmit() async {
-    String phoneNumber = _numController.text;
-    if (phoneNumber.length != 10) {
-      Fluttertoast.showToast(
-        msg: "Phone number must be 10 digits.",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Color.fromARGB(100, 158, 158, 158),
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    }
-
-    setState(() {
-      nameinp = _nameController.text;
-      numinp = phoneNumber;
-      usecaseinp = _useCaseController.text;
-      qtyinp = int.tryParse(_qtyController.text) ?? 0;
-    });
-
-    String desc = '';
-    print('Name: $nameinp');
-    print('Phone Number: $numinp');
-    print('Use Case: $usecaseinp');
-    print('Quantity: $qtyinp');
-
-    desc = "Name: $nameinp, Use Case: $usecaseinp, Quantity: $qtyinp";
-    print (desc);
-    
-    await Apiss().requestCustom(numinp, desc);
+void _handleSubmit() async {
+  String phoneNumber = _numController.text;
+  if (phoneNumber.length != 10 && isNumeric(phoneNumber)) {
+    Fluttertoast.showToast(
+      msg: "Phone number must be 10 digits.",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Color.fromARGB(100, 158, 158, 158),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+    return;
   }
+
+  setState(() {
+    nameinp = _nameController.text;
+    numinp = phoneNumber;
+    usecaseinp = _useCaseController.text;
+    qtyinp = int.tryParse(_qtyController.text) ?? 0;
+  });
+
+  String desc = "Name: $nameinp, Use Case: $usecaseinp, Quantity: $qtyinp";
+  print('Description: $desc');
+
+  await Apiss().requestCustom(numinp, desc);
+}
 
   @override
   Widget build(BuildContext context) {

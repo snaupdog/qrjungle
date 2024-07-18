@@ -248,33 +248,31 @@ class Apiss {
     return orderId;
   }
 
-  requestCustom(String phno, String details) async {
-    print(phno);
-    print(details);
-    var operation = Amplify.API.mutate(
-      request: GraphQLRequest(
-        document: '''
-  mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
-    requestCustomization(
-      user_phone_number: \$user_phone_number
-      details: \$details
-    )
-  }
-  ''',
-        variables: {
-          'requestCustomization': {
-            'user_phone_number': "678669868",
-            'details': "klsklfjlef",
-          }
-        },
-      ),
-    );
+requestCustom(String phno, String details) async {
+  print(phno);
+  print(details);
+  var operation = Amplify.API.mutate(
+    request: GraphQLRequest(
+      document: '''
+mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
+  requestCustomization(
+    user_phone_number: \$user_phone_number
+    details: \$details
+  )
+}
+''',
+      variables: {
+        'user_phone_number': phno,
+        'details': details,
+      },
+    ),
+  );
     print("gjgk");
     var response = await operation.response;
     print(response);
     var body = jsonDecode(response.data);
     var requestCustomQR = jsonDecode(body['requestCustomization']);
-    String orderId = requestCustomQR['id'];    
+    print(requestCustomQR);
   }
 
   purchaseQr(String qr_code_id, String price, String? utr_no,
