@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/customform.dart';
+import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 
 class CustomPage extends StatefulWidget {
   const CustomPage({super.key});
@@ -51,7 +53,7 @@ class _CustomPageState extends State<CustomPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Want your customisation on our QRs?',
+                            'Do you want a custom QR?',
                             style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 24,
@@ -60,23 +62,34 @@ class _CustomPageState extends State<CustomPage> {
                           SizedBox(height: 20),
                           TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CustomForm()));
+                                if (loggedinmain) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CustomForm()));
+                                } else {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) =>
+                                        const LoginModalSheet(),
+                                  );
+                                }
                               },
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                                 child: Center(
                                   child: Text('Get Started!',
                                       style: TextStyle(
-                                          fontSize: 16, color: Colors.white)),
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600)),
                                 ),
                               ),
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  side: const BorderSide(color: Colors.white),
+                                  side: const BorderSide(
+                                      color: Colors.white, width: 3),
                                 ),
                                 backgroundColor: Colors.transparent,
                               ))
@@ -89,9 +102,13 @@ class _CustomPageState extends State<CustomPage> {
               ),
             ),
             const SizedBox(height: 20),
-            Text('Use custom QRs for: '),            
+            Text('Use custom QRs for: ',
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                    decorationThickness: 3)),
             Container(
-              height: MediaQuery.of(context).size.height*0.3,
+              height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(0, 255, 255, 255),
@@ -112,7 +129,10 @@ class _CustomPageState extends State<CustomPage> {
                       Text(
                         imageTexts[index],
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: const Color.fromARGB(255, 255, 255, 255), ),
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                        ),
                       ),
                     ],
                   );
