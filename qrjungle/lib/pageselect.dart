@@ -70,7 +70,7 @@ class _PageSelectState extends State<PageSelect> {
           appBarTitle = 'Wishlist';
           break;
         case 3:
-          appBarTitle = 'Custom';
+          appBarTitle = 'Custom Qrs';
           break;
         case 4:
           appBarTitle = 'Profile';
@@ -89,7 +89,7 @@ class _PageSelectState extends State<PageSelect> {
           break;
 
         case 2:
-          appBarTitle = 'Custom';
+          appBarTitle = 'Custom QRs';
           break;
         case 3:
           appBarTitle = 'Profile';
@@ -203,7 +203,7 @@ class _PageSelectState extends State<PageSelect> {
                             icon: Icon(Icons.qr_code), label: 'MyQRs'),
                         BottomNavigationBarItem(
                             icon: Icon(Icons.note_alt_outlined),
-                            label: 'Custom'),
+                            label: 'Custom Qrs'),
                         BottomNavigationBarItem(
                             icon: Icon(Icons.person), label: 'Profile'),
                       ],
