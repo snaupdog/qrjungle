@@ -173,7 +173,7 @@ class _PageSelectState extends State<PageSelect> {
                             icon: Icon(Icons.qr_code), label: 'MyQRs'),
                         BottomNavigationBarItem(
                             icon: Icon(Icons.favorite_outlined),
-                            label: 'Favourites'),
+                            label: 'Redeem QRs'),
                         BottomNavigationBarItem(
                             icon: Icon(Icons.note_alt_outlined),
                             label: 'Custom'),

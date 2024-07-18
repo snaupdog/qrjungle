@@ -107,7 +107,7 @@ class _ConfigState extends State<Config> {
 
   getUserdata() async {
     Apiss().listUserDetails();
-    redeemable.value = 3;
+    redeemable.value = 20;
     Apiss().listFavourites();
     Apiss().listmyqrs();
   }

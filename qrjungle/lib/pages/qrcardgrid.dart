@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
@@ -65,7 +66,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
         break;
 
       case 'wishlist':
-        // await Apiss().listFavourites();
         setState(() {
           qrlisty = Apiss.myfavslist;
           isloading = false;
@@ -85,24 +85,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
     }
   }
 
-  Future<void> toggleFavourite(String item) async {
-    if (redeemable.value > 0) {
-      redeemable.value = 0;
-    } else {
-      redeemable.value = 5;
-    }
-
-    if (Apiss.favqrsids.contains(item)) {
-      Apiss.favqrsids.remove(item);
-    } else {
-      Apiss.favqrsids.add(item);
-    }
-    await Apiss().addFavourites(Apiss.favqrsids);
-    setState(() {
-      Apiss().listFavourites();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -114,6 +96,21 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Skeletonizer qrcard(List<dynamic> data) {
+    Future<void> toggleFavourite(String item, int index) async {
+      if (Apiss.favqrsids.contains(item)) {
+        Apiss.favqrsids.remove(item);
+      } else {
+        Apiss.favqrsids.add(item);
+      }
+      await Apiss().addFavourites(Apiss.favqrsids);
+      setState(() {
+        if (widget.type == 'wishlist') {
+          data.removeAt(index);
+        }
+        Apiss().listFavourites();
+      });
+    }
+
     return Skeletonizer(
       enabled: isloading,
       enableSwitchAnimation: false,
@@ -251,50 +248,86 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
-                                          const Padding(
-                                            padding: EdgeInsets.fromLTRB(
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
                                                 12.0, 3.0, 0, 0.0),
-                                            child: Text(
-                                              "499 INR",
-                                              //                       hardcodede price,
-                                              // "${item['price']} INR",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15.5,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
+                                            child: (widget.type == "wishlist")
+                                                ? const Text.rich(
+                                                    TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: '499 INR',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                            decorationThickness:
+                                                                2.0,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: ' Free',
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : const Text(
+                                                    "499 INR",
+                                                    //                       hardcodede price,
+                                                    // "${item['price']} INR",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15.5,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
                                           ),
                                         ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 5, 4),
-                                        child: IconButton(
-                                          icon: liked
-                                              ? const Icon(Icons.favorite)
-                                              : const Icon(
-                                                  Icons.favorite_border),
-                                          onPressed: () async {
-                                            if (loggedinmain) {
-                                              setState(() {
-                                                liked = !liked;
-                                              });
-                                              await toggleFavourite(
-                                                  item['qr_code_id']);
-                                            } else {
-                                              print("show modal sheet");
-                                              showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) =>
-                                                    const LoginModalSheet(),
-                                              );
-                                            }
-                                          },
-                                          color: liked
-                                              ? Colors.white
-                                              : Colors.grey,
-                                        ),
-                                      ),
+                                      Obx(() {
+                                        return redeemable.value > 0
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 5, 4),
+                                                child: IconButton(
+                                                  icon: liked
+                                                      ? const Icon(Icons
+                                                          .add_shopping_cart)
+                                                      : const Icon(Icons
+                                                          .add_shopping_cart_outlined),
+                                                  onPressed: () async {
+                                                    if (loggedinmain) {
+                                                      setState(() {
+                                                        liked = !liked;
+                                                      });
+                                                      await toggleFavourite(
+                                                          item['qr_code_id'],
+                                                          index);
+                                                    } else {
+                                                      print("show modal sheet");
+                                                      showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            const LoginModalSheet(),
+                                                      );
+                                                    }
+                                                  },
+                                                  color: liked
+                                                      ? Colors.white
+                                                      : Colors.grey,
+                                                ),
+                                              )
+                                            : const SizedBox.shrink();
+                                      }),
                                     ],
                                   ),
                           ],
