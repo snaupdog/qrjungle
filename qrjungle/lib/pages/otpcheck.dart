@@ -37,9 +37,6 @@ class _OTPVerifyState extends State<OTPVerify> {
     Apiss().listUserDetails();
     Apiss().listFavourites();
     Apiss().listmyqrs();
-    print("\n\n\n\\n\n\n\n\n\n\n\n\n");
-    print("this is user details");
-    print(Apiss.userdetailslist);
   }
 
   getloginstatus() async {

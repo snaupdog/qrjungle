@@ -287,7 +287,7 @@ class Apiss {
     print(response);
     var body = jsonDecode(response.data);
     var requestCustomQR = jsonDecode(body['requestCustomization']);
-    String orderId = requestCustomQR['id'];    
+    String orderId = requestCustomQR['id'];
   }
 
   purchaseQr(String qr_code_id, String price, String? utr_no,
