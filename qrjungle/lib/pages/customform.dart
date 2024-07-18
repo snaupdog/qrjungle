@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomForm extends StatefulWidget {
   const CustomForm({super.key});
@@ -8,6 +9,52 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _numController = TextEditingController();
+  final TextEditingController _useCaseController = TextEditingController();
+  final TextEditingController _qtyController = TextEditingController();
+
+  late String nameinp;
+  late int numinp;
+  late String usecaseinp;
+  late int qtyinp;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _numController.dispose();
+    _useCaseController.dispose();
+    _qtyController.dispose();
+    super.dispose();
+  }
+
+  void _handleSubmit() {
+    String phoneNumber = _numController.text;
+    if (phoneNumber.length != 10) {
+      Fluttertoast.showToast(
+        msg: "Phone number must be 10 digits.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+
+    setState(() {
+      nameinp = _nameController.text;
+      numinp = int.tryParse(phoneNumber) ?? 0;
+      usecaseinp = _useCaseController.text;
+      qtyinp = int.tryParse(_qtyController.text) ?? 0;
+    });
+
+    print('Name: $nameinp');
+    print('Phone Number: $numinp');
+    print('Use Case: $usecaseinp');
+    print('Quantity: $qtyinp');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +74,7 @@ class _CustomFormState extends State<CustomForm> {
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
               TextField(
+                controller: _nameController,
                 maxLength: 25,
                 style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                 decoration: const InputDecoration(
@@ -44,6 +92,9 @@ class _CustomFormState extends State<CustomForm> {
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
               TextField(
+                controller: _numController,
+                maxLength: 10,
+                keyboardType: TextInputType.number,
                 style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                 decoration: const InputDecoration(
                   hintText: 'We\'ll email you if you cannot provide one.',
@@ -63,6 +114,7 @@ class _CustomFormState extends State<CustomForm> {
               ),
               SizedBox(height: 8),
               TextField(
+                controller: _useCaseController,
                 maxLength: 100,
                 maxLines: 3,
                 style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
@@ -70,10 +122,10 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: 'This is for our team to understand what you need.',
                   hintStyle: const TextStyle(color: Colors.white60, fontSize: 16),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: const BorderSide(color: Colors.white),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: const BorderSide(color: Colors.white),
                   ),
                 ),
               ),
@@ -83,6 +135,7 @@ class _CustomFormState extends State<CustomForm> {
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
               TextField(
+                controller: _qtyController,
                 keyboardType: TextInputType.number,
                 style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                 decoration: const InputDecoration(
@@ -97,7 +150,7 @@ class _CustomFormState extends State<CustomForm> {
               SizedBox(height: 25),
               SizedBox(height: 60),
               TextButton(
-                  onPressed: () {},
+                  onPressed: _handleSubmit,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                     child: Center(
