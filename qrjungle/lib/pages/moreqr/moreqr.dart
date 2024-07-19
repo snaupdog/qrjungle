@@ -549,18 +549,16 @@ class _MoreQrState extends State<MoreQr> {
                     Apiss.qr_redirecturl = urlcontroller.text;
                     if (Platform.isIOS) {
                       if (redeemable.value > 0) {
-                        //hardcoded
-                        // Apiss().purchaseQr(item['qr_code_id'], "499",
-                        //     "reedamable_purchase", urlcontroller.text);
-
+                        redeemable.value = redeemable.value - 1;
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Loader()),
+                              builder: (context) => Loader(
+                                    qrId: item['qr_code_id'],
+                                    urlText: urlcontroller.text,
+                                  )),
                           (route) => false,
                         );
-                        print("Bought ${item['qr_code_id']}");
-                        redeemable.value = redeemable.value - 1;
                       } else {
                         setState(() {
                           paymentloading.value = true;
@@ -573,14 +571,14 @@ class _MoreQrState extends State<MoreQr> {
                     }
                     if (Platform.isAndroid) {
                       if (redeemable.value > 0) {
-                        //hardcoded
-                        // await Apiss().purchaseQr(item['qr_code_id'], "499",
-                        //     "reedamable_purchase", urlcontroller.text);
-
+                        redeemable.value = redeemable.value - 1;
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Loader()),
+                              builder: (context) => Loader(
+                                    qrId: item['qr_code_id'],
+                                    urlText: urlcontroller.text,
+                                  )),
                           (route) => false,
                         );
                         print("Bought ${item['qr_code_id']}");

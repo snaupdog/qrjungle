@@ -223,12 +223,9 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
                 context,
                 MaterialPageRoute(
                     builder: (context) => CategoryPage(
-                        catname: categoryname[index],
-                        catimageurl:
-                            "https://images.unsplash.com/photo-1443428018053-13da55589fed?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D"
-                        //hardcoded
-                        // catimageurl: Apiss.preurl +
-                        //     Apiss.customcategorielist[index]['category_icon'],
+                          catname: categoryname[index],
+                          catimageurl: Apiss.preurl +
+                              Apiss.customcategorielist[index]['category_icon'],
                         )));
           },
           child: ClipRRect(
@@ -250,10 +247,8 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
                         topRight: Radius.circular(15.0),
                       ),
                       child: CachedNetworkImage(
-                        imageUrl:
-                            "https://images.unsplash.com/photo-1443428018053-13da55589fed?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
-                        // imageUrl: Apiss.preurl +
-                        //     Apiss.customcategorielist[index]['category_icon'],
+                        imageUrl: Apiss.preurl +
+                            Apiss.customcategorielist[index]['category_icon'],
                         fit: BoxFit.cover,
                       ),
                     ),

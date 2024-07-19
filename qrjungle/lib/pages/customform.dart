@@ -53,13 +53,15 @@ class _CustomFormState extends State<CustomForm> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Color.fromARGB(255, 21, 21, 21),
-            title: Text("Request successfully sent!", style: TextStyle(fontWeight: FontWeight.w600)),
-            content: Text("Our team will contact you soon!", style: TextStyle(fontSize: 16)),
+            backgroundColor: const Color.fromARGB(255, 21, 21, 21),
+            title: const Text("Request successfully sent!",
+                style: TextStyle(fontWeight: FontWeight.w600)),
+            content: const Text("Our team will contact you soon!",
+                style: TextStyle(fontSize: 16)),
             actions: [
               TextButton(
-                child: Text("Okay", style: TextStyle(fontSize: 18, color: Colors.white)),
-                
+                child: const Text("Okay",
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                   Navigator.of(context).pop(); // Pop back to the previous page
@@ -89,7 +91,7 @@ class _CustomFormState extends State<CustomForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 const Text(
                   "What's your/your company's name?",
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -97,7 +99,8 @@ class _CustomFormState extends State<CustomForm> {
                 TextFormField(
                   controller: _nameController,
                   maxLength: 25,
-                  style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
+                  style:
+                      const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                   decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -122,7 +125,8 @@ class _CustomFormState extends State<CustomForm> {
                   controller: _numController,
                   maxLength: 10,
                   keyboardType: TextInputType.number,
-                  style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
+                  style:
+                      const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                   decoration: const InputDecoration(
                     hintText: 'We\'ll email you if you cannot provide one.',
                     hintStyle: TextStyle(color: Colors.white60, fontSize: 16),
@@ -136,7 +140,8 @@ class _CustomFormState extends State<CustomForm> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field cannot be empty';
-                    } else if (value.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    } else if (value.length != 10 ||
+                        !RegExp(r'^[0-9]+$').hasMatch(value)) {
                       return 'Please enter a valid phone number';
                     }
                     return null;
@@ -147,20 +152,22 @@ class _CustomFormState extends State<CustomForm> {
                   "Describe how you'll use your QR.",
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 TextFormField(
                   controller: _useCaseController,
                   maxLength: 100,
                   maxLines: null, // Allows the field to expand as needed
-                  style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
-                  decoration: InputDecoration(
-                    hintText: 'This is for our team to understand what you need.',
-                    hintStyle: const TextStyle(color: Colors.white60, fontSize: 16),
+                  style:
+                      const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
+                  decoration: const InputDecoration(
+                    hintText:
+                        'This is for our team to understand what you need.',
+                    hintStyle: TextStyle(color: Colors.white60, fontSize: 16),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: Colors.white),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: Colors.white),
                     ),
                   ),
                   validator: (value) {
@@ -178,7 +185,8 @@ class _CustomFormState extends State<CustomForm> {
                 TextFormField(
                   controller: _qtyController,
                   keyboardType: TextInputType.number,
-                  style: const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
+                  style:
+                      const TextStyle(fontSize: 18, color: Color(0xFF6CCEFF)),
                   decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -196,23 +204,24 @@ class _CustomFormState extends State<CustomForm> {
                     return null;
                   },
                 ),
-                SizedBox(height: 25),
-                SizedBox(height: 60),
+                const SizedBox(height: 25),
+                const SizedBox(height: 60),
                 TextButton(
                   onPressed: _handleSubmit,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                    child: Center(
-                      child: Text('Submit',
-                          style: const TextStyle(fontSize: 21, color: Color(0xFF6CCEFF))),
-                    ),
-                  ),
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                       side: const BorderSide(color: Colors.white),
                     ),
                     backgroundColor: Colors.transparent,
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                    child: Center(
+                      child: Text('Submit',
+                          style: TextStyle(
+                              fontSize: 21, color: Color(0xFF6CCEFF))),
+                    ),
                   ),
                 ),
               ],

@@ -46,9 +46,6 @@ class _ExplorePageState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Apiss().updateRedeemables("20");
-      }),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
@@ -116,13 +113,15 @@ class _ExplorePageState extends State<ExplorePage> {
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryPage(
-                            catname: categoryname[index],
-                            catimageurl: Apiss.preurl +
-                                Apiss.catageroylist[index]['category_icon'],
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoryPage(
+                    catname: categoryname[index],
+                    catimageurl: Apiss.preurl +
+                        Apiss.catageroylist[index]['category_icon'],
+                  ),
+                ),
+              );
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
@@ -136,7 +135,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.135,
+                      height: MediaQuery.sizeOf(context).height * 0.17,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15.0),

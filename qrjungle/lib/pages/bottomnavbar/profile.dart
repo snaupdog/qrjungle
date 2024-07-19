@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
@@ -159,6 +160,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? Container()
                   : Column(
                       children: [
+                        (redeemable.value > 0)
+                            ? Obx(
+                                () => Text(
+                                  "you have ${redeemable.value} free qrs",
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
                         TextButton.icon(
                           onPressed: () async {
                             showDialog(

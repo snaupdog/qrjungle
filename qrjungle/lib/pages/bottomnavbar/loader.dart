@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pageselect.dart';
 import 'package:rive/rive.dart';
 
 class Loader extends StatefulWidget {
-  const Loader({super.key});
+  final String? qrId;
+  final String? urlText;
+  const Loader({super.key, this.qrId, this.urlText});
 
   @override
   State<Loader> createState() => _LoaderState();
@@ -22,33 +25,40 @@ class _LoaderState extends State<Loader> {
       redeemableloader = true;
       showAnimation = false;
     });
-
-    await Apiss().listFavourites();
-    for (var item in Apiss.myfavslist) {
-      print("created order for ${item['qr_code_id']}");
-      // Apiss().purchaseQr(item['qr_code_id'], "499", "reedamable_purchase", "");
+    if (widget.qrId == null) {
+      await Apiss().listFavourites();
+      for (var item in Apiss.myfavslist) {
+        print("created order for ${item['qr_code_id']}");
+        Apiss()
+            .purchaseQr(item['qr_code_id'], "499", "reedamable_purchase", "");
+      }
+      Apiss.favqrsids = [];
+      await Apiss().addFavourites(Apiss.favqrsids);
+      Apiss().listFavourites();
+      await Apiss().listmyqrs();
+      // Update redeemable
+      redeemable.value = redeemable.value - Apiss.myfavslist.length;
+    } else {
+      //hardcoded
+      Apiss().purchaseQr(
+          widget.qrId!, "499", "reedamable_purchase", widget.urlText!);
+      print("Bought ${widget.qrId}");
     }
-    Apiss.favqrsids = [];
-    await Apiss().addFavourites(Apiss.favqrsids);
-    Apiss().listFavourites();
-    // Update redeemable
-    redeemable.value = redeemable.value - Apiss.myfavslist.length;
 
     Apiss().updateRedeemables(redeemable.value.toString());
+    Apiss().listmyqrs();
 
     await Future.delayed(const Duration(seconds: 2));
+
     setState(() {
       redeemableloader = false;
       showAnimation = true;
-
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
           opacity = 1.0;
         });
       });
     });
-
-    // Hide the animation after a few seconds
   }
 
   @override
