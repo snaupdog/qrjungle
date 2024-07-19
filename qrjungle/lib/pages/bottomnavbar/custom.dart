@@ -77,7 +77,7 @@ class _CustomPageState extends State<CustomPage> {
                   color: const Color.fromARGB(255, 0, 0, 0),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                height: MediaQuery.of(context).size.height * 0.23,
+                height: MediaQuery.of(context).size.height * 0.24,
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -88,11 +88,12 @@ class _CustomPageState extends State<CustomPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Do you want a custom QR?',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 24,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04,
                                   fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(height: 20),
@@ -161,9 +162,8 @@ class _CustomPageState extends State<CustomPage> {
                         Image.asset(
                           images[index],
                           fit: BoxFit.contain,
-                          height: 200,
+                          height: MediaQuery.of(context).size.height * 0.2,
                         ),
-                        const SizedBox(height: 0),
                         Text(
                           imageTexts[index],
                           textAlign: TextAlign.center,
@@ -211,10 +211,11 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 5.0,
-          mainAxisSpacing: 5.0,
-          childAspectRatio: 0.95),
+        crossAxisCount: 2,
+        crossAxisSpacing: 5.0,
+        mainAxisSpacing: 5.0,
+        childAspectRatio: 0.9, // Adjust as needed
+      ),
       itemCount: categoryname.length,
       itemBuilder: (context, index) {
         return GestureDetector(
@@ -242,7 +243,7 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.17,
+                    height: MediaQuery.of(context).size.height * 0.18,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15.0),
@@ -256,14 +257,15 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 0),
                     child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        (categoryname[index].toString().replaceFirst(
-                            categoryname[index][0],
-                            categoryname[index][0].toUpperCase())),
-                        style: textTheme.bodySmall
-                            ?.copyWith(fontWeight: FontWeight.w600)),
+                      categoryname[index].toString().replaceFirst(
+                          categoryname[index][0],
+                          categoryname[index][0].toUpperCase()),
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.bodySmall
+                          ?.copyWith(fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
               ),

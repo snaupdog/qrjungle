@@ -104,10 +104,11 @@ class _ExplorePageState extends State<ExplorePage> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 5.0,
-            childAspectRatio: 0.95),
+          crossAxisCount: 2,
+          crossAxisSpacing: 5.0,
+          mainAxisSpacing: 5.0,
+          childAspectRatio: 0.9, // Adjust as needed
+        ),
         itemCount: categoryname.length,
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -135,7 +136,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.17,
+                      height: MediaQuery.of(context).size.height * 0.17,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15.0),
@@ -149,14 +150,15 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 0),
                       child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          (categoryname[index].toString().replaceFirst(
-                              categoryname[index][0],
-                              categoryname[index][0].toUpperCase())),
-                          style: textTheme.bodySmall
-                              ?.copyWith(fontWeight: FontWeight.w600)),
+                        categoryname[index].toString().replaceFirst(
+                            categoryname[index][0],
+                            categoryname[index][0].toUpperCase()),
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodySmall
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ],
                 ),
