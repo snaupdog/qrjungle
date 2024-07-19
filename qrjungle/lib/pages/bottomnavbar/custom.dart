@@ -77,7 +77,7 @@ class _CustomPageState extends State<CustomPage> {
                   color: const Color.fromARGB(255, 0, 0, 0),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                height: MediaQuery.of(context).size.height * 0.23,
+                height: MediaQuery.of(context).size.height * 0.24,
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

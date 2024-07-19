@@ -163,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         (redeemable.value > 0)
                             ? Obx(
                                 () => Text(
-                                  "you have ${redeemable.value} free qrs",
+                                  "You have ${redeemable.value} free qrs",
                                   style: const TextStyle(
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     decoration: TextDecoration.underline,
