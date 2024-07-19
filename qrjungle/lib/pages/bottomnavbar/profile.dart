@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/loginpage.dart';
@@ -46,8 +45,10 @@ class _ProfilePageState extends State<ProfilePage> {
     Apiss.myfavslist = [];
     Apiss.userdetailslist = [];
     Apiss.favqrsids = [];
+    Apiss.customcategorielist = [];
     Apiss().getAllqrs("");
     Apiss().listUserDetails();
+    redeemable.value = 0;
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       loggedinmain = false;
@@ -180,7 +181,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                       style: TextButton.styleFrom(
                                           backgroundColor: Colors.red),
                                       onPressed: () async {
-                                        await clearData();
                                         Fluttertoast.showToast(
                                             msg:
                                                 "Your account has been deleted!",
@@ -192,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     134, 0, 0, 0),
                                             textColor: Colors.white,
                                             fontSize: 18.0);
-
+                                        await clearData();
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(

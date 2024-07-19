@@ -29,6 +29,7 @@ def keystoreProperties = new Properties()
    }
 
 android {
+ ndkVersion "25.1.8937393"
     namespace "com.mobil80.qrjungle"
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion

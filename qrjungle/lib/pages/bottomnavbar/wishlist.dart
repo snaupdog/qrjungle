@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/loader.dart';
@@ -16,7 +17,6 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   void initState() {
     super.initState();
-    print(redeemable.value);
   }
 
   @override
@@ -87,13 +87,15 @@ class _WishlistPageState extends State<WishlistPage> {
                                     color: const Color(0xff2081e2),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      'Redeem all QR\'s     ${redeemable.value}',
-                                      style: const TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                  child: Obx(
+                                    () => Center(
+                                      child: Text(
+                                        'Redeem all QR\'s     ${redeemable.value} left',
+                                        style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   )),
                             ),

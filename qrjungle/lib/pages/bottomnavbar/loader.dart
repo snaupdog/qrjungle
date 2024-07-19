@@ -16,6 +16,7 @@ bool redeemableloader = true;
 bool showAnimation = false;
 
 class _LoaderState extends State<Loader> {
+  double opacity = 0.0;
   redeemllqr() async {
     setState(() {
       redeemableloader = true;
@@ -25,9 +26,11 @@ class _LoaderState extends State<Loader> {
     await Apiss().listFavourites();
     for (var item in Apiss.myfavslist) {
       print("created order for ${item['qr_code_id']}");
-      // await Apiss()
-      //     .purchaseQr(item['qr_code_id'], "499", "reedamable_purchase", "");
+      // Apiss().purchaseQr(item['qr_code_id'], "499", "reedamable_purchase", "");
     }
+    Apiss.favqrsids = [];
+    await Apiss().addFavourites(Apiss.favqrsids);
+    Apiss().listFavourites();
     // Update redeemable
     redeemable.value = redeemable.value - Apiss.myfavslist.length;
 
@@ -37,6 +40,12 @@ class _LoaderState extends State<Loader> {
     setState(() {
       redeemableloader = false;
       showAnimation = true;
+
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        setState(() {
+          opacity = 1.0;
+        });
+      });
     });
 
     // Hide the animation after a few seconds
@@ -51,7 +60,7 @@ class _LoaderState extends State<Loader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff161616),
+      backgroundColor: const Color(0xff121212),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -65,44 +74,48 @@ class _LoaderState extends State<Loader> {
                     size: 70,
                   ),
                   Text(
-                    "Confirming Purchase",
+                    "Redeeming QRs",
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),
             ),
           if (showAnimation)
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width:
-                      300, // Adjust width and height as per your animation size
-                  height: 300,
-                  child: Center(
-                    child: RiveAnimation.asset('assets/done.riv'),
+            AnimatedOpacity(
+              opacity: opacity,
+              duration: const Duration(seconds: 2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width:
+                        300, // Adjust width and height as per your animation size
+                    height: 300,
+                    child: Center(
+                      child: RiveAnimation.asset('assets/done.riv'),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                const Center(child: Text("QR's  redeemed successfully")),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PageSelect(
-                            initialIndex: 1,
+                  const SizedBox(height: 4),
+                  const Center(child: Text("QR's redeemed successfully")),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PageSelect(
+                              initialIndex: 1,
+                            ),
                           ),
-                        ),
-                        (route) => false,
-                      );
-                    },
-                    child: const Text("View your new QRs"),
+                          (route) => false,
+                        );
+                      },
+                      child: const Text("View your new QRs"),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
         ],
       ),

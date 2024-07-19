@@ -11,6 +11,7 @@ import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
+import 'package:qrjungle/pages/bottomnavbar/loader.dart';
 import 'dart:typed_data';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/payment.dart';
@@ -68,6 +69,7 @@ class _MoreQrState extends State<MoreQr> {
 
   @override
   void initState() {
+    print(widget.item);
     getstate();
     getloginstatus();
     super.initState();
@@ -531,6 +533,7 @@ class _MoreQrState extends State<MoreQr> {
             child: InkWell(
               onTap: () async {
                 if (loggedinmain) {
+                  print("Hello");
                   if (urlcontroller.text.isEmpty) {
                     Fluttertoast.showToast(
                       msg: "Redirect URL cannot be empty!",
@@ -546,8 +549,16 @@ class _MoreQrState extends State<MoreQr> {
                     Apiss.qr_redirecturl = urlcontroller.text;
                     if (Platform.isIOS) {
                       if (redeemable.value > 0) {
-                        // await Apiss().purchaseQr(item['qr_code_id'], "499",
+                        //hardcoded
+                        // Apiss().purchaseQr(item['qr_code_id'], "499",
                         //     "reedamable_purchase", urlcontroller.text);
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Loader()),
+                          (route) => false,
+                        );
                         print("Bought ${item['qr_code_id']}");
                         redeemable.value = redeemable.value - 1;
                       } else {
@@ -562,8 +573,16 @@ class _MoreQrState extends State<MoreQr> {
                     }
                     if (Platform.isAndroid) {
                       if (redeemable.value > 0) {
+                        //hardcoded
                         // await Apiss().purchaseQr(item['qr_code_id'], "499",
                         //     "reedamable_purchase", urlcontroller.text);
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Loader()),
+                          (route) => false,
+                        );
                         print("Bought ${item['qr_code_id']}");
                         redeemable.value = redeemable.value - 1;
                       } else {

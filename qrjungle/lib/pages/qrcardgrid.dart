@@ -234,7 +234,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                       )
                                     : Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 20),
+                                            0, 0, 0, 0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -249,7 +249,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.fromLTRB(
-                                                          12.0, 8.0, 0, 0.0),
+                                                          12.0, 0.0, 0, 0.0),
                                                   child: Text(
                                                     "#${item['qr_code_id']}",
                                                     style: const TextStyle(
@@ -262,7 +262,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.fromLTRB(
-                                                          12.0, 3.0, 0, 0.0),
+                                                          12.0, 0.0, 0, 0.0),
                                                   child: (widget.type ==
                                                           "wishlist")
                                                       ? const Text.rich(
@@ -318,11 +318,18 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                       padding: const EdgeInsets
                                                           .fromLTRB(0, 0, 5, 4),
                                                       child: IconButton(
-                                                        icon: liked
-                                                            ? const Icon(Icons
-                                                                .add_shopping_cart)
-                                                            : const Icon(Icons
-                                                                .add_shopping_cart_outlined),
+                                                        icon: widget.type ==
+                                                                "wishlist"
+                                                            ? const Icon(
+                                                                Icons.delete,
+                                                                color:
+                                                                    Colors.red,
+                                                              )
+                                                            : liked
+                                                                ? const Icon(Icons
+                                                                    .add_shopping_cart)
+                                                                : const Icon(Icons
+                                                                    .add_shopping_cart_outlined),
                                                         onPressed: () async {
                                                           if (loggedinmain) {
                                                             setState(() {
@@ -364,10 +371,26 @@ class _QrcardgridState extends State<Qrcardgrid> {
                             left: 10,
                             right: 80,
                             child: Container(
-                              height: 40, // Example height
+                              height: 25, // Example height
                               decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(4.0),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFff5e62),
+                                    Color(0xFFff9966),
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.9),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                    offset: const Offset(
+                                        0, 5), // Offset to give a glow effect
+                                  ),
+                                ],
                               ),
                               padding: const EdgeInsets.all(4),
                               child: Text(
@@ -375,7 +398,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
+                                      MediaQuery.of(context).size.width * 0.04,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

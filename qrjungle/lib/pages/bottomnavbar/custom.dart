@@ -121,7 +121,7 @@ class _CustomPageState extends State<CustomPage> {
                                   backgroundColor: Colors.transparent,
                                 ),
                                 child: const Padding(
-                                  padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                  padding: EdgeInsets.fromLTRB(5, 8, 8, 5),
                                   child: Center(
                                     child: Text('Get Started!',
                                         style: TextStyle(
@@ -163,7 +163,7 @@ class _CustomPageState extends State<CustomPage> {
                           fit: BoxFit.contain,
                           height: 200,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 0),
                         Text(
                           imageTexts[index],
                           textAlign: TextAlign.center,

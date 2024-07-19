@@ -47,7 +47,7 @@ class _ExplorePageState extends State<ExplorePage> {
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
-        Apiss().updateRedeemables("3");
+        Apiss().updateRedeemables("20");
       }),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),

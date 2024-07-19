@@ -52,7 +52,6 @@ class Apiss {
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
       catageroylist = body['data'];
-      print(body);
     } else {
       print(response.body);
       throw Exception('Failed to load categories');
@@ -192,7 +191,7 @@ class Apiss {
   }
 
   updateRedeemables(String count) async {
-    print("calling update redeemables count");
+    print("calling update redeemables with count - $count");
     var operation = Amplify.API.mutate(
       request: GraphQLRequest(
         document: ''' mutation UpdateRedeemable(\$redeem_count: String) {
@@ -227,6 +226,7 @@ class Apiss {
   }
 
   addFavourites(List<String> favourited) async {
+    print("calling addfavourties");
     var encodedFavourites =
         jsonEncode(favourited); // Encode the favourites list as JSON
     var operation = Amplify.API.mutate(
@@ -276,6 +276,12 @@ mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
   )
 }
 ''',
+        //     variables: {
+        //       'user_phone_number': phno,
+        //       'details': details,
+        //     },
+        //   ),
+        // );
         variables: {
           'user_phone_number': phno,
           'details': details,
@@ -283,10 +289,11 @@ mutation RequestCustomization(\$user_phone_number: String!, \$details: String) {
       ),
     );
     var response = await operation.response;
-    print(response);
     var body = jsonDecode(response.data);
     var requestCustomQR = jsonDecode(body['requestCustomization']);
     print(requestCustomQR);
+    print('CODE YAY${requestCustomQR['status']}');
+    return requestCustomQR['status'];
   }
 
   purchaseQr(String qr_code_id, String price, String? utr_no,

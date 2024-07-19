@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pageselect.dart';
@@ -34,9 +37,11 @@ class _OTPVerifyState extends State<OTPVerify> {
   }
 
   getUserdata() async {
-    Apiss().listUserDetails();
     Apiss().listFavourites();
     Apiss().listmyqrs();
+    Apiss().getcustomcategories();
+    await Apiss().listUserDetails();
+    redeemable.value = int.parse(Apiss.userdetailslist[0]['redeem_count']);
   }
 
   getloginstatus() async {
@@ -53,11 +58,6 @@ class _OTPVerifyState extends State<OTPVerify> {
 
   bool loady = false;
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
