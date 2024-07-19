@@ -234,7 +234,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                       )
                                     : Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 0),
+                                            0, 0, 0, 10),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -316,7 +316,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                               return redeemable.value > 0
                                                   ? Padding(
                                                       padding: const EdgeInsets
-                                                          .fromLTRB(0, 0, 5, 4),
+                                                          .fromLTRB(0, 0, 3, 4),
                                                       child: IconButton(
                                                         icon: widget.type ==
                                                                 "wishlist"

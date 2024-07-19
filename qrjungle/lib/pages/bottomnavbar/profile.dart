@@ -265,6 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           backgroundColor: Colors.red),
                                       onPressed: () async {
                                         await clearData();
+                                        print("error here");
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
@@ -274,6 +275,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   )),
                                           (route) => false,
                                         );
+
+                                        print("nah error here");
                                         Fluttertoast.showToast(
                                             msg: "You've been logged out!",
                                             toastLength: Toast.LENGTH_SHORT,

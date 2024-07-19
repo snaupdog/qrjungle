@@ -220,13 +220,15 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
         return GestureDetector(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CategoryPage(
-                          catname: categoryname[index],
-                          catimageurl: Apiss.preurl +
-                              Apiss.customcategorielist[index]['category_icon'],
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (context) => CategoryPage(
+                  catname: categoryname[index],
+                  catimageurl: Apiss.preurl +
+                      Apiss.customcategorielist[index]['category_icon'],
+                ),
+              ),
+            );
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
@@ -240,7 +242,7 @@ Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.135,
+                    height: MediaQuery.sizeOf(context).height * 0.17,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15.0),
