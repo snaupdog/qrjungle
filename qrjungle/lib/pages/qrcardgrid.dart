@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/moreqr.dart';
 import 'package:qrjungle/pages/moreqr/viewmyqr.dart';
-import 'package:qrjungle/pages/moreqr/widgets/modals.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class Qrcardgrid extends StatefulWidget {
@@ -56,21 +53,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
           isloading = false;
         });
         break;
-      case 'categories':
-        await Apiss().getqrfromCategories(widget.categoryName);
-        setState(() {
-          qrlisty = Apiss.mycatlist;
-          isloading = false;
-        });
-        break;
-
-      case 'wishlist':
-        setState(() {
-          qrlisty = Apiss.myfavslist;
-          isloading = false;
-        });
-        break;
-
       case 'myqrs':
         Apiss().listmyqrs();
         setState(() {
@@ -94,21 +76,6 @@ class _QrcardgridState extends State<Qrcardgrid> {
   }
 
   Skeletonizer qrcard(List<dynamic> data) {
-    Future<void> toggleFavourite(String item, int index) async {
-      if (Apiss.favqrsids.contains(item)) {
-        Apiss.favqrsids.remove(item);
-      } else {
-        Apiss.favqrsids.add(item);
-      }
-      await Apiss().addFavourites(Apiss.favqrsids);
-      setState(() {
-        if (widget.type == 'wishlist') {
-          data.removeAt(index);
-        }
-        Apiss().listFavourites();
-      });
-    }
-
     return Skeletonizer(
       enabled: isloading,
       enableSwitchAnimation: false,
@@ -147,12 +114,8 @@ class _QrcardgridState extends State<Qrcardgrid> {
                   childAspectRatio: 2 / 3),
               itemCount: data.length,
               itemBuilder: (context, index) {
-                bool liked = false;
                 final item = data[index];
                 final imageurl = item['qr_code_image_url_key'];
-                if (Apiss.favqrsids.contains(item['qr_code_id'])) {
-                  liked = true;
-                }
 
                 return GestureDetector(
                   onTap: () {
@@ -175,14 +138,7 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                       imageUrl: Apiss.preurl + imageurl,
                                       item: item,
                                     )),
-                          ).then((_) {
-                            setState(() {
-                              Apiss().listFavourites();
-                              if (widget.type == "wishlist") {
-                                qrlisty = Apiss.myfavslist;
-                              }
-                            });
-                          });
+                          );
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
@@ -259,103 +215,22 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                             FontWeight.w600),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          12.0, 0.0, 0, 0.0),
-                                                  child: (widget.type ==
-                                                          "wishlist")
-                                                      ? const Text.rich(
-                                                          TextSpan(
-                                                            children: [
-                                                              TextSpan(
-                                                                text: '499 INR',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 14,
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .lineThrough,
-                                                                  decorationThickness:
-                                                                      2.0,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text: ' Free',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : const Text(
-                                                          "499 INR",
-                                                          //                       hardcodede price,
-                                                          // "${item['price']} INR",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 15.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
+                                                const Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      12.0, 0.0, 0, 0.0),
+                                                  child: Text(
+                                                    "499 INR",
+                                                    //                       hardcodede price,
+                                                    // "${item['price']} INR",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15.5,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                            Obx(() {
-                                              return redeemable.value > 0
-                                                  ? Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(0, 0, 3, 4),
-                                                      child: IconButton(
-                                                        icon: widget.type ==
-                                                                "wishlist"
-                                                            ? const Icon(
-                                                                Icons.delete,
-                                                                color:
-                                                                    Colors.red,
-                                                              )
-                                                            : liked
-                                                                ? const Icon(Icons
-                                                                    .add_shopping_cart)
-                                                                : const Icon(Icons
-                                                                    .add_shopping_cart_outlined),
-                                                        onPressed: () async {
-                                                          if (loggedinmain) {
-                                                            setState(() {
-                                                              liked = !liked;
-                                                            });
-                                                            await toggleFavourite(
-                                                                item[
-                                                                    'qr_code_id'],
-                                                                index);
-                                                          } else {
-                                                            print(
-                                                                "show modal sheet");
-                                                            showModalBottomSheet(
-                                                              context: context,
-                                                              builder: (context) =>
-                                                                  const LoginModalSheet(),
-                                                            );
-                                                          }
-                                                        },
-                                                        color: liked
-                                                            ? Colors.white
-                                                            : Colors.grey,
-                                                      ),
-                                                    )
-                                                  : const SizedBox.shrink();
-                                            }),
                                           ],
                                         ),
                                       ),

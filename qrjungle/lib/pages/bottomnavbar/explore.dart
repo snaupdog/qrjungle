@@ -1,9 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/models/apiss.dart';
-import 'package:qrjungle/pages/MoreCategory.dart';
 import 'package:qrjungle/pages/qrcardgrid.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -13,7 +9,6 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _ExplorePageState extends State<ExplorePage> {
-  List<String> categoryname = [];
   List<String> fakedata = List.filled(12, "Hello");
   List<String> urls = [];
   String token = '';
@@ -22,24 +17,6 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   void initState() {
     super.initState();
-    categories();
-  }
-
-  categories() async {
-    try {
-      setState(() {
-        categoryname = Apiss.catageroylist
-            .map<String>((item) => item['category_name'] as String)
-            .toList();
-
-        isLoading = false;
-      });
-    } catch (e) {
-      print('Error!');
-      setState(() {
-        isLoading = false;
-      });
-    }
   }
 
   @override
@@ -69,16 +46,6 @@ class _ExplorePageState extends State<ExplorePage> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
-                  child: Text('Categories',
-                      style: textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.w600)),
-                ),
-                isLoading
-                    ? CategoryCard(textTheme, fakedata)
-                    : CategoryCard(textTheme, categoryname),
-                Padding(
                   padding: const EdgeInsets.fromLTRB(5, 20, 0, 10),
                   child: Text('All QR Codes',
                       style: textTheme.bodyMedium
@@ -92,80 +59,6 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Skeletonizer CategoryCard(TextTheme textTheme, List<String> categoryname) {
-    return Skeletonizer(
-      enabled: isLoading,
-      enableSwitchAnimation: true,
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 5.0,
-          mainAxisSpacing: 5.0,
-          childAspectRatio: 0.9, // Adjust as needed
-        ),
-        itemCount: categoryname.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CategoryPage(
-                    catname: categoryname[index],
-                    catimageurl: Apiss.preurl +
-                        Apiss.catageroylist[index]['category_icon'],
-                  ),
-                ),
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: Card(
-                color: const Color(0xff1b1b1b),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.17,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15.0),
-                          topRight: Radius.circular(15.0),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: Apiss.preurl +
-                              Apiss.catageroylist[index]['category_icon'],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 0),
-                      child: Text(
-                        categoryname[index].toString().replaceFirst(
-                            categoryname[index][0],
-                            categoryname[index][0].toUpperCase()),
-                        overflow: TextOverflow.ellipsis,
-                        style: textTheme.bodySmall
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }

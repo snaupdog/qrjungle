@@ -35,11 +35,8 @@ class _OTPVerifyState extends State<OTPVerify> {
   }
 
   getUserdata() async {
-    Apiss().listFavourites();
     Apiss().listmyqrs();
-    Apiss().getcustomcategories();
     await Apiss().listUserDetails();
-    redeemable.value = int.parse(Apiss.userdetailslist[0]['redeem_count']);
   }
 
   getloginstatus() async {
