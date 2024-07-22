@@ -567,6 +567,10 @@ class _MoreQrState extends State<MoreQr> {
                             PurchaseParam(productDetails: _products[0]);
                         _inAppPurchase.buyConsumable(
                             purchaseParam: purchaseParam);
+
+                        setState(() {
+                          paymentloading.value = true;
+                        });
                       }
                     }
                     if (Platform.isAndroid) {

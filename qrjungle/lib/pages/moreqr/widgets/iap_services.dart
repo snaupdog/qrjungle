@@ -22,9 +22,6 @@ class IAPService {
         print(purchaseDetails.error!);
         paymentloading.value = false;
         print("Hello");
-        if (navigatorKey.currentState != null) {
-          navigatorKey.currentState?.pushReplacementNamed('/Home');
-        }
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
