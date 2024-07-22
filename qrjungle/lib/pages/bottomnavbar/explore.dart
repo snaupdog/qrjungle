@@ -107,7 +107,7 @@ class _ExplorePageState extends State<ExplorePage> {
           crossAxisCount: 2,
           crossAxisSpacing: 5.0,
           mainAxisSpacing: 5.0,
-          childAspectRatio: 0.9, // Adjust as needed
+          childAspectRatio: 0.90, // Adjust as needed
         ),
         itemCount: categoryname.length,
         itemBuilder: (context, index) {
@@ -136,7 +136,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.17,
+                      height: MediaQuery.of(context).size.height * 0.15,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15.0),

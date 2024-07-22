@@ -25,7 +25,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 RxBool paymentloading = false.obs;
 RxBool gotoqrs = false.obs;
-bool paymentloadingandroid = false;
 
 const List<String> _productIds = <String>[
   'artistic_qr',
@@ -99,16 +98,16 @@ class _MoreQrState extends State<MoreQr> {
     if (orderId != null) {
       pay.startPayment(orderId);
 
-      setState(() {
-        paymentloadingandroid = false;
-      });
+      // setState(() {
+      //   paymentloadingandroid = false;
+      // });
     } else {
       pay.navigateToResultPage(
           "Error", "Failed to create order. Please try again.");
 
-      setState(() {
-        paymentloadingandroid = false;
-      });
+      // setState(() {
+      //   paymentloadingandroid = false;
+      // });
     }
   }
 
@@ -296,38 +295,54 @@ class _MoreQrState extends State<MoreQr> {
             ),
           ],
         ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: isloading
-                  ? card(fakedata, "")
-                  : card(widget.item, widget.imageUrl),
-            ),
-            Obx(
-              () {
-                if (paymentloading.value) {
-                  return Container(
-                    color: Colors.black.withOpacity(0.8),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SpinKitRipple(color: Colors.white),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Confirming Purchase",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              },
-            ),
-          ],
+        body: Container(
+          decoration: isloading
+              ? const BoxDecoration(color: Colors.black)
+              : BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    stops: const [0.0, 0.9, 1.0],
+                    colors: [
+                      Colors.black,
+                      mostProminentColor!.withOpacity(0.9),
+                      mostProminentColor!,
+                    ],
+                  ),
+                ),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: isloading
+                    ? card(fakedata, "")
+                    : card(widget.item, widget.imageUrl),
+              ),
+              Obx(
+                () {
+                  if (paymentloading.value) {
+                    return Container(
+                      color: Colors.black.withOpacity(0.8),
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SpinKitRipple(color: Colors.white),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Confirming Purchase",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -342,42 +357,19 @@ class _MoreQrState extends State<MoreQr> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
-            child: Stack(
-              children: [
-                // Gradient background
-                Container(
-                  decoration: isloading
-                      ? const BoxDecoration(color: Colors.black)
-                      : BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            stops: const [0.0, 0.2, 0.7, 1.0],
-                            colors: [
-                              Colors.black,
-                              Colors.black,
-                              mostProminentColor!.withOpacity(0.9),
-                              mostProminentColor!,
-                            ],
-                          ),
-                        ),
-                ),
-                // Image
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Center(
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(17.0, 70.0, 17.0, 0.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ],
+              ),
             ),
           ),
           SizedBox(
@@ -386,14 +378,8 @@ class _MoreQrState extends State<MoreQr> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.135,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2.0,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
@@ -477,9 +463,9 @@ class _MoreQrState extends State<MoreQr> {
               ),
             ),
           ),
-          const Divider(
-            color: Color(0xff121212),
-          ),
+          // const Divider(
+          //   color: Color(0xff121212),
+          // ),
           Skeleton.shade(
             child: Padding(
               padding:
@@ -529,7 +515,7 @@ class _MoreQrState extends State<MoreQr> {
           const SizedBox(height: 20.0),
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 4.0),
+                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 0.0),
             child: InkWell(
               onTap: () async {
                 if (loggedinmain) {
@@ -608,29 +594,35 @@ class _MoreQrState extends State<MoreQr> {
                 }
               },
               child: Container(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff2081e2),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Center(
-                      child: (redeemable.value > 0)
-                          ? const Text(
-                              'Redeem QR',
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            )
-                          : const Text(
-                              'Purchase QR',
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ))),
+                height: MediaQuery.of(context).size.height * 0.05,
+                decoration: BoxDecoration(
+                  color: const Color(0xff2081e2),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: (redeemable.value > 0)
+                      ? const Text(
+                          'Redeem QR',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        )
+                      : const Text(
+                          'Purchase QR',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                ),
+              ),
             ),
           ),
+          Container(
+            color: Colors.transparent,
+            height: 900,
+          )
         ],
       ),
     );

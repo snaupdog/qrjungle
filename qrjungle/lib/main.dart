@@ -110,7 +110,8 @@ class _ConfigState extends State<Config> {
     Apiss().listmyqrs();
     Apiss().getcustomcategories();
     await Apiss().listUserDetails();
-    redeemable.value = int.parse(Apiss.userdetailslist[0]['redeem_count']);
+    // redeemable.value = int.parse(Apiss.userdetailslist[0]['redeem_count']);
+    redeemable.value = 0;
   }
 
   getloginstatus() async {
