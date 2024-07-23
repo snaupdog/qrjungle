@@ -28,12 +28,10 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     getloginstatus();
     getuserDetails();
-    Apiss().getcustomcategories();
     super.initState();
   }
 
   getuserDetails() async {
-    Apiss.myfavslist;
     if (email == "") {
       setState(() {
         email = Apiss.userdetailslist[0]['user_name'];
@@ -43,13 +41,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   clearData() async {
     Apiss.myqrslist = [];
-    Apiss.myfavslist = [];
     Apiss.userdetailslist = [];
-    Apiss.favqrsids = [];
-    Apiss.customcategorielist = [];
     Apiss().getAllqrs("");
     Apiss().listUserDetails();
-    redeemable.value = 0;
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       loggedinmain = false;
@@ -160,18 +154,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? Container()
                   : Column(
                       children: [
-                        (redeemable.value > 0)
-                            ? Obx(
-                                () => Text(
-                                  "You have ${redeemable.value} free qrs",
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox.shrink(),
                         TextButton.icon(
                           onPressed: () async {
                             showDialog(

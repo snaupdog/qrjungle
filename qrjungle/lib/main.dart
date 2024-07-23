@@ -4,7 +4,6 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -20,7 +19,6 @@ final GlobalKey qrKey = GlobalKey(debugLabel: "QR");
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final formkey = GlobalKey<FormState>();
 ThemeSelect themeselector = ThemeSelect();
-RxInt redeemable = 0.obs;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,19 +97,14 @@ class _ConfigState extends State<Config> {
     bool onb = pref.getBool('onboarded') ?? false;
 
     Apiss().getAllqrs("");
-    Apiss().getCategories();
     setState(() {
       onboarded = onb;
     });
   }
 
   getUserdata() async {
-    Apiss().listFavourites();
     Apiss().listmyqrs();
-    Apiss().getcustomcategories();
     await Apiss().listUserDetails();
-    // redeemable.value = int.parse(Apiss.userdetailslist[0]['redeem_count']);
-    redeemable.value = 0;
   }
 
   getloginstatus() async {
@@ -138,12 +131,6 @@ class _ConfigState extends State<Config> {
     String splashimage = whatisbrightness ? 'logo_invert.png' : 'logo.png';
     Color splashbg = whatisbrightness ? primarycolor : secondarycolor;
     return MaterialApp(
-      navigatorKey: navigatorKey,
-      routes: {
-        '/myqrs': (context) => const PageSelect(
-              initialIndex: 1,
-            ), // Example of another route
-      },
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,

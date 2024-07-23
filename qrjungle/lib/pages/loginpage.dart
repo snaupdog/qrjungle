@@ -38,11 +38,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool loader = false;
   @override
-  void initState() {
-    // TODO: implement initState
-  }
-
-  @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
 

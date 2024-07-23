@@ -6,12 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:qrjungle/main.dart';
 import 'package:qrjungle/models/apiss.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
-import 'package:qrjungle/pages/bottomnavbar/loader.dart';
 import 'dart:typed_data';
 import 'package:qrjungle/pages/bottomnavbar/profile.dart';
 import 'package:qrjungle/pages/moreqr/payment.dart';
@@ -69,7 +67,6 @@ class _MoreQrState extends State<MoreQr> {
   @override
   void initState() {
     print(widget.item);
-    getstate();
     getloginstatus();
     super.initState();
     fetchMostProminentColor();
@@ -102,12 +99,9 @@ class _MoreQrState extends State<MoreQr> {
       //   paymentloadingandroid = false;
       // });
     } else {
-      pay.navigateToResultPage(
-          "Error", "Failed to create order. Please try again.");
-
-      // setState(() {
-      //   paymentloadingandroid = false;
-      // });
+      setState(() {
+        // paymentloadingandroid = false;
+      });
     }
   }
 
@@ -142,12 +136,6 @@ class _MoreQrState extends State<MoreQr> {
       setState(() {
         _notice = "There are no upgrades at this time";
       });
-    }
-  }
-
-  getstate() async {
-    if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
-      liked = true;
     }
   }
 
@@ -217,18 +205,6 @@ class _MoreQrState extends State<MoreQr> {
     print("loggedin from sp: $loggedin");
     setState(() {
       loggedinmain = loggedin;
-    });
-  }
-
-  Future<void> toggleFavourite() async {
-    if (Apiss.favqrsids.contains(widget.item['qr_code_id'])) {
-      Apiss.favqrsids.remove(widget.item['qr_code_id']);
-    } else {
-      Apiss.favqrsids.add(widget.item['qr_code_id']);
-    }
-    await Apiss().addFavourites(Apiss.favqrsids);
-    setState(() {
-      Apiss().listFavourites();
     });
   }
 
@@ -304,7 +280,7 @@ class _MoreQrState extends State<MoreQr> {
                     end: Alignment.topCenter,
                     stops: const [0.0, 0.9, 1.0],
                     colors: [
-                      Colors.black,
+                      Colors.black38,
                       mostProminentColor!.withOpacity(0.9),
                       mostProminentColor!,
                     ],
@@ -422,42 +398,6 @@ class _MoreQrState extends State<MoreQr> {
                         ],
                       ),
                     ),
-                    Obx(() {
-                      return redeemable.value > 0
-                          ? IconButton(
-                              icon: Icon(liked
-                                  ? Icons.add_shopping_cart
-                                  : Icons.add_shopping_cart_outlined),
-                              onPressed: () async {
-                                if (loggedinmain) {
-                                  setState(() {
-                                    liked = !liked;
-                                  });
-                                  Fluttertoast.showToast(
-                                    msg: liked
-                                        ? "Added to Favourites!"
-                                        : "Removed from Favourites",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor:
-                                        const Color.fromARGB(134, 0, 0, 0),
-                                    textColor: Colors.white,
-                                    fontSize: 18.0,
-                                  );
-                                  await toggleFavourite();
-                                } else {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) =>
-                                        const LoginModalSheet(),
-                                  );
-                                }
-                              },
-                              color: Colors.white,
-                            )
-                          : const SizedBox.shrink();
-                    }),
                   ],
                 ),
               ),
@@ -533,58 +473,15 @@ class _MoreQrState extends State<MoreQr> {
                   } else {
                     Apiss.qr_idpayment = widget.item['qr_code_id'];
                     Apiss.qr_redirecturl = urlcontroller.text;
-                    if (Platform.isIOS) {
-                      if (redeemable.value > 0) {
-                        redeemable.value = redeemable.value - 1;
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Loader(
-                                    qrId: item['qr_code_id'],
-                                    urlText: urlcontroller.text,
-                                  )),
-                          (route) => false,
-                        );
-                      } else {
-                        setState(() {
-                          paymentloading.value = true;
-                        });
-                        final PurchaseParam purchaseParam =
-                            PurchaseParam(productDetails: _products[0]);
-                        _inAppPurchase.buyConsumable(
-                            purchaseParam: purchaseParam);
-
-                        setState(() {
-                          paymentloading.value = true;
-                        });
-                      }
-                    }
-                    if (Platform.isAndroid) {
-                      if (redeemable.value > 0) {
-                        redeemable.value = redeemable.value - 1;
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Loader(
-                                    qrId: item['qr_code_id'],
-                                    urlText: urlcontroller.text,
-                                  )),
-                          (route) => false,
-                        );
-                        print("Bought ${item['qr_code_id']}");
-                        redeemable.value = redeemable.value - 1;
-                      } else {
-                        Payment pay = Payment(
-                          context: context,
-                          // hardcoded price
-                          amount: "49900",
-                          // amount: "${item['price']}00",
-                          qrCodeId: item['qr_code_id'],
-                          redirectUrl: urlcontroller.text,
-                        );
-                        paymentprocess(pay);
-                      }
-                    }
+                    Payment pay = Payment(
+                      context: context,
+                      // hardcoded price
+                      amount: "49900",
+                      // amount: "${item['price']}00",
+                      qrCodeId: item['qr_code_id'],
+                      redirectUrl: urlcontroller.text,
+                    );
+                    paymentprocess(pay);
                   }
                 } else {
                   showModalBottomSheet(
@@ -599,22 +496,14 @@ class _MoreQrState extends State<MoreQr> {
                   color: const Color(0xff2081e2),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Center(
-                  child: (redeemable.value > 0)
-                      ? const Text(
-                          'Redeem QR',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        )
-                      : const Text(
-                          'Purchase QR',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
+                child: const Center(
+                  child: Text(
+                    'Purchase QR',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
                 ),
               ),
             ),

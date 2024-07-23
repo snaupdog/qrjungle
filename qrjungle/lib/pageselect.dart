@@ -1,14 +1,10 @@
 import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:qrjungle/main.dart';
-import 'package:qrjungle/pages/bottomnavbar/custom.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
 import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
 import 'package:qrjungle/themes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'pages/bottomnavbar/profile.dart';
-import 'pages/bottomnavbar/wishlist.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class PageSelect extends StatefulWidget {
@@ -58,46 +54,20 @@ class _PageSelectState extends State<PageSelect> {
         brightness == Brightness.dark ? Colors.white : Colors.black;
 
     String appBarTitle;
-    if (redeemable.value > 0) {
-      switch (_currentIndex) {
-        case 0:
-          appBarTitle = 'qrjungle';
-          break;
-        case 1:
-          appBarTitle = 'My QRs';
-          break;
-        case 2:
-          appBarTitle = 'Wishlist';
-          break;
-        case 3:
-          appBarTitle = 'Custom Qrs';
-          break;
-        case 4:
-          appBarTitle = 'Profile';
-          break;
-        default:
-          appBarTitle = '';
-          break;
-      }
-    } else {
-      switch (_currentIndex) {
-        case 0:
-          appBarTitle = 'qrjungle';
-          break;
-        case 1:
-          appBarTitle = 'My QRs';
-          break;
 
-        case 2:
-          appBarTitle = 'Custom QRs';
-          break;
-        case 3:
-          appBarTitle = 'Profile';
-          break;
-        default:
-          appBarTitle = '';
-          break;
-      }
+    switch (_currentIndex) {
+      case 0:
+        appBarTitle = 'qrjungle';
+        break;
+      case 1:
+        appBarTitle = 'My QRs';
+        break;
+      case 4:
+        appBarTitle = 'Profile';
+        break;
+      default:
+        appBarTitle = '';
+        break;
     }
 
     return Scaffold(
@@ -123,93 +93,41 @@ class _PageSelectState extends State<PageSelect> {
       body: Stack(
         children: [
           SafeArea(
-            child: Obx(() {
-              return redeemable.value > 0
-                  ? PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _pageController,
-                      onPageChanged: onPageChanged,
-                      children: const [
-                        ExplorePage(),
-                        MyQRsPage(),
-                        WishlistPage(),
-                        CustomPage(),
-                        ProfilePage(),
-                      ],
-                    )
-                  : PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _pageController,
-                      onPageChanged: onPageChanged,
-                      children: const [
-                        ExplorePage(),
-                        MyQRsPage(),
-                        CustomPage(),
-                        ProfilePage(),
-                      ],
-                    );
-            }),
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              onPageChanged: onPageChanged,
+              children: const [
+                ExplorePage(),
+                MyQRsPage(),
+                ProfilePage(),
+              ],
+            ),
           ),
-          Obx(() {
-            return redeemable.value > 0
-                ? Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: 300,
-                    child: BlurBottomView(
-                      onIndexChange: onItemTapped,
-                      selectedItemColor: accentcolor,
-                      showSelectedLabels: true,
-                      unselectedItemColor: alternatecolor,
-                      backgroundColor: colorcolor,
-                      currentIndex: _currentIndex,
-                      bottomNavigationBarItems: const <BottomNavigationBarItem>[
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.local_mall_outlined),
-                          label: 'Explore',
-                        ),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.qr_code), label: 'MyQRs'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.favorite_outlined),
-                            label: 'Redeem QRs'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.note_alt_outlined),
-                            label: 'Custom'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.person), label: 'Profile'),
-                      ],
-                    ),
-                  )
-                : Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: 300,
-                    child: BlurBottomView(
-                      onIndexChange: onItemTapped,
-                      selectedItemColor: accentcolor,
-                      showSelectedLabels: true,
-                      unselectedItemColor: alternatecolor,
-                      backgroundColor: colorcolor,
-                      currentIndex: _currentIndex,
-                      bottomNavigationBarItems: const <BottomNavigationBarItem>[
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.local_mall_outlined),
-                          label: 'Explore',
-                        ),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.qr_code), label: 'MyQRs'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.note_alt_outlined),
-                            label: 'Custom Qrs'),
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.person), label: 'Profile'),
-                      ],
-                    ),
-                  );
-          }),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 300,
+            child: BlurBottomView(
+              onIndexChange: onItemTapped,
+              selectedItemColor: accentcolor,
+              showSelectedLabels: true,
+              unselectedItemColor: alternatecolor,
+              backgroundColor: colorcolor,
+              currentIndex: _currentIndex,
+              bottomNavigationBarItems: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.local_mall_outlined),
+                  label: 'Explore',
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.qr_code), label: 'MyQRs'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: 'Profile'),
+              ],
+            ),
+          )
         ],
       ),
     );
