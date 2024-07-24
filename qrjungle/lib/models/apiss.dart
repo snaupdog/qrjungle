@@ -21,7 +21,6 @@ class Apiss {
     print("callig get all qrs");
     final Map<String, String> data = {
       "command": "listPortalQrs",
-      "nextToken": nextToken
     };
     final jsonData = json.encode(data);
     final response = await post(
@@ -35,6 +34,7 @@ class Apiss {
       final body = json.decode(response.body);
       var qrlist = body['data'];
       myallqrslist = qrlist;
+      print(myallqrslist);
     } else {
       print(response.body);
       throw Exception("error getting all qrs");
@@ -65,6 +65,7 @@ class Apiss {
       var hello = body['listMyQrs'];
       var body2 = jsonDecode(hello);
       myqrslist = body2;
+      print(hello);
     } catch (e) {
       print("An error occurred: $e");
     }

@@ -1,9 +1,6 @@
 import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/main.dart';
-
 import 'buttons.dart';
-import 'package:qrjungle/themes.dart';
 
 class Onb2 extends StatefulWidget {
   const Onb2({super.key});
@@ -17,18 +14,12 @@ class _Onb2State extends State<Onb2> {
 
   @override
   Widget build(BuildContext context) {
-    late bool whatisbrightness;
-    if (themeselector.thememode == ThemeMode.light) {
-      whatisbrightness = true;
-    } else {
-      whatisbrightness = false;
-    }
-    String bgimage = whatisbrightness ? 'onboardbg_light.png' : 'onboardbg.png';
-    String qrimage = whatisbrightness ? 'plainqr_invert.png' : 'plainqr.png';
+    String bgimage = 'onboardbg.png';
+    String qrimage = 'plainqr.png';
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
               height: double.infinity,
               width: double.infinity,
               child: Image.asset('assets/$bgimage', fit: BoxFit.fitHeight)),
@@ -36,22 +27,22 @@ class _Onb2State extends State<Onb2> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DelayedWidget(
-                  delayDuration: Duration(milliseconds: 200),
-                  animationDuration: Duration(seconds: 1),
+                  delayDuration: const Duration(milliseconds: 200),
+                  animationDuration: const Duration(seconds: 1),
                   animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
                   child: Center(
                       child: Image.asset('assets/$qrimage', height: 230))),
               Center(
                 child: DelayedWidget(
-                  delayDuration: Duration(milliseconds: 1000),
-                  animationDuration: Duration(seconds: 1),
+                  delayDuration: const Duration(milliseconds: 1000),
+                  animationDuration: const Duration(seconds: 1),
                   animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(10, 40, 10, 0),
                     child: Text(
                       "Say goodbye to boring old QRs!",
                       style: TextStyle(
-                        color: whatisbrightness ? secondarycolor : primarycolor,
+                        color: Colors.white,
                         fontSize: 22,
                       ),
                     ),

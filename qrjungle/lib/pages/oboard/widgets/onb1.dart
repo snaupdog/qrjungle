@@ -1,9 +1,5 @@
 import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/themes.dart';
-
-import 'package:qrjungle/main.dart';
-
 import 'buttons.dart';
 
 class Onb1 extends StatefulWidget {
@@ -18,13 +14,7 @@ class _Onb1State extends State<Onb1> {
 
   @override
   Widget build(BuildContext context) {
-    late bool whatisbrightness;
-    if (themeselector.thememode == ThemeMode.light) {
-      whatisbrightness = true;
-    } else {
-      whatisbrightness = false;
-    }
-    String bgimage = whatisbrightness ? 'onboardbg_light.png' : 'onboardbg.png';
+    String bgimage = 'onboardbg.png';
     return Scaffold(
       body: Stack(
         children: [
@@ -40,10 +30,10 @@ class _Onb1State extends State<Onb1> {
                   delayDuration: const Duration(milliseconds: 200),
                   animationDuration: const Duration(seconds: 1),
                   animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-                  child: Text(
+                  child: const Text(
                     'Welcome to QRJungle!',
                     style: TextStyle(
-                      color: whatisbrightness ? secondarycolor : primarycolor,
+                      color: Colors.white,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
@@ -55,10 +45,10 @@ class _Onb1State extends State<Onb1> {
                   delayDuration: const Duration(milliseconds: 1000),
                   animationDuration: const Duration(seconds: 1),
                   animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-                  child: Text(
+                  child: const Text(
                     "We're glad to have you here!",
                     style: TextStyle(
-                      color: whatisbrightness ? secondarycolor : primarycolor,
+                      color: Colors.white,
                       fontSize: 20,
                     ),
                   ),

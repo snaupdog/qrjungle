@@ -48,7 +48,6 @@ class _MoreQrState extends State<MoreQr> {
     "qr_code_status": "fake",
     "qr_code_created_on": 1714738115822,
     "qr_code_image_url_key": "2Omp.png",
-    "qr_code_category": "fake",
     "qr_code_id": "fake",
     "qr_prompt": "fake",
     "price": null
@@ -72,19 +71,6 @@ class _MoreQrState extends State<MoreQr> {
     fetchMostProminentColor();
     if (Platform.isIOS) {
       initStoreInfo();
-      paymentController.paymentLoading.listen((value) {
-        if (!value) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const PageSelect(
-                initialIndex: 1,
-              ),
-            ),
-            (Route<dynamic> route) =>
-                false, // This removes all the previous routes
-          );
-        }
-      });
     }
   }
 
@@ -368,28 +354,16 @@ class _MoreQrState extends State<MoreQr> {
                           Text(
                             "#${item['qr_code_id']}",
                             style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
-                              item['qr_code_category'][0].toUpperCase() +
-                                  item['qr_code_category'].substring(1),
+                              "${item['price']} INR",
                               style: const TextStyle(
-                                color: Color(0xff2081e2),
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Text(
-                              "499 INR",
-                              //                               hardcoded price
-                              // "${item['price']} INR",
-                              style: TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.w600),
@@ -418,6 +392,7 @@ class _MoreQrState extends State<MoreQr> {
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Enter Link ',
                   labelStyle: const TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 12.0,
                   ),
                   fillColor: const Color(0xFF1b1b1b),
@@ -473,15 +448,33 @@ class _MoreQrState extends State<MoreQr> {
                   } else {
                     Apiss.qr_idpayment = widget.item['qr_code_id'];
                     Apiss.qr_redirecturl = urlcontroller.text;
-                    Payment pay = Payment(
-                      context: context,
-                      // hardcoded price
-                      amount: "49900",
-                      // amount: "${item['price']}00",
-                      qrCodeId: item['qr_code_id'],
-                      redirectUrl: urlcontroller.text,
-                    );
-                    paymentprocess(pay);
+                    if (Platform.isIOS) {
+                      setState(
+                        () {
+                          paymentloading.value = true;
+                        },
+                      );
+                      final PurchaseParam purchaseParam =
+                          PurchaseParam(productDetails: _products[0]);
+                      _inAppPurchase.buyConsumable(
+                          purchaseParam: purchaseParam);
+
+                      setState(
+                        () {
+                          paymentloading.value = true;
+                        },
+                      );
+                    } else if (Platform.isAndroid) {
+                      Payment pay = Payment(
+                        context: context,
+                        // hardcoded price
+                        amount: "49900",
+                        // amount: "${item['price']}00",
+                        qrCodeId: item['qr_code_id'],
+                        redirectUrl: urlcontroller.text,
+                      );
+                      paymentprocess(pay);
+                    }
                   }
                 } else {
                   showModalBottomSheet(

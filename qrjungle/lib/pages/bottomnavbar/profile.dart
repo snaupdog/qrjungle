@@ -73,44 +73,50 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: Image.asset('assets/logo.png', height: 200)),
+              Obx(
+                () => Center(
+                    child: (themeController.isDarkMode.value)
+                        ? Image.asset('assets/logo.png', height: 200)
+                        : Image.asset('assets/logo_invert.png', height: 200)),
+              ),
               const SizedBox(height: 30),
               Center(
-                  child: (!loggedinmain)
-                      ? TextButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LoginPage())).then(
-                              (value) {
-                                getloginstatus();
-                              },
-                            );
-                          },
-                          label: const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 8, 8, 0),
-                            child: Text(
-                              'Log In',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                decoration: TextDecoration.underline,
-                                decorationThickness: 2,
-                                fontSize: 22,
-                              ),
+                child: (!loggedinmain)
+                    ? TextButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()))
+                              .then(
+                            (value) {
+                              getloginstatus();
+                            },
+                          );
+                        },
+                        label: const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 8, 8, 0),
+                          child: Text(
+                            'Log In',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              decorationThickness: 2,
+                              fontSize: 22,
                             ),
                           ),
-                          icon: const Padding(
-                            padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
-                            child: Icon(Icons.exit_to_app_outlined,
-                                color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                        icon: const Padding(
+                          padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
+                          child: Icon(
+                            Icons.exit_to_app_outlined,
                           ),
-                        )
-                      : Text(
-                          email,
-                          style: const TextStyle(fontSize: 19),
-                        )),
+                        ),
+                      )
+                    : Text(
+                        email,
+                        style: const TextStyle(fontSize: 19),
+                      ),
+              ),
               const SizedBox(height: 30),
               TextButton.icon(
                 onPressed: () {
@@ -122,14 +128,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 label: const Text(
                   'Privacy Policy',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    decoration: TextDecoration.underline,
-                    fontSize: 14,
-                  ),
                 ),
-                icon: const Icon(Icons.info_outline,
-                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
+                icon: const Icon(Icons.info_outline, size: 20),
               ),
               TextButton.icon(
                 onPressed: () {
@@ -142,13 +142,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 label: const Text(
                   'Terms and Conditions',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    decoration: TextDecoration.underline,
                     fontSize: 14,
                   ),
                 ),
-                icon: const Icon(Icons.info_outline,
-                    color: Color.fromARGB(255, 255, 255, 255), size: 20),
+                icon: const Icon(Icons.info_outline, size: 20),
               ),
               (!loggedinmain)
                   ? Container()
@@ -165,9 +162,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  title: const Text('Delete Account',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600)),
+                                  title: const Text(
+                                    'Delete Account',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
                                   content: const Text(
                                       'Are you sure you want to delete your account? This action cannot be undone and all your data will be lost.',
                                       style: TextStyle(fontSize: 16)),
@@ -219,10 +218,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             );
                           },
-                          label: const Text('Delete Account',
-                              style: TextStyle(color: Colors.white)),
-                          icon: const Icon(Icons.delete_forever,
-                              color: Colors.red),
+                          label: const Text(
+                            'Delete Account',
+                          ),
+                          icon: const Icon(
+                            Icons.delete_forever,
+                            color: Colors.red,
+                          ),
                         ),
                         TextButton.icon(
                           onPressed: () async {
@@ -291,9 +293,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             );
                           },
-                          label: const Text('Log Out',
-                              style: TextStyle(color: Colors.white)),
-                          icon: const Icon(Icons.logout, color: Colors.white),
+                          label: const Text(
+                            'Log Out',
+                          ),
+                          icon: const Icon(
+                            Icons.logout,
+                          ),
                         ),
                       ],
                     ),

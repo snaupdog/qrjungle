@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -6,10 +5,9 @@ import 'package:qrjungle/pages/moreqr/moreqr.dart';
 import 'package:qrjungle/pages/moreqr/test.dart';
 
 class IAPService {
-  final GlobalKey<NavigatorState> navigatorKey;
   final PaymentController paymentController = Get.find();
 
-  IAPService(this.navigatorKey);
+  IAPService();
   void listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       print("purchaseDetails.status ${purchaseDetails.status}");

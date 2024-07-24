@@ -1,8 +1,9 @@
 import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:qrjungle/main.dart';
 import 'package:qrjungle/pages/bottomnavbar/explore.dart';
 import 'package:qrjungle/pages/bottomnavbar/myqrs.dart';
-import 'package:qrjungle/themes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'pages/bottomnavbar/profile.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -46,12 +47,7 @@ class _PageSelectState extends State<PageSelect> {
 
   @override
   Widget build(BuildContext context) {
-    Brightness brightness = Theme.of(context).brightness;
-    Color colorcolor = brightness == Brightness.dark
-        ? const Color.fromARGB(255, 10, 10, 10).withOpacity(0.95)
-        : primarycolor.withOpacity(0.95);
-    Color alternatecolor =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
+    final theme = Theme.of(context);
 
     String appBarTitle;
 
@@ -74,10 +70,36 @@ class _PageSelectState extends State<PageSelect> {
       appBar: AppBar(
         title: Text(appBarTitle, style: const TextStyle(fontSize: 30)),
         actions: [
+          Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  themeController.isDarkMode.value
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                  color: themeController.isDarkMode.value
+                      ? Colors.yellow
+                      : Colors.blue,
+                ),
+                const SizedBox(width: 8),
+                Switch(
+                  value: themeController.isDarkMode.value,
+                  onChanged: (value) {
+                    themeController.toggleTheme();
+                  },
+                  activeColor: Colors.redAccent,
+                  inactiveThumbColor: Colors.grey,
+                  inactiveTrackColor: Colors.grey.shade300,
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
-              icon: Icon(Icons.qr_code_scanner_outlined, color: accentcolor),
+              icon: Icon(Icons.qr_code_scanner_outlined,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -111,10 +133,10 @@ class _PageSelectState extends State<PageSelect> {
             height: 300,
             child: BlurBottomView(
               onIndexChange: onItemTapped,
-              selectedItemColor: accentcolor,
+              selectedItemColor: theme.colorScheme.onPrimary,
               showSelectedLabels: true,
-              unselectedItemColor: alternatecolor,
-              backgroundColor: colorcolor,
+              unselectedItemColor: theme.colorScheme.tertiary,
+              backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
               currentIndex: _currentIndex,
               bottomNavigationBarItems: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ThemeSelect with ChangeNotifier{
+class ThemeController extends GetxController {
+  // Observable for theme mode
+  var isDarkMode = true.obs;
 
-  ThemeMode _thememode = ThemeMode.dark;
-
-  get thememode => _thememode;
-
-  toggleTheme(bool isDark){
-    _thememode = isDark ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
+  // Method to toggle theme
+  void toggleTheme() {
+    isDarkMode.value = !isDarkMode.value;
+    Get.changeThemeMode(
+      isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+    );
   }
 }

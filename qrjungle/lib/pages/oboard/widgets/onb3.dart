@@ -1,9 +1,6 @@
 import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:qrjungle/main.dart';
-
 import 'buttons.dart';
-import 'package:qrjungle/themes.dart';
 
 class Onb3 extends StatefulWidget {
   const Onb3({super.key});
@@ -17,13 +14,7 @@ class _Onb3State extends State<Onb3> {
 
   @override
   Widget build(BuildContext context) {
-    late bool whatisbrightness;
-    if (themeselector.thememode == ThemeMode.light) {
-      whatisbrightness = true;
-    } else {
-      whatisbrightness = false;
-    }
-    String bgimage = whatisbrightness ? 'onboardbg_light.png' : 'onboardbg.png';
+    String bgimage = 'onboardbg.png';
     return Scaffold(
       body: Stack(
         children: [
@@ -42,12 +33,12 @@ class _Onb3State extends State<Onb3> {
                   delayDuration: const Duration(milliseconds: 200),
                   animationDuration: const Duration(seconds: 1),
                   animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       'Plain QRs are so 2010...',
                       style: TextStyle(
-                        color: whatisbrightness ? secondarycolor : primarycolor,
+                        color: Colors.white,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
@@ -58,12 +49,12 @@ class _Onb3State extends State<Onb3> {
                   delayDuration: const Duration(milliseconds: 200),
                   animationDuration: const Duration(seconds: 1),
                   animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       "Browse through our extensive selection of QR codes, we got what you need!",
-                      style: TextStyle(
-                        color: whatisbrightness ? secondarycolor : primarycolor,
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 20,
                       ),
                     ),

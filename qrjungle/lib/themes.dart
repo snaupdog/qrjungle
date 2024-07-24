@@ -1,47 +1,82 @@
 import 'package:flutter/material.dart';
 
-Color primarycolor = Color(0xFFF0F3FF);
-Color secondarycolor = Color.fromARGB(255, 18, 18, 18);
+Color lightPrimaryColor = const Color(0xFFFFF5E1);
+Color darkPrimaryColor = const Color(0xFF121212);
 
-Color accentcolor = Color(0xFF6CCEFF);
+Color lightSecondaryColor = const Color(0xFFFF6969);
+Color darkSecondaryColor = const Color(0xff1b1b1b);
+
+Color lightTextColor = const Color(0xFF000000);
+Color darkTextColor = const Color(0xFFF0F3FF);
+
+Color lightaccentColor = const Color(0xFF6CCEFF);
+Color darkaccentcolor = const Color(0xFF6CCEFF);
 
 ThemeData lightTheme = ThemeData(
-  primaryColor: primarycolor,
-  fontFamily: 'NunitoSans_7pt',
   brightness: Brightness.light,
+  colorScheme: ColorScheme.light(
+    primary: lightPrimaryColor,
+    secondary: darkSecondaryColor,
+    onPrimary: lightaccentColor,
+    tertiary: Colors.black,
+    tertiaryContainer: const Color(0xffB1AFFF),
+  ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Color.fromARGB(255, 237, 244, 255),
+    backgroundColor: lightPrimaryColor,
     titleTextStyle: TextStyle(
-        color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 20),
+      color: lightaccentColor,
+      fontFamily: 'NunitoSans',
+      fontSize: 20,
+    ),
   ),
-  scaffoldBackgroundColor: primarycolor,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: accentcolor,
-    extendedTextStyle: TextStyle(color: primarycolor),
-  ),
+  scaffoldBackgroundColor: lightPrimaryColor,
   textTheme: TextTheme(
-    bodySmall: TextStyle(color: secondarycolor, fontSize: 18),
-    bodyMedium: TextStyle(color: secondarycolor, fontSize: 22),
-    bodyLarge: TextStyle(color: secondarycolor, fontSize: 28),
+    bodySmall: TextStyle(color: lightTextColor, fontSize: 18),
+    bodyMedium: TextStyle(color: lightTextColor, fontSize: 22),
+    bodyLarge: TextStyle(color: lightTextColor, fontSize: 28),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      // backgroundColor: Colors.blue, // Default text color
+      foregroundColor: Colors.black,
+      textStyle: const TextStyle(
+        fontSize: 14,
+      ),
+    ),
   ),
 );
 
 ThemeData darkTheme = ThemeData(
-  primaryColor: primarycolor,
-  fontFamily: 'NunitoSans_7pt',
-  brightness: Brightness.dark,
-  appBarTheme: AppBarTheme(
-    backgroundColor: secondarycolor,
-    titleTextStyle: TextStyle(
-        color: accentcolor, fontFamily: 'NunitoSans_7pt', fontSize: 35),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      // backgroundColor: Colors.red, // Default text color
+      foregroundColor: Colors.white,
+      textStyle: const TextStyle(
+        fontSize: 14,
+      ),
+    ),
   ),
-  scaffoldBackgroundColor: secondarycolor,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: accentcolor,
+  fontFamily: 'NunitoSans',
+  brightness: Brightness.dark,
+  scaffoldBackgroundColor: darkPrimaryColor,
+  colorScheme: ColorScheme.dark(
+    primary: darkPrimaryColor,
+    secondary: darkSecondaryColor,
+    onPrimary: darkaccentcolor,
+    tertiary: Colors.white,
+    tertiaryContainer: Colors.black,
+  ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: darkPrimaryColor,
+    titleTextStyle: TextStyle(
+      color: darkaccentcolor,
+      fontFamily: 'NunitoSans',
+      fontSize: 35,
+    ),
   ),
   textTheme: TextTheme(
-    bodySmall: TextStyle(color: primarycolor, fontSize: 18),
-    bodyMedium: TextStyle(color: primarycolor, fontSize: 22),
-    bodyLarge: TextStyle(color: primarycolor, fontSize: 28),
+    bodySmall: TextStyle(color: darkTextColor, fontSize: 18),
+    bodyMedium: TextStyle(color: darkTextColor, fontSize: 22),
+    bodyLarge: TextStyle(color: darkTextColor, fontSize: 28),
   ),
 );

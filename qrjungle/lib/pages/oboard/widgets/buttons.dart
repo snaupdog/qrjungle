@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:qrjungle/pageselect.dart';
-import 'package:qrjungle/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'onb2.dart';
 import 'onb3.dart';
 
 class Buttons extends StatefulWidget {
   final int currentPageindex;
-  const Buttons({required this.currentPageindex});
+  const Buttons({super.key, required this.currentPageindex});
 
   @override
   State<Buttons> createState() => _ButtonsState();
@@ -16,9 +15,9 @@ class Buttons extends StatefulWidget {
 class _ButtonsState extends State<Buttons> {
   @override
   Widget build(BuildContext context) {
-    Brightness _brightness = Theme.of(context).brightness;
+    Brightness brightness = Theme.of(context).brightness;
     late bool whatisbrightness;
-    if (_brightness == Brightness.light) {
+    if (brightness == Brightness.light) {
       whatisbrightness = true;
     } else {
       whatisbrightness = false;
@@ -30,17 +29,17 @@ class _ButtonsState extends State<Buttons> {
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.85),
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Onb2()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Onb2()));
             },
+            backgroundColor: whatisbrightness
+                ? const Color.fromARGB(255, 218, 218, 218)
+                : const Color.fromARGB(255, 31, 31, 31),
+            elevation: 0,
             child: Icon(
               Icons.arrow_forward_ios_rounded,
-              color: whatisbrightness ? secondarycolor : primarycolor,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            backgroundColor: whatisbrightness
-                ? Color.fromARGB(255, 218, 218, 218)
-                : Color.fromARGB(255, 31, 31, 31),
-            elevation: 0,
           ),
         ),
       if (widget.currentPageindex == 1)
@@ -49,17 +48,17 @@ class _ButtonsState extends State<Buttons> {
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.85),
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Onb3()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Onb3()));
             },
+            backgroundColor: whatisbrightness
+                ? const Color.fromARGB(255, 218, 218, 218)
+                : const Color.fromARGB(255, 31, 31, 31),
+            elevation: 0,
             child: Icon(
               Icons.arrow_forward_ios_rounded,
-              color: whatisbrightness ? secondarycolor : primarycolor,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            backgroundColor: whatisbrightness
-                ? Color.fromARGB(255, 218, 218, 218)
-                : Color.fromARGB(255, 31, 31, 31),
-            elevation: 0,
           ),
         ),
       if (widget.currentPageindex == 2)
@@ -74,21 +73,21 @@ class _ButtonsState extends State<Buttons> {
 
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => PageSelect()),
+                MaterialPageRoute(builder: (context) => const PageSelect()),
                 (Route<dynamic> route) => false,
               );
             },
+            backgroundColor: whatisbrightness
+                ? const Color.fromARGB(255, 218, 218, 218)
+                : const Color.fromARGB(255, 31, 31, 31),
+            elevation: 0,
             child: Text(
               'Get Started!',
               style: TextStyle(
                 fontSize: 20,
-                color: whatisbrightness ? secondarycolor : primarycolor,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            backgroundColor: whatisbrightness
-                ? Color.fromARGB(255, 218, 218, 218)
-                : Color.fromARGB(255, 31, 31, 31),
-            elevation: 0,
           ),
         ),
     ]);

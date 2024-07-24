@@ -4,6 +4,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:qrjungle/amplifyconfig.dart';
 import 'package:qrjungle/models/apiss.dart';
@@ -16,9 +17,9 @@ import 'pages/oboard/onboard.dart';
 import 'themes.dart';
 
 final GlobalKey qrKey = GlobalKey(debugLabel: "QR");
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final formkey = GlobalKey<FormState>();
-ThemeSelect themeselector = ThemeSelect();
+
+final ThemeController themeController = Get.put(ThemeController());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +43,6 @@ class _ConfigState extends State<Config> {
   @override
   void initState() {
     _configureAmplify();
-    themeselector.addListener(themeListener);
     getValues();
     super.initState();
 
@@ -50,7 +50,7 @@ class _ConfigState extends State<Config> {
 
     _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
       print("Purchase stream started");
-      IAPService(navigatorKey).listenToPurchaseUpdated(purchaseDetailsList);
+      IAPService().listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
       print("Payment done");
       _iapSubscription.cancel();
@@ -74,18 +74,6 @@ class _ConfigState extends State<Config> {
     }
     try {} catch (e) {
       print('error in _configureAmplify:$e');
-    }
-  }
-
-  @override
-  void dispose() {
-    themeselector.removeListener(themeListener);
-    super.dispose();
-  }
-
-  themeListener() {
-    if (mounted) {
-      setState(() {});
     }
   }
 
@@ -123,35 +111,35 @@ class _ConfigState extends State<Config> {
   @override
   Widget build(BuildContext context) {
     late bool whatisbrightness;
-    if (themeselector.thememode == ThemeMode.light) {
-      whatisbrightness = true;
-    } else {
-      whatisbrightness = false;
-    }
+    whatisbrightness = !themeController.isDarkMode.value;
     String splashimage = whatisbrightness ? 'logo_invert.png' : 'logo.png';
-    Color splashbg = whatisbrightness ? primarycolor : secondarycolor;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: themeselector.thememode,
-      builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context)
-              .copyWith(textScaler: const TextScaler.linear(0.9)),
-          child: child!,
-        );
-      },
-      home: AnimatedSplashScreen(
-        splash: Image.asset('assets/$splashimage'),
-        splashIconSize: 200,
-        backgroundColor: splashbg,
-        nextScreen: (widget.onboarded)
-            ? const PageSelect(
-                initialIndex: 0,
-              )
-            : Onboard(),
-        animationDuration: const Duration(milliseconds: 400),
+    Color splashbg =
+        whatisbrightness ? const Color(0xFFF0F3FF) : const Color(0xFF121212);
+    return Obx(
+      () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode:
+            themeController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: const TextScaler.linear(0.9)),
+            child: child!,
+          );
+        },
+        home: AnimatedSplashScreen(
+          splash: Image.asset('assets/$splashimage'),
+          splashIconSize: 200,
+          backgroundColor: splashbg,
+          nextScreen: (widget.onboarded)
+              ? const PageSelect(
+                  initialIndex: 0,
+                )
+              : Onboard(),
+          animationDuration: const Duration(milliseconds: 400),
+        ),
       ),
     );
   }
