@@ -139,7 +139,6 @@ class Apiss {
         variables: {
           'input': {
             'price': price,
-            'utr_no': utr_no,
             'qr_code_id': qr_code_id,
             'redirect_url': redirect_url,
           }

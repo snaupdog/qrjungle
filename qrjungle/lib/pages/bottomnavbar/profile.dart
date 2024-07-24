@@ -29,6 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
     getloginstatus();
     getuserDetails();
     super.initState();
+
+    Apiss().purchaseQr("nmaG", "499", "ios_purchase", Apiss.qr_redirecturl);
   }
 
   getuserDetails() async {

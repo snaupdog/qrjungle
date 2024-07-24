@@ -71,6 +71,19 @@ class _MoreQrState extends State<MoreQr> {
     fetchMostProminentColor();
     if (Platform.isIOS) {
       initStoreInfo();
+      paymentController.paymentLoading.listen((value) {
+        if (!value) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const PageSelect(
+                initialIndex: 1,
+              ),
+            ),
+            (Route<dynamic> route) =>
+                false, // This removes all the previous routes
+          );
+        }
+      });
     }
   }
 
@@ -257,53 +270,54 @@ class _MoreQrState extends State<MoreQr> {
             ),
           ],
         ),
-        body: Container(
-          decoration: isloading
-              ? const BoxDecoration(color: Colors.black)
-              : BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    stops: const [0.0, 0.9, 1.0],
-                    colors: [
-                      Colors.black38,
-                      mostProminentColor!.withOpacity(0.9),
-                      mostProminentColor!,
-                    ],
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: isloading
+                ? const BoxDecoration(color: Colors.black)
+                : BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: const [0.0, 0.9, 1.0],
+                      colors: [
+                        Colors.black38,
+                        mostProminentColor!.withOpacity(0.9),
+                        mostProminentColor!,
+                      ],
+                    ),
                   ),
-                ),
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: isloading
+            child: Stack(
+              children: [
+                isloading
                     ? card(fakedata, "")
                     : card(widget.item, widget.imageUrl),
-              ),
-              Obx(
-                () {
-                  if (paymentloading.value) {
-                    return Container(
-                      color: Colors.black.withOpacity(0.8),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SpinKitRipple(color: Colors.white),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Confirming Purchase",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                },
-              ),
-            ],
+                Obx(
+                  () {
+                    if (paymentloading.value) {
+                      return Container(
+                        color: Colors.black.withOpacity(0.8),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SpinKitRipple(color: Colors.white),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Confirming Purchase",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -311,6 +325,8 @@ class _MoreQrState extends State<MoreQr> {
   }
 
   Skeletonizer card(dynamic item, String imageUrl) {
+    print(item);
+
     return Skeletonizer(
       enabled: isloading,
       enableSwitchAnimation: true,
@@ -351,22 +367,44 @@ class _MoreQrState extends State<MoreQr> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "#${item['qr_code_id']}",
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                "${item['qr_code_title']}",
+                                style: const TextStyle(
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(13, 0, 0, 0),
+                                child: Text(
+                                  "#${item['qr_code_id']}",
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Text(
+                                  "${item['price']} INR",
+                                  style: const TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: Text(
-                              "${item['price']} INR",
+                              "${item['qr_code_description']}",
                               style: const TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 17.0,
-                                  fontWeight: FontWeight.w600),
+                                fontSize: 13.0,
+                              ),
                             ),
                           ),
                         ],
@@ -458,12 +496,6 @@ class _MoreQrState extends State<MoreQr> {
                           PurchaseParam(productDetails: _products[0]);
                       _inAppPurchase.buyConsumable(
                           purchaseParam: purchaseParam);
-
-                      setState(
-                        () {
-                          paymentloading.value = true;
-                        },
-                      );
                     } else if (Platform.isAndroid) {
                       Payment pay = Payment(
                         context: context,
