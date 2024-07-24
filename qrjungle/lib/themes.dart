@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-Color lightPrimaryColor = const Color(0xFFFFF5E1);
+Color lightPrimaryColor = const Color(0xFFEEEDEB);
+Color lightSecondaryColor = const Color.fromARGB(255, 223, 210, 206);
+Color lightTextColor = Colors.black;
+Color lightaccentColor = const Color.fromARGB(255, 255, 255, 255);
+Color lightteritarycontainer = const Color.fromARGB(255, 76, 73, 72);
+
 Color darkPrimaryColor = const Color(0xFF121212);
-
-Color lightSecondaryColor = const Color(0xFFFF6969);
 Color darkSecondaryColor = const Color(0xff1b1b1b);
-
-Color lightTextColor = const Color(0xFF000000);
 Color darkTextColor = const Color(0xFFF0F3FF);
-
-Color lightaccentColor = const Color(0xFF6CCEFF);
 Color darkaccentcolor = const Color(0xFF6CCEFF);
+Color darkteritarycontainer = Colors.black;
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: ColorScheme.light(
     primary: lightPrimaryColor,
-    secondary: darkSecondaryColor,
+    secondary: lightSecondaryColor,
     onPrimary: lightaccentColor,
     tertiary: Colors.black,
-    tertiaryContainer: const Color(0xffB1AFFF),
+    tertiaryContainer: lightteritarycontainer,
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: lightPrimaryColor,
@@ -64,7 +64,7 @@ ThemeData darkTheme = ThemeData(
     secondary: darkSecondaryColor,
     onPrimary: darkaccentcolor,
     tertiary: Colors.white,
-    tertiaryContainer: Colors.black,
+    tertiaryContainer: darkteritarycontainer,
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: darkPrimaryColor,

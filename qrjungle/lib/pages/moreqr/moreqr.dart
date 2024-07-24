@@ -72,16 +72,19 @@ class _MoreQrState extends State<MoreQr> {
     if (Platform.isIOS) {
       initStoreInfo();
       paymentController.paymentLoading.listen((value) {
-        if (!value) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const PageSelect(
-                initialIndex: 1,
+        try {
+          if (!value) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const PageSelect(
+                  initialIndex: 1,
+                ),
               ),
-            ),
-            (Route<dynamic> route) =>
-                false, // This removes all the previous routes
-          );
+              (Route<dynamic> route) => false,
+            );
+          }
+        } catch (e) {
+          print('Navigation error: $e');
         }
       });
     }
@@ -369,11 +372,30 @@ class _MoreQrState extends State<MoreQr> {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                "${item['qr_code_title']}",
-                                style: const TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
+                              RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                  children: item['qr_code_title']
+                                      .toString()
+                                      .split(' ')
+                                      .asMap()
+                                      .entries
+                                      .map(
+                                    (entry) {
+                                      if (entry.key % 2 == 0) {
+                                        return TextSpan(
+                                            text: '${entry.value} ');
+                                      } else {
+                                        return TextSpan(
+                                            text: '${entry.value}\n');
+                                      }
+                                    },
+                                  ).toList(),
                                 ),
                               ),
                               Padding(
@@ -392,6 +414,7 @@ class _MoreQrState extends State<MoreQr> {
                                 child: Text(
                                   "${item['price']} INR",
                                   style: const TextStyle(
+                                      color: Colors.white,
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.w600),
                                 ),
@@ -399,12 +422,17 @@ class _MoreQrState extends State<MoreQr> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Text(
                               "${item['qr_code_description']}",
                               style: const TextStyle(
+                                color: Colors.white,
                                 fontSize: 13.0,
                               ),
+
+                              maxLines: 4, // Maximum number of lines
+                              overflow: TextOverflow
+                                  .ellipsis, // Add ellipsis at the end if text overflows
                             ),
                           ),
                         ],
@@ -424,11 +452,10 @@ class _MoreQrState extends State<MoreQr> {
                   const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
               child: TextFormField(
                 controller: urlcontroller,
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
                 decoration: InputDecoration(
-                  prefixText: "https://",
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Enter Link ',
+                  labelText: 'Enter Link',
                   labelStyle: const TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 12.0,

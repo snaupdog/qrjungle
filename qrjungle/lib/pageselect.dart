@@ -68,7 +68,13 @@ class _PageSelectState extends State<PageSelect> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle, style: const TextStyle(fontSize: 30)),
+        title: Text(
+          appBarTitle,
+          style: TextStyle(
+            fontSize: 30,
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ),
         actions: [
           Obx(
             () => Row(
@@ -98,8 +104,10 @@ class _PageSelectState extends State<PageSelect> {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
-              icon: Icon(Icons.qr_code_scanner_outlined,
-                  color: Theme.of(context).colorScheme.onPrimary),
+              icon: Icon(
+                Icons.qr_code_scanner_outlined,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -144,9 +152,13 @@ class _PageSelectState extends State<PageSelect> {
                   label: 'Explore',
                 ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.qr_code), label: 'MyQRs'),
+                  icon: Icon(Icons.qr_code),
+                  label: 'MyQRs',
+                ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: 'Profile'),
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
               ],
             ),
           )

@@ -249,20 +249,9 @@ class _VierMyQrState extends State<VierMyQr> {
                           Text(
                             "#${item['qr_code_id']}",
                             style: const TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 1),
-                            child: Text(
-                              item['qr_code_category'][0].toUpperCase() +
-                                  item['qr_code_category'].substring(1),
-                              style: const TextStyle(
-                                color: Color(0xff2081e2),
-                                fontSize: 16.0,
-                              ),
-                            ),
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -282,11 +271,12 @@ class _VierMyQrState extends State<VierMyQr> {
               controller: urlcontroller,
               style: const TextStyle(fontSize: 15),
               decoration: InputDecoration(
-                prefixText: "https://",
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 labelText: "current url - $label",
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
+
+                  color: Colors.white,
                   fontSize:
                       15.0, // Set the desired font size for the label text
                 ),
@@ -327,9 +317,11 @@ class _VierMyQrState extends State<VierMyQr> {
                     backgroundColor: const Color.fromARGB(134, 0, 0, 0),
                     textColor: Colors.white,
                     fontSize: 16.0);
-                setState(() {
-                  label = urlcontroller.text;
-                });
+                setState(
+                  () {
+                    label = urlcontroller.text;
+                  },
+                );
                 FocusScope.of(context).unfocus();
                 urlcontroller.clear();
               },

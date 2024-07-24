@@ -100,7 +100,10 @@ class _QrcardgridState extends State<Qrcardgrid> {
                       SizedBox(height: MediaQuery.sizeOf(context).height * 0.3),
                       Image.asset('assets/empty.png', height: 150),
                       const SizedBox(height: 15),
-                      const Text('Empty :(', style: TextStyle(fontSize: 26)),
+                      const Text(
+                        'Empty :(',
+                        style: TextStyle(fontSize: 26),
+                      ),
                     ],
                   ),
                 )
