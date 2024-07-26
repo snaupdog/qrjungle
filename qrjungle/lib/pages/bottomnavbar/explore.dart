@@ -68,16 +68,16 @@ class _ExplorePageState extends State<ExplorePage> {
                         fit: BoxFit.fitWidth),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
-                  child: Text('Categories',
-                      style: textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.w600)),
-                ),
-                isLoading
-                    ? CategoryCard(textTheme, fakedata)
-                    : CategoryCard(textTheme, categoryname),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
+                //   child: Text('Categories',
+                //       style: textTheme.bodyMedium
+                //           ?.copyWith(fontWeight: FontWeight.w600)),
+                // ),
+                // isLoading
+                //     ? CategoryCard(textTheme, fakedata)
+                //     : CategoryCard(textTheme, categoryname),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(5, 20, 0, 10),
                   child: Text('All QR Codes',
