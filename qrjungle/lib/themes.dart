@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-Color lightPrimaryColor = const Color(0xFFEEEDEB);
-Color lightSecondaryColor = const Color.fromARGB(255, 223, 210, 206);
+Color lightPrimaryColor = Color.fromARGB(255, 255, 255, 255);
+Color lightSecondaryColor = Color.fromARGB(255, 236, 236, 236);
 Color lightTextColor = Colors.black;
 Color lightaccentColor = const Color.fromARGB(255, 255, 255, 255);
-Color lightteritarycontainer = const Color.fromARGB(255, 76, 73, 72);
+Color lightteritarycontainer = Color.fromARGB(255, 235, 235, 235);
 
 Color darkPrimaryColor = const Color(0xFF121212);
 Color darkSecondaryColor = const Color(0xff1b1b1b);

@@ -106,7 +106,7 @@ class _PageSelectState extends State<PageSelect> {
             child: IconButton(
               icon: Icon(
                 Icons.qr_code_scanner_outlined,
-                color: Theme.of(context).colorScheme.onPrimary,
+                color: Theme.of(context).colorScheme.tertiary,
               ),
               onPressed: () {
                 Navigator.push(
@@ -141,9 +141,9 @@ class _PageSelectState extends State<PageSelect> {
             height: 300,
             child: BlurBottomView(
               onIndexChange: onItemTapped,
-              selectedItemColor: theme.colorScheme.onPrimary,
+              selectedItemColor: theme.colorScheme.tertiary,
               showSelectedLabels: true,
-              unselectedItemColor: theme.colorScheme.tertiary,
+              unselectedItemColor: theme.colorScheme.tertiary.withOpacity(0.5),
               backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
               currentIndex: _currentIndex,
               bottomNavigationBarItems: const <BottomNavigationBarItem>[
@@ -185,7 +185,11 @@ class _QRViewPageState extends State<QRViewPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('QR Scanner', style: TextStyle(fontSize: 30)),
+        title: Text(
+          'QR Scanner',
+          style: TextStyle(
+              fontSize: 30, color: Theme.of(context).colorScheme.tertiary),
+        ),
         centerTitle: true,
       ),
       body: Stack(

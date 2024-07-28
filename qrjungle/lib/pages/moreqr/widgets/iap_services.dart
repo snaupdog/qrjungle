@@ -23,11 +23,9 @@ class IAPService {
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
-        print("This is me");
         paymentloading.value = false;
         await InAppPurchase.instance.completePurchase(purchaseDetails);
         print("Purchase marked complete");
-        // paymentloading.value = false;
       }
     });
   }

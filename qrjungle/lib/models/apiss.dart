@@ -13,10 +13,6 @@ class Apiss {
   static String qr_idpayment = "";
   static String qr_redirecturl = "";
 
-  // Future clearlist() async {
-  //   qrinfolist = [];
-  // }
-
   getAllqrs(String nextToken) async {
     print("callig get all qrs");
     final Map<String, String> data = {
@@ -34,7 +30,7 @@ class Apiss {
       final body = json.decode(response.body);
       var qrlist = body['data'];
       myallqrslist = qrlist;
-      print(myallqrslist);
+      print(body);
     } else {
       print(response.body);
       throw Exception("error getting all qrs");
@@ -65,7 +61,6 @@ class Apiss {
       var hello = body['listMyQrs'];
       var body2 = jsonDecode(hello);
       myqrslist = body2;
-      print(hello);
     } catch (e) {
       print("An error occurred: $e");
     }

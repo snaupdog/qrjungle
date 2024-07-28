@@ -47,7 +47,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(5, 20, 0, 10),
-                  child: Text('All QR Codes',
+                  child: Text('Our Collection',
                       style: textTheme.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.w600)),
                 ),

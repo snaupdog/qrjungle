@@ -22,6 +22,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 RxBool paymentloading = false.obs;
+bool paymentloadingandroid = false;
 RxBool gotoqrs = false.obs;
 
 const List<String> _productIds = <String>[
@@ -97,12 +98,15 @@ class _MoreQrState extends State<MoreQr> {
     if (orderId != null) {
       pay.startPayment(orderId);
 
-      // setState(() {
-      //   paymentloadingandroid = false;
-      // });
-    } else {
       setState(() {
-        // paymentloadingandroid = false;
+        paymentloadingandroid = false;
+      });
+    } else {
+      pay.navigateToResultPage(
+          "Error", "Failed to create order. Please try again.");
+
+      setState(() {
+        paymentloadingandroid = false;
       });
     }
   }
@@ -216,7 +220,6 @@ class _MoreQrState extends State<MoreQr> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.black,
-        // backgroundColor: Color(0xff121212),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: Container(),
@@ -409,11 +412,12 @@ class _MoreQrState extends State<MoreQr> {
                                 ),
                               ),
                               const Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Text(
-                                  "${item['price']} INR",
-                                  style: const TextStyle(
+                                  // "${item['price']} INR",
+                                  "799 INR",
+                                  style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.w600),
@@ -527,8 +531,7 @@ class _MoreQrState extends State<MoreQr> {
                       Payment pay = Payment(
                         context: context,
                         // hardcoded price
-                        amount: "49900",
-                        // amount: "${item['price']}00",
+                        amount: "${item['price']}00",
                         qrCodeId: item['qr_code_id'],
                         redirectUrl: urlcontroller.text,
                       );

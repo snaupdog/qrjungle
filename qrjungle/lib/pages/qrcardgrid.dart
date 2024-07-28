@@ -211,22 +211,27 @@ class _QrcardgridState extends State<Qrcardgrid> {
                                                           12.0, 0.0, 0, 0.0),
                                                   child: Text(
                                                     "#${item['qr_code_id']}",
-                                                    style: const TextStyle(
-                                                        color: Colors.grey,
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .tertiary,
                                                         fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w600),
                                                   ),
                                                 ),
-                                                const Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      12.0, 0.0, 0, 0.0),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          12.0, 0.0, 0, 0.0),
                                                   child: Text(
-                                                    "499 INR",
-                                                    //                       hardcodede price,
+                                                    //hardcoded price
+                                                    "799 INR",
                                                     // "${item['price']} INR",
                                                     style: TextStyle(
-                                                        color: Colors.white,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .tertiary,
                                                         fontSize: 15.5,
                                                         fontWeight:
                                                             FontWeight.w600),
