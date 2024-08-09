@@ -26,7 +26,7 @@ bool paymentloadingandroid = false;
 RxBool gotoqrs = false.obs;
 
 const List<String> _productIds = <String>[
-  'artistic_qr',
+  'qrcodeart',
 ];
 
 class MoreQr extends StatefulWidget {

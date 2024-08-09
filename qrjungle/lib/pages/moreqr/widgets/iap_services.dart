@@ -31,7 +31,7 @@ class IAPService {
   }
 
   void _handleSuccessfulPurchase(PurchaseDetails purchaseDetails) async {
-    if (purchaseDetails.productID == 'artistic_qr') {
+    if (purchaseDetails.productID == 'qrcodeart') {
       await Apiss().purchaseQr(
           Apiss.qr_idpayment, "499", "ios_purchase", Apiss.qr_redirecturl);
       await Apiss().listmyqrs();
